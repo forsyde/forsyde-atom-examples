@@ -1,0 +1,36 @@
+# Haskell files
+# -------------
+
+*dist*
+*cabal*
+*~
+!*.cabal
+TAGS
+*#*
+*auto*
+*.dat
+*.gnuplot
+
+# LaTeX files
+# -----------
+
+auto*
+figs/*
+*.toc
+*.gz
+*.log
+*.idx
+*.ilg
+*.ind
+*.blg
+*.out
+*.nav
+*.bbl
+*.vrb
+*.pdf
+*.aux
+*.fdb_latexmk
+*.fls
+*~
+*.#*
+*#
