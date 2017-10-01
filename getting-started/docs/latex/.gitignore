@@ -1,5 +1,6 @@
 auto*
 figs/*
+code/*
 *.toc
 *.gz
 *.log

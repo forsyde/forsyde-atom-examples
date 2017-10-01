@@ -1,0 +1,32 @@
+\documentclass{standalone}
+
+\usepackage[tikz]{forsyde}
+
+\begin{document}
+\begin{tikzpicture}
+  \standard[process, type=comb, moc=sy, f=$+$, ni=2] (p1) {testproc1};
+  \standard[process, type=comb, moc=sy, f=$+1$, at={p1.w1},%
+  xshift=-2cm] (p2) {};
+  \draw[s,<-]
+  (p2)--++(-2,0)
+  node[anchor=south west] {\footnotesize\textit{testsig2}}
+  node[anchor=north west] {\tiny\texttt{0,1,2,3,4,...}};
+  \draw[s,<-]
+  (p1.w2)--++(-4,0)
+  node[anchor=north west] {\footnotesize\textit{testsig1}}
+  node[anchor=south west] {\tiny\texttt{1,2,3,4,5}};
+  \draw[s,<-]
+  (p1.w1) -- (p2.e1)
+  node[anchor=north west] {\tiny\texttt{1,2,3,4,5,...}};
+  \draw[s,->]
+  (p1.e1) -- ++(1.5,0)
+  node[anchor=north east] {\tiny\texttt{2,4,6,8,10}};
+\end{tikzpicture}
+\end{document}
+
+
+%%% Local Variables:
+%%% TeX-command-default: "Make"
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End:

@@ -21,13 +21,19 @@
 \usepackage{xcolor}
 %\usepackage{algorithmic}
 
-% \usepackage{cleveref}
+
+\usepackage[colorlinks = true,
+            linkcolor = red,
+            urlcolor  = cyan,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+\usepackage{cleveref}
+
 \usepackage{cite}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{float}
-\usepackage{hyperref}
 \usepackage{natbib}
 \usepackage{apalike}
 
@@ -69,7 +75,7 @@
   basicstyle=\footnotesize\ttfamilywithbold,
   keywordstyle=\bfseries,
   commentstyle=\itshape,
-  otherkeywords={combSY, comb2SY},
+  otherkeywords={comb11, comb21, res11, res21, generate1, signal},
 }
 \lstdefinestyle{customterm}{
   backgroundcolor=\color{black!70},
@@ -78,6 +84,12 @@
   language=Haskell,
   basicstyle=\footnotesize\ttfamily\color{green},
   deletekeywords={‘,’},
+  extendedchars=true,
+  literate=%
+    {á}{{\'a}}1%
+    {ã}{{\~a}}1%
+    {é}{{\'e}}1%
+    {⟂}{{$\bot$}}1%,
 }
 
 

@@ -12,6 +12,7 @@ In this section we will only test \href{\mocsyurl}{synchronous processes} as pat
 
 Next we import the \texttt{Absent} extended behavior, defined in the \href{\exburl}{ExB} layer, to get a glimpse of modeling using multiple layers. As with the previous, we need to specifically import the \href{\exbabsurl}{\texttt{ForSyDe.Atom.ExB.Absent}} library to access the helpers and types.
 
+> import ForSyDe.Atom.ExB (res11, res21)
 > import ForSyDe.Atom.ExB.Absent
 
 The \href{\atomurl}{\emph{signal}} is the basic data type defined in the MoC layer, and it encodes a \emph{tag system} which describes time, causality and other key properties of CPS. In the case of SY MoC, a signal defines a total order between events. There are several ways to instantiate a signal in \textsc{ForSyDe-Atom}. The most usual one is to create it from a list of values using the \href{\mocsyurl}{\texttt{signal}} helper. By studying its type signature in the \href{\mocsyurl}{online API documentation}, one can see that it needs a list of elements of type \texttt{a} as argument, so let us create a test signal \texttt{testsig1}:
@@ -73,7 +74,13 @@ Calling it in the interpreter with \texttt{testsig1} and \texttt{testsig2} as ar
 
 which is the expected output, as based on the definition of the SY MoC, all events following the sixth one from \texttt{testsig2} are not synchronous to any event in \texttt{testsig1}.
 
-Suppose we want to increment every event of \texttt{testsig2} with 1 before summing the two signals. This particular behavior is described by the process network in FIG TODO. There are multiple ways to instantiate this process network, mainly depending on the coding style of the user:
+\begin{figure}[ht!]\centering
+\includegraphics[]{figs/basics-pn.pdf}
+\caption{Simple process network as composition of processes}
+\label{fig:basic-composite}
+\end{figure}
+
+Suppose we want to increment every event of \texttt{testsig2} with 1 before summing the two signals. This particular behavior is described by the process network in \cref{fig:basic-composite}. There are multiple ways to instantiate this process network, mainly depending on the coding style of the user:
 
 > testpn1       = comb21 (+) . comb11 (+1)
 > testpn2 s2 s1 = testproc1 (comb11 (+1) s2) s1
@@ -96,7 +103,79 @@ All of the above functions are equivalent. \texttt{testpn1} uses the point-free 
 < *AtomExamples.GettingStarted SY> testpn5 testsig2 testsig1
 < {2,4,6,8,10}
 
-One key concept of \textsc{ForSyDe-Atom} is the ability to model different aspects of a system as orthogonal layers. Up until now we only experimented with two layers: the MoC layer, which concerns timing and synchronization issues, and the function layer, which concerns functional aspects, such as arithmetics and data computation.
+One key concept of \textsc{ForSyDe-Atom} is the ability to model different aspects of a system as orthogonal layers. Up until now we only experimented with two layers: the MoC layer, which concerns timing and synchronization issues, and the function layer, which concerns functional aspects, such as arithmetics and data computation. Let us rewind which DSL blocks we have used an group them by which layer they belong:
 
+* the \texttt{Integer} values carried by the two test signals (i.e. \texttt{0, 1, ...}) and the arithmetic functions (i.e. \texttt{(+)} and \texttt{(+1)}) belong to the \emph{function layer}.
+* the signal structures for \texttt{testsig1} and \texttt{testsig2} (i.e. \texttt{Signal a}) the utility (i.e. \texttt{signal}) and the process constructors (i.e. \texttt{generate1}, \texttt{comb11} and \texttt{comb21}) belong to the \emph{MoC layer}.
 
-On the other hand,
+It is easy to grasp the concept of layers once you understand how \emph{higher order functions} work, and accept that \textsc{ForSyDe-Atom} basically relies on the power of functional programming to define structured abstractions. In the previous case entities from the MoC layer "wrap around" entities from the function layer like in \cref{fig:basic-2layer}, "lifting" them into the MoC domain. Unfortunately it is not that straightforward to see from the code syntax which entity belongs to which layer. For now, their membership can be determined solely by the user's knowledge of where each function is defined, i.e. in which module. Later in this guide we will make this apparent from the code syntax, but for now you will have to trust us.
+
+\begin{figure}[ht!]\centering
+\begin{minipage}{.45\textwidth}\centering
+ \includegraphics[width=\linewidth]{figs/basics-2layer.pdf}
+ \caption{Layered structure of the processes in fig.~\ref{fig:basic-composite}}
+ \label{fig:basic-2layer}
+\end{minipage}\hfill%
+\begin{minipage}{.46\textwidth}\centering
+ \includegraphics[width=\linewidth]{figs/basics-3layer.pdf}
+ \caption{Layered structure of the processes describing absent events}
+ \label{fig:basic-3layer}
+\end{minipage}
+\end{figure}
+
+As a last exercise for this section we would like to extend the behavior of the system in \cref{fig:basic-composite} in order to describe whether the events are happening or not (i.e. are absent or present) and act accordingly. For this, \textsc{ForSyDe-Atom} defines the \emph{Extended Behavior (ExB) layer}. As suggested in \cref{fig:basic-3layer}, this layer extends the pool of values with symbols denoting states which would be impossible to describe using normal values, and associates some default behaviors (e.g. protocols) over these symbols.
+
+The two processes \cref{fig:basic-composite} are now defined below as \texttt{testAp1} and \texttt{testAp2}. This time, apart from the functional definition (\texttt{name = function}) we specify the type signature as well (\texttt{name :: type}), which in the most general case can be considered a specification/contract of the interfaces of the newly instantiated component. Both type signatures and function definitions expose the layered structure suggested in \cref{fig:basic-3layer}. As specific ExB type, we use \href{\exbabsurl}{\texttt{AbstExt}} and as behavior pattern constructor we choose a default behavior expressing a resolution {\href{\exburl}{\texttt{res}}}.
+
+> testAp1 :: Num a              -- ^ _a_ can be any numerical (polymorphic) type 
+>         => Signal (AbstExt a) -- ^ input signal of absent-extended values
+>         -> Signal (AbstExt a) -- ^ output signal of absent-extended values
+> testAp1 = comb11 (res11 (+1))
+
+> testAp2 :: Num a              -- ^ _a_ can be any numerical (polymorphic) type
+>         => Signal (AbstExt a) -- ^ first input signal of absent-extended values
+>         -> Signal (AbstExt a) -- ^ second input signal of absent-extended values
+>         -> Signal (AbstExt a) -- ^ output signal of absent-extended values
+> testAp2 = comb21 (res21 (+))
+
+Now all we need is to create some test signals of type \texttt{Signal (AbstExt a)}. One way is to use the \href{\mocsyurl}{\texttt{signal}} utility like for \texttt{testAsig1}, but this forces to make use of \texttt{AbstExt}'s type constructors. Another way is to use the library-provided process constructor helpers, such as \href{\mocsyurl}{\texttt{filter'}}, like for \texttt{testAsig2}.
+
+> testAsig1 = signal [Prst 1, Prst 2, Abst, Prst 4, Abst]
+> testAsig2 = filter' (/=4) testsig2
+
+Printing out the test signals in the interpreter session this is what we get:
+
+< *AtomExamples.GettingStarted SY> testAsig1
+< {1,2,⟂,4,⟂}
+< *AtomExamples.GettingStarted SY> takeS 10 testAsig2
+< {0,1,2,3,⟂,5,6,7,8,9}
+
+Trying out \texttt{testAp1} on \texttt{testAsig1}:
+
+< *AtomExamples.GettingStarted SY> testAp1 testAsig1 
+< {2,3,⟂,5,⟂}
+
+Everything seems all right. Now testing \texttt{testAp2} on \texttt{testAsig1} and \texttt{testAsig2}:
+
+< *AtomExamples.GettingStarted SY> takeS 10 $ testAp2 testAsig2 testAsig1
+< {1,3,*** Exception: [ExB.Absent] Illegal occurrence of an absent and present event
+
+Uh oh... Actually this \emph{is} the correct behavior of a resolution function for absent events, as defined in synchronous reactive languages such as Lustre \cite{halbwachs91}. Let us remedy the situation, but this time using another library-provided process constructor, \href{\mocsyurl}{\texttt{when'}}. 
+
+> testAsig2' = when' (signal [True, True, False, True, False]) testsig2
+
+Now printing \texttt{testAp2} looks better:
+
+< *AtomExamples.GettingStarted SY> testAsig2'
+< {0,1,⟂,3,⟂}
+< *AtomExamples.GettingStarted SY> testAp2 testAsig2' testAsig1
+< {1,3,⟂,7,⟂}
+
+And recreating the process network from \cref{fig:basic-composite} gives the expected result:
+
+> testApn1 = testAp2 . testAp1
+
+< *AtomExamples.GettingStarted SY> testApn1 testAsig2' testAsig1
+< {2,4,⟂,8,⟂}
+
+This section has provided a crash course in modeling with \texts{ForSyDe-Atom}, with focus on a few practical matters, such as using library-provided helpers and constructors and understanding the role of layers. The following sections delve deeper into modeling concepts such as atoms and making use of ad-hoc polymorphism.

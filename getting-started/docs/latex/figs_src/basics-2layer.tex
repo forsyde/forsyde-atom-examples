@@ -1,0 +1,30 @@
+\documentclass{standalone}
+
+\usepackage[layered]{forsyde-pictures}
+
+\begin{document}
+\begin{tikzpicture}
+  \forsydeAtomMakeLayers[]{%
+    Function Layer:Function,%
+    MoC Layer:Process}
+  \node[] (value) at (layer0-center){%
+    \usebox{\forsydeAtomValue}};
+  \node[] (ext-value) at ($(layer1-center)!.5!(layer2-center)$) {%
+    \usebox{\forsydeAtomTagValue}};
+  \forsydeAtomSignalArrow[width=3.5cm, height=1.3cm, length=.5cm]{layer2-center}
+  \node[inner sep=0] (token) at (arrow-center) {%
+    \usebox{\forsydeAtomTagValue}};
+  \node[] at ($(token.east)!.5!(arrow-west)$) {%
+    \usebox{\forsydeAtomTagValue}};
+  \node[] at ($(token.west)!.5!(arrow-east)$) {%
+    \usebox{\forsydeAtomTagValue}};
+  \node[anchor=east,shift={(.3,0)}] at (value.west) {\small\it value};
+  \node[shift={(.2,.1)}] at (ext-value.north east) {\small\it tagged event};
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% TeX-command-default: "Make"
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End:

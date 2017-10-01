@@ -159,6 +159,7 @@ figs/%.png: $(S_FIGS_DIR)/%.png
 # Rules for Tikz and LaTeX figures
 figs/%.pdf: $(S_FIGS_DIR)/%.tex
 	@echo $(@F)
+	@$(MKDIR) $(@D)
 	TEXINPUTS=:$(S_FIGS_DIR)/:$(STYDIR)/ pdflatex $(*F)
 	$(MV) $(@F) $@
 	$(RM) *.log
