@@ -1,0 +1,89 @@
+% ------------------------------------------------------------------------------
+% Specific paper settings according to a given conference/journal spec.
+%
+% Do not include any \usepackage commands on the main file.
+% ------------------------------------------------------------------------------
+\usepackage{booktabs} % For formal tables
+\usepackage{graphicx}
+\graphicspath{{./figs/}}
+
+\usepackage[ruled]{algorithm2e} % For algorithms
+\renewcommand{\algorithmcfname}{ALGORITHM}
+\SetAlFnt{\small}
+\SetAlCapFnt{\small}
+\SetAlCapNameFnt{\small}
+\SetAlCapHSkip{0pt}
+\IncMargin{-\parindent}
+
+
+% ------------------------------------------------------------------------------
+% general paper settings according to our needs
+\usepackage{xcolor}
+%\usepackage{algorithmic}
+
+% \usepackage{cleveref}
+\usepackage{cite}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{apalike}
+
+\usepackage[math]{forsyde}
+
+\usepackage{listings}
+\usepackage{color}
+\newcommand*{\ttfamilywithbold}{\fontfamily{lmtt}\selectfont}
+\lstloadlanguages{Haskell}
+
+\lstnewenvironment{code}
+{\lstset{style=customhaskell}%
+ \csname lst@SetFirstLabel\endcsname}
+{\csname lst@SaveFirstLabel\endcsname}
+\lstnewenvironment{interactive}
+{\lstset{style=customterm}%
+ \csname lst@SetFirstLabel\endcsname}
+{\csname lst@SaveFirstLabel\endcsname}
+
+
+\lstset{
+  basicstyle=\small\ttfamilywithbold,
+  % commentstyle=\small\ttfamily\it,
+  flexiblecolumns=false,
+  basewidth={0.5em,0.45em},
+}
+
+\definecolor{codeback}{rgb}{0.9,0.9,1.0}
+
+\lstdefinestyle{customhaskell}{
+  backgroundcolor=\color{codeback},
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  % frame=lines,
+  % xleftmargin=\parindent,
+  frame=l,	
+  language=Haskell,
+  showstringspaces=true,
+  basicstyle=\footnotesize\ttfamilywithbold,
+  keywordstyle=\bfseries,
+  commentstyle=\itshape,
+  otherkeywords={combSY, comb2SY},
+}
+\lstdefinestyle{customterm}{
+  backgroundcolor=\color{black!70},
+  breaklines=true,
+  frame=l,	
+  language=Haskell,
+  basicstyle=\footnotesize\ttfamily\color{green},
+  deletekeywords={‘,’},
+}
+
+
+
+%SyncTex is used to synchronize the editor and the viewer. Please comment it if someone is having problems compiling with it. AucTex is able to highlight on the pdf viewer the location of the cursor on the Emacs buffer (on MaC, should use Skim as viewer).
+\synctex=1
+
+\newcommand{\event}[2]{#2_{\textcolor{black!70}{@ #1}}}
+

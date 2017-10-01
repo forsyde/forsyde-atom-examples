@@ -1,0 +1,45 @@
+\section{Using this document}
+\label{sec:using-this-document}
+
+\textbf{DISCLAIMER:} the document assumes that the reader is familiar with the syntax of Haskell and the usage of a Haskell interpreter (e.g. \texttt{ghci}). Otherwise, we recommend consulting at least the introductory chapters of one of the following books: \cite{Lipovaca11,Hutton07}.
+
+This document has been created using literate programming. This means that all code shown in the listings is compilable and executable. There are two types of code listing found in this document. This style
+\begin{code}
+-- | API documentation comment 
+myIdFunc :: a -> a
+myIdFunc = id
+\end{code}
+shows \emph{source code} as it is found in the implementation files. Notice that in-line API documentation is also shown as comments. This style
+\begin{interactive}
+Prelude> 1 + 1
+2
+\end{interactive}
+suggests \emph{interactive commands} given by the user in a terminal or an interpreter session. The listing above shows a typical \texttt{ghci} session, where the string after the prompter symbol \texttt{>} suggests the user input (e.g. \texttt{1 + 1}). Whenever relevant, the expected output is printed one row below that (e.g. \texttt{2}).
+
+The code examples are bundled as separate \href{https://www.haskell.org/cabal/}{Cabal} packages and is provided as libraries meant to be loaded in an interpreter session in parallel with reading this document. Detailed instructions on how to install the packages can be found in the \texttt{README.md} file in each project. The best way to install the packages is within sandboxed environments with all dependencies taken care of, usually scripted within the \texttt{make} commands. After a successful installation, to open an interpreter session pre-loaded with the main sandboxed library, you just need to type in the following command in a terminal from the package root path (the one containing the \texttt{.cabal} file):
+\begin{interactive}
+# cabal repl
+\end{interactive}
+
+Each section of this document contains a small example written within a library \emph{module}, like:
+\begin{code}
+module X where
+\end{code}
+One can access all functions in module \texttt{X} by importing it in the interpreter session, unless otherwise noted (e.g. library \texttt{X} is re-exported by \texttt{Y}).
+\begin{interactive}
+*Y> import X
+\end{interactive}
+Now suppose that function \texttt{myIdFunc} above was defined in module \texttt{X}, then one would have direct access to it, e.g.:
+\begin{interactive}
+*Y X> :t myIdFunc
+myIdFunc :: a -> a
+*Y X> myIdFunc 3
+3  
+\end{interactive}
+By all means, the code for \texttt{myIdFunc} or any source code for that matter can be copied/pasted in a custom \texttt{.hs} file and compiled or used in any relevant means. The current format was chosen because it is convenient to ``get your hands dirty'' quickly without thinking of issues associated with compiler suites.
+
+A final tip: if you think that the full name of \texttt{X} is polluting your prompter or is hard to use, then you can import it using an alias:
+\begin{interactive}
+*Y> import X as ShortAlias
+*Y ShortAlias> 
+\end{interactive}

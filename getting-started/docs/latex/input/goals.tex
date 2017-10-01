@@ -1,0 +1,18 @@
+
+\section{Goals}
+\label{sec:goals}
+
+The main goals of this document are:
+\begin{itemize}
+\item introduce the reader to basic modeling features such as: importing library modules, using a Haskell interpreter, using helper functions, composing functions, designing with layers, understanding type signatures, using basic input/output.
+\item provide a step-by-step guide for modeling a toy system expressing concerns from four layers: function, extended behavior, model of computation and recursive/parallel composition. 
+\item describe the above system as executing with the semantics dictated by four MoCs: synchronous dataflow (SDF), synchronous (SY), discrete event (DE) and continuous time (CT). For this purpose the system will be first instantiated multiple times using specialized helpers, and then described as a network of patterns overloaded with MoC semantics by injecting the right data types, thus exposing the polymorphism of atoms. 
+\item briefly introduce the concepts of atoms and patterns and their usage and guide through creating custom patterns and behaviors.
+\end{itemize}
+
+
+%%% Local Variables:
+%%% TeX-command-default: "Make"
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End:
