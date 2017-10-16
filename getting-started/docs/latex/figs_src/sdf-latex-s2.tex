@@ -1,0 +1,10 @@
+\documentclass{standalone}
+\usepackage[plot]{forsyde}
+\begin{document}
+\begin{tikzpicture}[]
+  \begin{signalsSY}[name=sdf]{3.0}
+    \signalSY[name= sdf1-2]{0.0:0,0.0:1,2.0:2}
+  \end{signalsSY}
+  \draw[red] (sdf-1-1.south) -- (sdf-1-2.south);  
+\end{tikzpicture}
+\end{document}

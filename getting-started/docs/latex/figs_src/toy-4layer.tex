@@ -1,30 +1,33 @@
 \documentclass{standalone}
-
 \usepackage[layered]{forsyde-pictures}
 
 \begin{document}
 \begin{tikzpicture}
   \forsydeAtomMakeLayers[]{%
     Function Layer:Function,%
-    ExB Layer:Extended Behavior,%
-    MoC Layer:Process}
+    Behavior Layer:Behavior,%
+    MoC Layer:Process,%
+    Skeleton Layer:Process Network}
   \node[] (value) at (layer0-center){%
     \usebox{\forsydeAtomValue}};
   \node[] (ext-value) at ($(layer1-center)!.5!(layer2-center)$) {%
     \usebox{\forsydeAtomExtValue}};
   \node[] (event) at ($(layer2-center)!.5!(layer3-center)$) {%
     \usebox{\forsydeAtomTagExtValue}};
-  \forsydeAtomSignalArrow[width=3.8cm, height=1.8cm, length=.5cm]{layer3-center}
+  \forsydeAtomSignalArrow[width=4.2cm]{layer3-center}
   \node[inner sep=0] (token) at (arrow-center) {%
     \usebox{\forsydeAtomTagExtValue}};
   \node[] at ($(token.east)!.5!(arrow-west)$) {%
     \usebox{\forsydeAtomTagExtValue}};
   \node[] at ($(token.west)!.5!(arrow-east)$) {%
     \usebox{\forsydeAtomTagExtValue}};
+  \forsydeAtomSignalVector{layer4-rightpath}
+  % tags
   \node[anchor=east,shift={(.3,0)}] at (value.west) {\small\it value};
   \node[shift={(.2,.1)}] at (ext-value.north east) {\small\it extended value};
   \node[shift={(.2,.1)}] at (event.north east) {\small\it tagged event};
-    \node[anchor=north] at (arrow-south) {\small\it signal};
+  \node[anchor=north] at (arrow-south) {\small\it vector of signals};
+
 \end{tikzpicture}
 \end{document}
 

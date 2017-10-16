@@ -42,7 +42,7 @@ which shows that it is in fact a type alias for a \href{\mocstreamurl}{\texttt{S
 < type Signal a = Stream (SY a)
 <  	-- Defined in ForSyDe.Atom.MoC.SY.Core
 
-Another way of creating a SY signal is by means of a \href{\mocsyurl}{\texttt{generate}} process, which generates an infinite signal from a kernel value. By studying the \href{\mocsyurl}{\texttt{online API documentation}}, you can see that the SY library provides a number of helpers for this particular process constructor, the one generaing one output signal being \texttt{generate1}. Let us first check the type signature for this helper function:
+Another way of creating a SY signal is by means of a \href{\mocsyurl}{\texttt{generate}} process, which generates an infinite signal from a kernel value. By studying the \href{\mocsyurl}{\texttt{online API documentation}}, you can see that the SY library provides a number of helpers for this particular process constructor, the one generating one output signal being \texttt{generate1}. Let us first check the type signature for this helper function:
 
 < *AtomExamples.GettingStarted SY> :t generate1
 < generate1 :: (b1 -> b1) -> b1 -> Signal b1
@@ -103,7 +103,7 @@ All of the above functions are equivalent. \texttt{testpn1} uses the point-free 
 < *AtomExamples.GettingStarted SY> testpn5 testsig2 testsig1
 < {2,4,6,8,10}
 
-One key concept of \textsc{ForSyDe-Atom} is the ability to model different aspects of a system as orthogonal layers. Up until now we only experimented with two layers: the MoC layer, which concerns timing and synchronization issues, and the function layer, which concerns functional aspects, such as arithmetics and data computation. Let us rewind which DSL blocks we have used an group them by which layer they belong:
+One key concept of \textsc{ForSyDe-Atom} is the ability to model different aspects of a system as orthogonal layers. Up until now we only experimented with two layers: the MoC layer, which concerns timing and synchronization issues, and the function layer, which concerns functional aspects, such as arithmetic and data computation. Let us rewind which DSL blocks we have used an group them by which layer they belong:
 
 * the \texttt{Integer} values carried by the two test signals (i.e. \texttt{0, 1, ...}) and the arithmetic functions (i.e. \texttt{(+)} and \texttt{(+1)}) belong to the \emph{function layer}.
 * the signal structures for \texttt{testsig1} and \texttt{testsig2} (i.e. \texttt{Signal a}) the utility (i.e. \texttt{signal}) and the process constructors (i.e. \texttt{generate1}, \texttt{comb11} and \texttt{comb21}) belong to the \emph{MoC layer}.
@@ -162,7 +162,9 @@ Everything seems all right. Now testing \texttt{testAp2} on \texttt{testAsig1} a
 
 Uh oh... Actually this \emph{is} the correct behavior of a resolution function for absent events, as defined in synchronous reactive languages such as Lustre \cite{halbwachs91}. Let us remedy the situation, but this time using another library-provided process constructor, \href{\mocsyurl}{\texttt{when'}}. 
 
-> testAsig2' = when' (signal [True, True, False, True, False]) testsig2
+> testAsig2' = when' mask testsig2
+>   where
+>     mask = signal [True, True, False, True, False]
 
 Now printing \texttt{testAp2} looks better:
 
@@ -178,4 +180,4 @@ And recreating the process network from \cref{fig:basic-composite} gives the exp
 < *AtomExamples.GettingStarted SY> testApn1 testAsig2' testAsig1
 < {2,4,⟂,8,⟂}
 
-This section has provided a crash course in modeling with \texts{ForSyDe-Atom}, with focus on a few practical matters, such as using library-provided helpers and constructors and understanding the role of layers. The following sections delve deeper into modeling concepts such as atoms and making use of ad-hoc polymorphism.
+This section has provided a crash course in modeling with \textsc{ForSyDe-Atom}, with focus on a few practical matters, such as using library-provided helpers and constructors and understanding the role of layers. The following sections delve deeper into modeling concepts such as atoms and making use of ad-hoc polymorphism.

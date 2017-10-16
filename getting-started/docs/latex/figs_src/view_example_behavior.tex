@@ -1,0 +1,47 @@
+\documentclass{standalone}
+\usepackage[math,tikz]{forsyde}
+\begin{document}
+\begin{tikzpicture}[no moc color]
+  \foreach \i in {1,2,3,4}{
+    \pgfmathsetmacro{\y}{4-\i}
+    \basic[primitive,moc=sy,f={$+$}](ns\i)<0,\y>{$\BhDef$};
+    \coordinate               (a\i)  at (1,\y);
+    \coordinate               (b\i)  at ($(0,\y)+(-.6,.65)$);
+    \node[]                   (sn\i) at ($(ns\i.205)-(1,0)$) {};
+    % signals
+    \signal[] (sn\i) -> (ns\i.205);
+    \signal[] (ns\i) - (a\i);
+    \signal[|-] (a\i) - (b\i);
+    \signal[|-] (b\i) -> (ns\i.155);
+    \node[draw, inner xsep=0pt, inner ysep=6pt, thick]  at (.7,\y) {};
+  }
+
+  \basic[primitive,f={$+ \circ od$}](r2)<2  , .5>{$\BhDef$};
+  \basic[primitive,f={$+ \circ od$}](r1)<2  ,2.5>{$\BhDef$};
+  \basic[primitive,f={$+ \circ od$}](r3)<3.5,1.5>{$\BhDef$};
+%dasdsasdsa
+  \basic[primitive,f={$\bot$}](flt)<6,1.5>{$\BhPhi$};
+  \basic[primitive,f={$<0$}](prd)<$(r3)!.5!(flt)$>{$\BhDef$};
+
+  \signal[] (a1) -> (r1);
+  \signal[] (a2) -> (r1);
+  \signal[] (a3) -> (r2);
+  \signal[] (a4) -> (r2);
+  \signal[] (r1) -> (r3);
+  \signal[] (r2) -> (r3);
+  \signal[] (r3) -> (prd);
+  \signal[] (prd) -> (flt);
+  \signal[] (flt) -> ($(flt)+(1,0)$);
+  \signal[-|-|=.2, deviate=-8pt] (r3) -> (flt.south);
+
+  \basic[primitive,f={$+ \circ od$}](r2)<2  , .5>{$\BhDef$};
+  \basic[primitive,f={$+ \circ od$}](r1)<2  ,2.5>{$\BhDef$};
+  \basic[primitive,f={$+ \circ od$}](r3)<3.5,1.5>{$\BhDef$};
+
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

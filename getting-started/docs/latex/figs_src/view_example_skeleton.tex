@@ -1,0 +1,45 @@
+\documentclass{standalone}
+\usepackage[math,tikz]{forsyde}
+\begin{document}
+\begin{tikzpicture}[no moc color]
+  \standard[process,%
+      ni=1, no=1,
+      nf=3,f1={$\context{}{ns_B}$},f2={$\context{}{od_B}$},f3=i,
+      type=moore](p1)<0,0>{$pc_M$};
+  \cluster[farmstyle,%
+      ni=1, no=1,
+      nf=1, f1={$\SkelVec{i_1,i_2,i_3,i_4}$}, type=map]
+      (map) <(p1)> {stage1};
+  \draw[%
+      very thin,
+      densely dotted,
+      ->] (map-f.s1)  |- ($(map-f.s1)!.5!(p1-f.n1)$) -| (p1-f.n3);
+  % \primitive[%
+  %     f=$\overline{r_{\textsc{b}}}$]{p2}{$(p1.e1)+(2,0)$}{$\oplus$};
+  \standard[process,%
+      ni=1, no=1,inner sep=5pt,
+      nf=1,f1={$\context{}{r_B}$},
+      type=comb](p2)<$(p1.e1)+(2,0)$>{\small$r_M$};
+  \cluster[skeleton,inner xsep=17pt,inner ysep=14pt,%
+      ni=1, no=1,type=reduce]
+      (red) <(p2)> {stage2};
+  \standard[process,%
+      ni=1, no=1,
+      nf=1,f1={$\context{}{w_B}$},
+      type=when](p3)<$(p2)+(2,0)$>{};
+
+  \vector[] ($(map.w1)-(.5,0)$) - (map.w1);
+  \signal[] (map.w1) -> (p1);
+  \signal[] (p1) - (map.e1);
+  \vector[-|-=.3] (map.e1) - (red.w1);
+  \signal[] (red.w1) -> (p2);
+  \signal[] (p2) -> (p3);
+  \signal[] (p3) -> ($(p3.e1)+(.5,0)$);
+
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

@@ -1,0 +1,40 @@
+\documentclass{standalone}
+\usepackage[math,tikz]{forsyde}
+\begin{document}
+\begin{tikzpicture}[no moc color, f/.style={draw, rounded corners}]
+  \foreach \i in {1,2,3,4}{
+    \pgfmathsetmacro{\y}{3-\i}
+    % \node[inner xsep=8pt] (o\i) at (0,\y) {};
+    \node[f]              (p\i) at (0,\y)   {\footnotesize\it read};
+    \node[f]              (r\i) at (2.5,\y) {\footnotesize\it write-back};
+    \node[f]              (q\i) at ($(p\i.east)!.5!(r\i.west)$) {$+$};
+    \node[inner xsep=8pt] (s\i) at (4,\y) {};
+    \node[inner xsep=8pt] (t\i) at (5,\y) {};
+    \node[inner xsep=8pt] (u\i) at (6,\y) {};
+    \signal[] (-1,\y) -> (p\i);
+    % \signal[] (o\i) -> (p\i);
+    \signal[] (p\i) -> (q\i);
+    \signal[] (q\i) -> (r\i);
+    \signal[] (r\i) -> (s\i);
+    \signal[] (s\i) -> (t\i);
+  }
+  % \node[rotate=90] at ($(o1)!.5!(o4)$) {\it synchronize};
+  % \node[draw,thick, inner xsep=0pt, fit=(o1)(o4)] {};
+  \node[rotate=90] at ($(s1)!.5!(s4)$) {\it synchronize};
+  \node[draw,thick, inner xsep=0pt, fit=(s1)(s4)] {};
+  \node[rotate=90] at ($(t1)!.5!(t4)$) {\it reduce with +};
+  \node[draw,thick, inner xsep=0pt, fit=(t1)(t4)] (a) {};
+  \node[rotate=90] at ($(u1)!.5!(u4)$) {\it mask / control};
+  \node[draw,thick, inner xsep=0pt, fit=(u1)(u4)] (b) {};
+  \signal[] (a) -> (b);
+  \signal[] (b) -> ($(b.east)+(.5,0)$);
+ 
+  % \node[] at (-2,0){};
+  % \node[] at (6,0){};
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

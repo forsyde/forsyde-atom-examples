@@ -1,0 +1,69 @@
+\documentclass{standalone}
+\usepackage[math,tikz]{forsyde}
+% \usepackage{graphics}
+
+% \usetikzlibrary{shadows.blur}
+
+\newcommand\niceeval[5][]{%
+\node[rectangle,rounded corners=1.8pt, fill=black!0, draw=black!40, 
+  minimum height=10mm, minimum width=25mm, #1] (#2) at (#3) {#5};
+\node[rectangle,rounded corners=1.8pt, align=left, fill=black!0, draw=black!40, text=black!70, 
+  % blur shadow={shadow blur steps=5}, 
+  anchor=west, xshift=-5pt] at (#2.north west) {#4};
+} 
+
+\begin{document}
+\begin{tikzpicture}[no moc color,]
+  \foreach \i in {1,2,3,4}{
+    \pgfmathsetmacro{\y}{4-\i}
+    \basic[primitive,f={$\context{}{ns_b}$}](ns\i)<0,\y>{$\MocCmb$};
+    \basic[primitive,f={$i_\i$}]   (mem\i)   <1,\y>{$\MocDel$};
+    \coordinate                     (a\i)  at (1.5,\y);
+    \coordinate                     (b\i)  at ($(0,\y)+(-.6,.65)$);
+    \node[]                        (sn\i) at ($(ns\i.205)-(1,0)$) {};
+    % signals
+    \signal[] (sn\i) -> (ns\i.205);
+    \signal[] (ns\i) -> (mem\i);
+    \signal[] (mem\i) - (a\i);
+    \signal[|-] (a\i) - (b\i);
+    \signal[|-] (b\i) -> (ns\i.155);
+  }  
+
+  \basic[primitive,f={$\context{}{(r \circ od) \BhDef}$}](r2)<2.5, .5>{$\MocCmb$};
+  \basic[primitive,f={$\context{}{(r \circ od) \BhDef}$}](r1)<2.5,2.5>{$\MocCmb$};
+  \basic[primitive,f={$\context{}{(r \circ od) \BhDef}$}](r3)<4  ,1.5>{$\MocCmb$};
+
+  \basic[primitive,f={$\context{}{(\bot \BhPhi) \circ w_b}$}](wh)<6,1.5>{$\MocCmb$};
+
+  \signal[] (a1) -> (r1);
+  \signal[] (a2) -> (r1);
+  \signal[] (a3) -> (r2);
+  \signal[] (a4) -> (r2);
+  \signal[] (r1) -> (r3);
+  \signal[] (r2) -> (r3);
+  \signal[] (r3) -> (wh);
+  \signal[] (wh) -> ($(wh)+(1,0)$);
+
+  \basic[primitive,f={$\context{}{(r \circ od) \BhDef}$}](r2)<2.5, .5>{$\MocCmb$};
+  \basic[primitive,f={$\context{}{(r \circ od) \BhDef}$}](r1)<2.5,2.5>{$\MocCmb$};
+  \basic[primitive,f={$\context{}{(r \circ od) \BhDef}$}](r3)<4  ,1.5>{$\MocCmb$};
+
+
+  \niceeval[minimum height=13mm,]{dec1}{$(5.4,2.9)$}{\scriptsize Decision 1 -- merge proc.}{%
+    \scriptsize%
+    \begin{tabular}{l}
+      $(\context{\Gamma_{r}}{r_b} \MocCmb) \circ (\context{\Gamma_{od}}{od_b} \MocCmb)$ \\    
+      $\equiv (\context{\Gamma_{r} \circ \Gamma_{od}}{r_b \circ od_b}) \MocCmb $ %
+    \end{tabular}%
+  }
+  \niceeval{dec1}{$(5.4,0.3)$}{\scriptsize Decision 2 -- reduct. tree}{%
+    \scriptsize $ (r \circ od)\ x\ y=$ associative %
+  }
+
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

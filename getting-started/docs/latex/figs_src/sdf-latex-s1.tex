@@ -1,0 +1,17 @@
+\documentclass{standalone}
+\usepackage[plot]{forsyde}
+\begin{document}
+\begin{tikzpicture}[]
+  \begin{signalsSY}[name=sdf]{7.0}
+    \signalSY[name=sdf1]{-1.0:0,1.0:1,3.0:2,5.0:3}
+    \signalSY[name=sdf2]{1.0:0,1.0:1,1.0:2,1.0:3}
+    \signalSY[name=sdf3]{-1.0:0,-1.0:1,1.0:2}
+    \signalSY[name=sdf4]{1.0:0,-1.0:1,-3.0:2}
+  \end{signalsSY}
+  \foreach \i in {1,2,3,4}{
+    \draw[red] (sdf-\i -1.south west) -- (sdf-\i -1.south east);
+    \draw[red] (sdf-\i -2.south west) -- (sdf-\i -2.south east);
+    \draw[red] (sdf-\i -3.south west) -- (sdf-\i -3.south east);
+  }
+\end{tikzpicture}
+\end{document}

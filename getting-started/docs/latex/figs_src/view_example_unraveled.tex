@@ -1,0 +1,52 @@
+\documentclass{standalone}
+\usepackage[math,tikz]{forsyde}
+\usepackage{xcolor}
+
+\def\scl{.85}
+\def\scb{.8}
+
+\begin{document}
+\begin{tikzpicture}[no moc color]
+  \foreach \i in {1,2,3,4}{
+    \pgfmathsetmacro{\y}{(4-\i)*\scl}
+    \pgfmathsetmacro{\x}{1+\i}
+    \standard[process,%
+      ni=1, no=1, % inner sep=7pt,
+      nf=3,f1={$\context{}{ns_B}$},f2={$\context{}{od_B}$},f3={$i_\i$}, type=moore](p\i) <.6,\y> {};
+    \signal[] ($(p\i.w1)-(.5,0)$) -> (p\i);
+  }  
+  \foreach \i in {2,3,4}{
+    \pgfmathsetmacro{\y}{(4-\i)*\scl+.26}
+    \pgfmathsetmacro{\x}{\scb+\i}
+    % \primitive[%
+    %   moc=sy,f=$\psi(+)$]{r\i}{\x,\y}{$\oplus$};
+    \standard[process,%
+      ni=2, no=1,% inner sep=7pt,
+      nf=1,f1={$\context{}{r_B}$},
+      type=comb](r\i)<\x,\y>{$r_M$};
+    \signal[] (p\i) -> (r\i .w2);
+  }  
+  \coordinate (r1) at (2,2.55); \signal[] (p1.e1) - (r1);
+  \standard[process,%
+      ni=2, no=1,inner sep=7pt,
+      nf=1,f1={$\context{}{w_B}$},
+      type=when](when)<6,.26>{};
+
+  \signal[] (r1) -> (r2);
+  \signal[] (r2) -> (r3);
+  \signal[] (r3) -> (r4);
+  \signal[] (r4) -> (when);
+  \signal[] (when) -> ($(when)+(1,0)$);
+  % \foreach \i in {2,3,4}{
+  %   \pgfmathsetmacro{\y}{(4-\i)*\scl}
+  %   \pgfmathsetmacro{\x}{1+\i}
+  %   \primitive[%
+  %     moc=sy,f=$\psi(+)$]{r\i}{\x,\y}{$\oplus$};    
+  % }
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

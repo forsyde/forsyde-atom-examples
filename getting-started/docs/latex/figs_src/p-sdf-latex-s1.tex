@@ -1,0 +1,12 @@
+\documentclass{standalone}
+\usepackage[plot]{forsyde}
+\begin{document}
+\begin{tikzpicture}[]
+  \begin{signalsSY}[]{6.0}
+    \signalSY[name= sig-sdf1]{-1.0:0,1.0:1,3.0:2,5.0:3}
+    \signalSY[name= sig-sdf2]{1.0:0,1.0:1,1.0:2,1.0:3}
+    \signalSY[name= sig-sdf3]{-1.0:0,-1.0:1,1.0:2}
+    \signalSY[name= sig-sdf4]{1.0:0,-1.0:1,-3.0:2}
+  \end{signalsSY}
+\end{tikzpicture}
+\end{document}

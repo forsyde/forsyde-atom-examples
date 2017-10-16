@@ -42,14 +42,14 @@
 DOCNAME = report
 
 # Directory structure
-UTILSDIR	= ../../../docutils
-STYDIR		= ../../../docutils
+UTILSDIR	= ../../../docfiles
+STYDIR		= ../../../docfiles
 FIGS_DIR 	= figs
 S_FIGS_DIR	= figs_src
 LATEXDIR	= input
 LITERATEDIR	= code
 CODEDIR		= ../../src/AtomExamples
-BIBDIR		= ../../../docutils
+BIBDIR		= ../../../docfiles
 
 # Tools
 LATEXMK = latexmk
@@ -76,7 +76,7 @@ S_XFIG_FIGS	:= $(shell find $(S_FIGS_DIR) -name '*.fig')
 
 # Figures targets
 PDF_FIGS	:= $(patsubst $(S_FIGS_DIR)/%.pdf, $(FIGS_DIR)/%.pdf, $(S_PDF_FIGS))
-EPS_FIGS	:= $(patsubst $(S_FIGS_DIR)/%.eps, $(FIGS_DIR)/%.pdf, $(S_EPS_FIGS))
+EPS_FIGS	:= $(patsubst $(S_FIGS_DIR)/%.eps, $(FIGS_DIR)/%.eps, $(S_EPS_FIGS))
 TIKZ_FIGS	:= $(patsubst $(S_FIGS_DIR)/%.tex, $(FIGS_DIR)/%.pdf, $(S_TIKZ_FIGS))
 SVG_FIGS	:= $(patsubst $(S_FIGS_DIR)/%.svg, $(FIGS_DIR)/%.pdf, $(S_SVG_FIGS))
 JPG_FIGS	:= $(patsubst $(S_FIGS_DIR)/%.jpg, $(FIGS_DIR)/%.jpg, $(S_jpg_FIGS))
@@ -102,7 +102,7 @@ $(DOCNAME).pdf: $(DOCNAME).tex \
 		figures $(LITERATEFILES) $(UTILFILES)
 #		$(LATEXFILES) $(STYLEFILES) $(BIBFILES)
 #               Makefile $(STYLEFILES) $(BIBFILES)
-	@$(LATEXMK) -synctex=1 -quiet -silent -bibtex -pdf -cd- $(DOCNAME)
+	@$(LATEXMK) -synctex=1 -f -quiet -silent -bibtex -pdf -cd- $(DOCNAME)
 
 view: doc
 	@$(OPEN) $(DOCNAME).pdf
@@ -143,9 +143,10 @@ figs/%.pdf: $(S_FIGS_DIR)/%.svg
 
 # Rule for original EPS figures: use a2ping to convert to pdf
 GS_OPTS:= -dPDFX
-figs/%.pdf: $(S_FIGS_DIR)/%.eps
+figs/%.eps: $(S_FIGS_DIR)/%.eps
 	@$(MKDIR) $(@D)
-	@$(A2PING) --gsextra='$(GS_OPTS)' --outfile=$@  $(<)
+	@$(CP) $< $@
+#	@$(A2PING) --gsextra='$(GS_OPTS)' --outfile=$@  $(<)
 
 # Rule for original JPG figures: copy
 figs/%.jpg: $(S_FIGS_DIR)/%.jpg
