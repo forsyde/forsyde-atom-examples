@@ -1,14 +1,15 @@
 ATOM_VER := 0.2.1
-ATOM_LIB := ../docfiles/forsyde-atom-v$(ATOM_VER)
+ATOM_LIB := ../.deps/forsyde-atom-v$(ATOM_VER)
 ATOM_URL := -b $(ATOM_VER) https://github.com/forsyde/forsyde-atom.git
 
-LATEX_LIB := ../docfiles/forsyde-latex
+LATEX_LIB := ../.deps/forsyde-latex
 LATEX_URL := -b dev-atom https://github.com/forsyde/forsyde-latex.git
 
 API_PATH := docs/api
 REPORT_PATH := docs/latex
 
 dependencies:
+	@mkdir -p ../.deps
 	@if [ ! -d $(LATEX_LIB) ]; then \
 		git clone $(LATEX_URL) $(LATEX_LIB); \
 	fi

@@ -8,5 +8,4 @@ TAGS
 *.dat
 *.gnuplot
 *.log
-
-docfiles/forsyde*
+.deps
