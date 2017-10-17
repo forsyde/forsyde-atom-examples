@@ -84,9 +84,13 @@ PNG_FIGS	:= $(patsubst $(S_FIGS_DIR)/%.png, $(FIGS_DIR)/%.png, $(S_PNG_FIGS))
 XFIG_FIGS	:= $(patsubst $(S_FIGS_DIR)/%.fig, $(FIGS_DIR)/%.fig, $(S_XFIG_FIGS))
 
 # Source files
-BIBFILES	:= $(shell find $(BIBDIR) -name '*.bib')
-LATEXFILES	:= $(shell find $(LATEXDIR) -name '*.tex')
-UTILFILES	:= $(shell find $(UTILSDIR) -name '*.*')
+BIBFILES     = $(wildcard $(BIBDIR)/*.bib)
+LATEXFILES   = $(wildcard $(LATEXDIR)/*.tex)
+TEXFILES     = $(wildcard $(UTILSDIR)/*.tex)
+STYLEFILES   = $(wildcard $(STYDIR)/*.sty)
+# UTILFILES	:= $(shell find $(UTILSDIR) -name '*.*')
+# BIBFILES	:= $(shell find $(BIBDIR) -name '*.bib')
+# LATEXFILES	:= $(shell find $(LATEXDIR) -name '*.tex')
 
 # Rules for literate Haskell files
 CODEFILES	:= $(shell find $(CODEDIR) -name '*.lhs')
@@ -99,25 +103,41 @@ pdf: $(DOCNAME).pdf
 
 # Rules
 $(DOCNAME).pdf: $(DOCNAME).tex \
-		figures $(LITERATEFILES) $(UTILFILES)
-#		$(LATEXFILES) $(STYLEFILES) $(BIBFILES)
-#               Makefile $(STYLEFILES) $(BIBFILES)
-	@$(LATEXMK) -synctex=1 -f -quiet -silent -bibtex -pdf -cd- $(DOCNAME)
+		figures $(LITERATEFILES) $(TEXFILES) \
+		$(LATEXFILES) $(STYLEFILES) $(BIBFILES) \
+                $(DOCNAME).bbl Makefile $(STYLEFILES) $(BIBFILES)
+	pdflatex --shell-escape $(DOCNAME)
+	biber $(DOCNAME)
+	pdflatex $(DOCNAME)
+	@while ( grep "Rerun to get cross-references" 	\
+	$(DOCNAME).log > /dev/null ); do		\
+	        echo '** Re-running LaTeX **';		\
+	        pdflatex $(DOCNAME);			\
+	done
 
 view: doc
 	@$(OPEN) $(DOCNAME).pdf
 
-mostlyclean:
-	@$(LATEXMK) -silent -c
-	@$(RM) *.bbl
+clean:
+	@find . -name "*.aux" -type f -delete
+	@find . -name "*~" -type f -delete
+	@find . -name "*.log" -type f -delete
+	@find . -name "*.gz" -type f -delete
+	@find . -name "*.dvi" -type f -delete
+	@find . -name "*.blg" -type f -delete
+	@find . -name "*.bbl" -type f -delete
+	@find . -name "*.tmp" -type f -delete
+	@find . -name "*.thm" -type f -delete
+	@find . -name "*.toc" -type f -delete
+	@find . -name "*.lo*" -type f -delete
+	@find . -name "*#" -type f -delete
+	@find . -name "*.out" -type f -delete
+	@find . -name "comment.cut" -type f -delete
 
-clean: mostlyclean
-	@$(LATEXMK) -silent -C
-	@$(RM) *.run.xml *.synctex.gz
-	@$(RM) *.d
-	@$(RM) *.thm
-	@$(RM) *.pdf
+superclean: clean
+	@$(RM) -f ./figs/*
 	@$(RM) -rf $(LITERATEDIR)/*
+	@$(RM) *.pdf
 
 ### Rules for converting literate programming
 $(LITERATEFILES) : $(LITERATEDIR)/%.tex : $(CODEDIR)/%.lhs  
@@ -178,7 +198,11 @@ figs/%.pdf: $(S_FIGS_DIR)/%.pdf
 	@$(MKDIR) $(@D)
 	@$(CP) $< $@
 
-.PHONY: all clean doc mostlyclean pdf figures
+$(DOCNAME).bbl : $(DOCNAME).tex $(BIBFILES)
+	pdflatex $(DOCNAME).tex
+	biber $(DOCNAME)
+
+.PHONY: all clean superclean figures
 
 # Include auto-generated dependencies
 -include *.d

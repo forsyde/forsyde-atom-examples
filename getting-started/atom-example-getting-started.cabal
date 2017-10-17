@@ -5,7 +5,7 @@ name:                atom-example-getting-started
 version:             0.1.0.0
 synopsis:            A step-by-step introduction in using the ForSyDe-Atom library.
 -- description:         
-license:             MIT
+license:             BSD3
 license-file:        LICENSE
 author:              ugeorge
 maintainer:          ugeorge@kth.se
@@ -17,6 +17,7 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     AtomExamples.GettingStarted
+                     , AtomExamples.GettingStarted.CustomPattern
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base >=4 && <6

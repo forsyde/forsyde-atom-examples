@@ -29,13 +29,12 @@
             anchorcolor = blue]{hyperref}
 \usepackage{cleveref}
 
-\usepackage{cite}
+% \usepackage{cite}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{float}
-\usepackage{natbib}
-\usepackage{apalike}
+% \usepackage{apalike}
 \usepackage{subfig}
 \usepackage{rotating}
 
@@ -44,6 +43,11 @@
 \makesavenoteenv{table}
 
 \usepackage[math]{forsyde}
+
+% \usepackage[sort]{natbib}
+\usepackage[ natbib,
+             backend = biber,
+             style   = authoryear]{biblatex}
 
 \usepackage{listings}
 \usepackage{color}
@@ -66,12 +70,12 @@
   % commentstyle=\small\ttfamily\it,
   flexiblecolumns=false,
   basewidth={0.5em,0.45em},
-  morecomment=[l]{\tt-- },
+  % morecomment=[l]{\tt-- },
   literate=%
     {->}{{\tt->}}2%
-  %   {--}{{--}}2%
-  %   {>}{{\tt >}}1%
-  %   {=}{{\tt =}}1%
+    % {--}{{--}}2%
+    % {>}{{\tt >}}1%
+    % {=}{{\tt =}}1%
 }
 
 \definecolor{codeback}{rgb}{0.9,0.9,1.0}

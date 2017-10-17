@@ -127,12 +127,12 @@ As a last exercise for this section we would like to extend the behavior of the 
 
 The two processes \cref{fig:basic-composite} are now defined below as \texttt{testAp1} and \texttt{testAp2}. This time, apart from the functional definition (\texttt{name = function}) we specify the type signature as well (\texttt{name :: type}), which in the most general case can be considered a specification/contract of the interfaces of the newly instantiated component. Both type signatures and function definitions expose the layered structure suggested in \cref{fig:basic-3layer}. As specific ExB type, we use \href{\exbabsurl}{\texttt{AbstExt}} and as behavior pattern constructor we choose a default behavior expressing a resolution {\href{\exburl}{\texttt{res}}}.
 
-> testAp1 :: Num a              -- ^ _a_ can be any numerical (polymorphic) type 
+> testAp1 :: Num a
 >         => Signal (AbstExt a) -- ^ input signal of absent-extended values
 >         -> Signal (AbstExt a) -- ^ output signal of absent-extended values
 > testAp1 = comb11 (res11 (+1))
 
-> testAp2 :: Num a              -- ^ _a_ can be any numerical (polymorphic) type
+> testAp2 :: Num a
 >         => Signal (AbstExt a) -- ^ first input signal of absent-extended values
 >         -> Signal (AbstExt a) -- ^ second input signal of absent-extended values
 >         -> Signal (AbstExt a) -- ^ output signal of absent-extended values

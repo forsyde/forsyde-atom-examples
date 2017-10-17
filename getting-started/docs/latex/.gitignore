@@ -1,3 +1,4 @@
+report.pdf
 auto*
 figs/*
 code/*
@@ -12,10 +13,11 @@ code/*
 *.nav
 *.bbl
 *.vrb
-*.pdf
 *.aux
 *.fdb_latexmk
 *.fls
+*.run.xml
+*.bcf
 *~
 *.#*
 *#
