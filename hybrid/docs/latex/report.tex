@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage{../../../docfiles/atom-report}
+\usepackage{../../../docfiles/urls}
+\usepackage[a4paper, margin=1.5in]{geometry}
+
+
+\title{Hybrid CT/DT models in\\\textsc{ForSyDe-Atom}\thanks{compiled with \textsc{ForSyDe-Atom} v0.2.2}}
+\author{George Ungureanu}
+\date{November 2017}
+
+\addbibresource{../../../docfiles/refs.bib}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{input/abstract}
+\end{abstract}
+
+\input{input/goals}
+
+\newpage
+\tableofcontents
+\newpage
+
+\input{../../../docfiles/usage}
+
+\section{RC Oscillator}
+\label{sec:rc-oscillator}
+\input{code/Hybrid/RCOsc}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{input/conclusion}
+
+\printbibliography
+
+\end{document}
+
+
+%%% Local Variables:
+%%% TeX-command-default: "Make"
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

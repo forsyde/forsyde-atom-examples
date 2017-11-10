@@ -1,0 +1,20 @@
+\documentclass{standalone}
+\usepackage[american]{circuitikz}
+
+\begin{document}
+\begin{circuitikz}
+  \draw
+  (0,2) node[anchor=east] {$V_I$}
+  (0,2) node[ocirc] {}
+  to[R=R]        (3,2) node[circ] (n1) {}
+  to[C=C]        (3,0) node[sground] {}
+  (n1) to        (4.5,2) node[ocirc] (n3) {}
+  (n3) node[anchor=west] {$V_O$}
+  ;
+\end{circuitikz}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

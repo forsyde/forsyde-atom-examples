@@ -47,7 +47,8 @@
 % \usepackage[sort]{natbib}
 \usepackage[ natbib,
              backend = biber,
-             style   = authoryear]{biblatex}
+             style   = authoryear,
+             maxcitenames=2]{biblatex}
 
 \usepackage{listings}
 \usepackage{color}
@@ -71,11 +72,6 @@
   flexiblecolumns=false,
   basewidth={0.5em,0.45em},
   % morecomment=[l]{\tt-- },
-  literate=%
-    {->}{{\tt->}}2%
-    % {--}{{--}}2%
-    % {>}{{\tt >}}1%
-    % {=}{{\tt =}}1%
 }
 
 \definecolor{codeback}{rgb}{0.9,0.9,1.0}
@@ -93,8 +89,18 @@
   showstringspaces=false,
   basicstyle=\footnotesize\ttfamilywithbold,
   keywordstyle=\bfseries,
-  commentstyle=\itshape,
+  commentstyle=\color{magenta}\itshape,
   % otherkeywords={comb11, comb21, res11, res21, generate1, signal},
+  literate=%
+    % {->}{{\tt->}}2%
+     {->}{{$\rightarrow$}}2%
+    {\\}{{$\lambda$}}1%
+    {*}{{$\times$}}1%
+    {/}{{$/$}}1%
+    {+}{{$+$}}1%
+    % {--}{{--}}2%
+    % {>}{{\tt >}}1%
+    {=}{{$=$}}1%
 }
 \lstdefinestyle{customterm}{
   backgroundcolor=\color{termback},

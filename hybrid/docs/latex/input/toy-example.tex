@@ -1,0 +1,95 @@
+This example has been used as a case study for introducing the new concepts of \textsc{ForSyDe-Atom} in the paper of \cite{ungureanu17}. It describes the simple system from \cref{fig:subfig1} which exposes four layers, structured like in \cref{fig:toy-4layer}. This system is then fed vectors of signals describing different MoCs and its response is observed. In \cref{fig:subfig2,fig:subfig3,fig:subfig4,fig:subfig5} some possible projections on the different layers are depicted. For now they are used just as trivia, and you need not bother with them that much.
+\vspace{-.4cm}
+\begin{figure}[ht!]
+  \centering
+  \subfloat[The four layered structure of the toy example]{
+    \includegraphics[width=.45\textwidth]{figs/toy-4layer}
+    \label{fig:toy-4layer}}
+  \hfill
+  \subfloat[View from skeleton layer]{
+    \includegraphics[width=0.5\textwidth]{figs/view_example_skeleton.pdf}
+    \label{fig:subfig1}}%
+  \hfill
+  \subfloat[Top view from process layer]{
+    \includegraphics[width=0.47\textwidth]{figs/view_example_unraveled.pdf}
+    \label{fig:subfig2}}
+  \hfill
+  \subfloat[Flattened \& refined view from process layer]{
+    \includegraphics[width=0.47\textwidth]{figs/view_example_flat.pdf}
+    \label{fig:subfig3}}
+  \hfill
+  \subfloat[View from behavior layer, as projected by a timed MoC]{
+    \includegraphics[width=0.47\textwidth]{figs/view_example_behavior.pdf}
+    \label{fig:subfig4}}
+  \hfill
+  \subfloat[View from function layer, as projected by a timed MoC]{
+    \includegraphics[width=0.47\textwidth]{figs/view_example_function.pdf}
+    \label{fig:subfig5}}
+\caption{Views and projections for the toy system}\label{fig:application}
+\end{figure}
+
+This is a synthetic example meant to introduce as many concepts as possible in a short amount of time and, among others, it highlights:
+\begin{itemize}
+\item the power of partial application for creating parameterized structures, such as the process network for \texttt{stage1}.
+\item alternative designs for the same \texttt{toy} system to show the effect of MoCs. First it is instantiated using different process constructor helpers defined for each MoC separately. Afterwards it is written as one single polymorphic instance using MoC layer patterns, overloaded with execution semantics in accordance with the tag system injected into the system.
+\end{itemize}
+
+For the sake of brevity, we also provide the functional description in the language introduced by \cite{ungureanu17} in eqs.~\eqref{eq:case1}--\eqref{eq:moore} and \cref{tab:application}. Do not bother much about this notation either, as this exact definition will appear in the code in a more ``human readable'' form.
+
+\begin{align}
+  \mathtt{toy}& : \SkelVec{V} \rightarrow
+                \SkelVec{S} \rightarrow S \label{eq:case1}\\
+  \mathtt{toy} &\SkelVec{i}\SkelVec{s} =
+                 \mathtt{when}_{\textsc{m}}(\context{\Gamma_w}{w_{\textsc{b}}}) \circ
+                 \mathtt{reduce}_{\textsc{s}}(r_{\textsc{m}}) \circ
+                 \mathtt{map}_{\textsc{s}}(pc_{\textsc{m}})\SkelVec{i}\SkelVec{s}
+                 \nonumber
+\end{align}%
+% \hspace{.2cm}
+where%
+\begin{align}
+  \mathtt{when}_{\textsc{m}} (\context{\Gamma_w}{w_{\textsc{b}}})(s)
+  & = ((\bot\ \BhPhi) \circ (\context{\Gamma_w}{w_{\textsc{b}}}))
+    \oplus s \label{eq:when}\\
+  r_{\textsc{m}}(x,y) &= \context{\Gamma_r}{r_{\textsc{b}}} \oplus (x,y) \\
+  \mathtt{map_{s}}(pc_{\textsc{m}})\SkelVec{v}\SkelVec{s}
+  &= pc_{\textsc{m}} \SkelFun \SkelVec{v} \SkelApp
+    \SkelVec{s} \label{eq:re-map}\\
+  pc_{\textsc{m}}(x,y)
+  &= \mathtt{moore}_{\textsc{m}} (%
+    \context{\Gamma_{\mathit ns}}{ns_{\textsc{b}}},
+    \context{\Gamma_{\mathit od}}{od_{\textsc{b}}},x)(y)\label{eq:moore}
+\end{align}
+
+\def\vecbegin#1{\multicolumn{1}{@{ $\langle$}c}{#1}}%
+\begin{table}[ht!]\scriptsize\setlength{\tabcolsep}{5pt}\centering
+  \caption{\sc Contexts, Functions and Initial Tokens for
+    the System in Eq. \eqref{eq:case1}}\label{tab:application}
+  \hspace*{-3cm}%
+  {\renewcommand{\arraystretch}{1.5}%
+    \begin{tabular}{c|c@{$\vdash$}c|c@{ $\vdash$}c|c@{$\vdash$}c|c@{$\vdash$}c|c@{ }c@{ }c@{ }c@{$\rangle$}}
+      \toprule
+      MoC & $\Gamma_{\mathit w}$ & $w_{\textsc{b}}(x)$ & $\Gamma_{\mathit r}$ & $r_{\textsc{b}}(x,y)$ & $\Gamma_{\mathit ns}$ & $ns_{\textsc{b}}(x,y)$ & $\Gamma_{\mathit od}$ & $od_{\textsc{b}}(x)$ & \multicolumn{4}{c}{$\SkelVec{i}=\SkelVec{(t,v)}$} \\    
+      \midrule
+      SDF\footnote{$\Gamma_{\text{SDF}} = (\text{consumption rate for first input}[,\text{consumption rate for second input}]), \text{production rate}$}
+      & 2,2 & $(x_1<0,x_2<0) \BhDef$ & (1,1),1 & $(x_1+y_1) \BhDef$ & (1,2),1 & $(x_1+y_1+y_2) \BhDef$ & 1,1 & $x_1 \BhDef$ 
+      & \vecbegin{$(\ ,-1)$} & $(\quad,1)$ & $(\quad,-1)$ & $(\quad,1)$ \\
+      SY 
+      &     & $(x<0) \BhDef$        &          & $(x+y) \BhDef$    &         & $(x+y) \BhDef$        &     & $x\ \BhDef$ 
+      & \vecbegin{$(\ ,-1)$} & $(\quad,1)$ & $(\quad,-1)$ & $(\quad,1)$ \\
+      DE 
+      &     & $(x<0) \BhDef$        &          & $(x+y) \BhDef$    &         & $(x+y) \BhDef$        &     & $x\ \BhDef$ 
+      & \vecbegin{$(0.5,-1)$} & $(1.4,1)$ & $(1.0,-1)$ & $(1.4,1)$ \\
+      CT 
+      &     & $(x<0) \BhDef$        &          & $(x+y) \BhDef$    &         & $(x+y) \BhDef$        &     & $x\ \BhDef$ 
+      & \vecbegin{$(1, \lambda t\rightarrow -1)$} & $(1.4,\lambda t\rightarrow 1)$ & $(1,\lambda t\rightarrow -1)$ & $(1.4,\lambda t\rightarrow 1)$ \\
+      \bottomrule
+    \end{tabular}
+}\end{table}
+
+
+%%% Local Variables:
+%%% TeX-command-default: "Make"
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End:
