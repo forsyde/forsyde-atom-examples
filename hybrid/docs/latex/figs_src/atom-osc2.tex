@@ -1,0 +1,30 @@
+\documentclass{standalone}
+\usepackage[math,plot,tikz]{forsyde}
+
+\begin{document}
+\begin{tikzpicture}
+  \standard[process, moc=sy, f={$ns$;$od$;\noexpand\texttt{Charging}}, type=mealy] (fsm) {};
+  \interface[left of=fsm] (desy) {de}{sy};
+  \interface[right of=fsm] (syde) {sy}{de};
+  \interface[right of=syde] (dect) {de}{ct};
+  \standard[process, moc=ct, f={$\times$}, type=comb, right of=dect] (od) {};
+  \node[below of=fsm, inner sep=0] (dum) {};
+  \cluster[composite] <(desy)(fsm)(dect)(dum)> {embed};
+  \draw[s=sy,->] (desy.south) |- ++(0,-.5) -| (syde.south);
+  \draw[s=sy,->,token=scalar] (desy) -- (fsm);
+  \draw[s=sy,->,token=(scalar)] (fsm) -- (syde);
+  \draw[s=de,->,token=(scalar)] (syde) -- (dect);
+  \draw[s=ct,->,token=scalar] (dect) -- (od);
+  \node[anchor=east,xshift=-1cm] (ctl) at (desy) {$S_{\text{control}}$};
+  \node[anchor=east,above of=ctl] (vi) {$V_{DD}$};
+  \node[anchor=west,xshift=1cm] (vo) at (od) {$V_O$};
+  \draw[s=de,<-] (desy) --(ctl);
+  \draw[s=ct,->] (vi)  -| (od);
+  \draw[s=ct,->] (od) --(vo);
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

@@ -66,13 +66,13 @@ Naturally, in \textsc{ForSyDe-Atom} we can model the oscillator in multiple ways
 Plotting the output against an "arbitrary" $V_{DD}$, we get \cref{fig:osc1-plot}.
 
 > -- | plotting configuration that will be used throughout this section
-> cfg = defaultCfg {xmax=3, rate=0.05, labels=["V_{DD}","V_O"]}
+> cfg = defaultCfg {xmax=3, rate=0.05}
 
 > -- | example input for testing 'osc1'
 > vdd1 = CT.signal [(0,\_->2),(1,\_->1.5),(2,\_->1)] :: CT.Signal Rational
 > 
 > -- | plotting the response of 'osc1'
-> plot1 = plotGnu $ prepareL cfg $ [vdd1, osc1 vdd1]
+> plot1 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd1, osc1 vdd1]
 
 \begin{figure}[ht!]\centering
 \input{input/sig-osc1-latex}
@@ -85,24 +85,38 @@ The model for \texttt{osc1}, although strikes out as simple and elegant, is by a
 \cite{Lee17} argues that determinism is an attribute of the model, and it is dependent on what we consider as inputs and outputs. As such, the model \texttt{osc1} in \cref{fig:osc1} is a deterministic model for the circuit in \cref{fig:osc-circuit} and the output in \cref{fig:osc1-plot} is the correct response in the following conditions:
 
 \begin{itemize}
-\item the changes in $V_{DD}$ happen at multiple of $\tau$. If a changes occur anywhere in between, the response will be shown, but it will not describe the RC circuit in a realistic manner, as we will see shortly.
+\item the changes in $V_{DD}$ happen at multiples of $\tau$. If a changes occur at any other time the response will be shown, but it will not describe the RC circuit in a realistic manner, as we will see shortly.
 \item the time constant follows roughly the rule $5RC\leq\tau$ where the chosen $\tau$ is a part of the initial state of the Mealy state machine. This says that the discharging occurrs when the capacitor is charged at least $99.3\%$ and vice-versa, according to eqs.~\eqref{eq:rc-charge} and \eqref{eq:rc-discharge}.
 \item $\tau>0$. $\tau=0$ would render the system as non-causal and would manifest Zeno behavior. In practical terms, this is the equivalent of the simulation being stuck and not advancing time.
 \end{itemize}
 
 Another property (or limitation, depending on what your intentions are) is that the switching of $sw_1$ and $sw_2$ cannot be controlled and is a property of the Mealy machine. This switching is inferred by $\tau$ which sets the (discrete) period of these events. Let us change that by giving the possibility to control the state of the capacitor as charging/discharging through a signal of discrete events. A system such as the one we propose implies some subtle changes in the modelling which require a deeper understanding on the underlying MoCs. First of all, we still require a stateful process (a state machine) which captures the notion of working modes, but which reacts to a state change instantaneously. But this implies that $\tau = 0$ which, as said above, would lead to Zeno behavior. On the other hand, the particular behavior required is described precisely by \emph{synchronous reactive} MoC, where the response of a system is performed in "zero time".
 
-Continuing to adhere to the school of thought of \cite{Lee17}, where the merit of the modeler lies in choosing the right modeling paradigm for the right problem\footnote{Lee argues that the cost we pay in the loss of determinism is a property of the modeling framework, and \emph{not} of the model itself.}, we choose to model the above described system as a synchronous reactive (SY) state machine wrapped inside a DE/CT environment like in ... . 
+Continuing to adhere to the school of thought of \cite{Lee17}, where the merit of the modeler lies in choosing the right modeling paradigm for the right problem\footnote{Lee argues that the cost we pay in the loss of determinism is a property of the chosen modeling framework, and \emph{not} of the model itself.}, we choose to model the above described system as a synchronous reactive (SY) state machine wrapped inside a DE/CT environment like in \cref{fig:osc2}. As such, we should note a few particularities of this model:
 
+\begin{itemize}
+\item in CT the carried values are implicit functions of time, i.e. they carry time semantics. In DE and SY, the time semantics make no sense, thus the same functions of time are explicit (where \texttt{Time} itself is just a data type $\in V$). Therefore when converting $\mathcal{S}_{CT}(\alpha) \mapsto \mathcal{S}_{DE}(t \to \alpha)$ and vice-versa $\mathcal{S}_{DE}(t \to \alpha) \mapsto \mathcal{S}_{CT}(\alpha)$.
+\item in SY tags are useless, therefore DE tags and values are split into two separate SY signals upon conversion. This way we can easily recreate the DE signal without loss of information. So upon conversion $\mathcal{S}_{DE}(\alpha) \mapsto \mathcal{S}_{SY}(t) \times \mathcal{S}_{SY}(\alpha)$ and vice-versa $\mathcal{S}_{SY}(t) \times \mathcal{S}_{SY}(\alpha) \mapsto \mathcal{S}_{DE}(\alpha)$.
+\item the discrete control signal $S_{\text{control}}$, carries the discrete timestamps both as tags and as values. These timestamps are further used by the \texttt{od} function to determine the time when the switch occurred \texttt{t0} in the formulas for $V_O$ in eqs.~\eqref{eq:rc-charge} and \eqref{eq:rc-discharge}. \textbf{OBS:} we could have reused $\mathcal{S}_{SY}(t)$ instead of doubling the same information, but this way we can depict clearly the semantic role of tags in convertions.
+\end{itemize}
+%
+\begin{figure}[ht!]\centering
+\includegraphics{atom-osc2}
+\caption{RC oscillator model which reacts to a discrete control signal. Shapes decorating signals suggest the type of carried tokens: circles = scalars; squares = functions}
+\label{fig:osc2}
+\end{figure}
 
+Like in the model from \cref{fig:osc1}, the model for \texttt{osc2} in \cref{fig:osc2} scales the output with $V_{DD}$ through a combinational CT process. The next state decoder function $ns$ does not manipulate the rule for $V_C$ anymore, but rather switches between the states \texttt{Charge} and \texttt{Discharge}, and the output decoder $od$ selects the proper $V_C$ rule from eq.~\eqref{eq:rc-charge} or eq.~\eqref{eq:rc-discharge} respectively, based on the current state.
 
 > -- | Encodes the capacitor state
 > data CState = Charging | Discharging
 
+We encode the capcitor state (i.e. the states of $sw_1$ and $sw_2$) through the \texttt{CState} data type. Thus the code for \cref{fig:osc2} is:
+
 > -- | RC oscillator model as FSM which reacts to discrete impulses
-> osc2 :: CT.Signal Time      -- ^ input signal
+> osc2 :: CT.Signal Rational  -- ^ input signal
 >      -> DE.Signal TimeStamp -- ^ control signal of discrete impulses
->      -> CT.Signal Time      -- ^ output signal
+>      -> CT.Signal Rational  -- ^ output signal
 > osc2 s = CT.comb21 (*) s . embed (SY.mealy11 ns od Charging)
 >   where
 >     -- SY next state function
@@ -115,8 +129,29 @@ Continuing to adhere to the school of thought of \cite{Lee17}, where the merit o
 >     embed p de        = let (t, sy) = DE.toSY de
 >                         in DE.toCT $ SY.toDE t (p sy)
 
+> -- | Signal of discrete events. It carries time stamps for didactic
+> -- purpose.
+> sCtrl = DE.signal [(0,0), (0.6,0.6), (1.4,1.4), (2.3,2.3), (2.8,2.8)] :: DE.Signal TimeStamp
+>
+> -- | example input for testing 'osc2'
+> vdd2 = CT.signal [(0,\_->2),(1.4,\_->1.5),(2.8,\_->1)] :: CT.Signal Rational
+>
+> -- | plotting the example responses of 'osc2'
+> plot21 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd2, osc2 vdd2 sCtrl]
+> plot22 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd1, osc2 vdd1 sCtrl]
 
-> s4 = DE.signal [(0,0), (1.2,1.2), (2.3,2.3)] :: DE.Signal TimeStamp
+
+\begin{figure}[ht!]\centering
+\begin{minipage}{.47\textwidth}
+\scalebox{.5}{\input{input/sig-osc2-latex}}
+\end{minipage}
+\begin{minipage}{.47\textwidth}
+\scalebox{.5}{\input{input/sig-osc2-latex-1}}
+\end{minipage}
+\caption{Response of \texttt{osc2}}
+\label{fig:osc2-plot}
+\end{figure}
+
 
 > s1 = CT.signal [(0,\_->2), (0.5,\_->0), (1,\_->1.5), (1.5,\_->0), (2,\_->1), (2.5,\_->0)] :: CT.Signal Rational
 > s2 = CT.signal [(0,\_->2),(1,\_->1.5),(2,\_->1)]      :: CT.Signal Rational
