@@ -66,7 +66,7 @@ Naturally, in \textsc{ForSyDe-Atom} we can model the oscillator in multiple ways
 Plotting the output against an "arbitrary" $V_{DD}$, we get \cref{fig:osc1-plot}.
 
 > -- | plotting configuration that will be used throughout this section
-> cfg = defaultCfg {xmax=3, rate=0.05}
+> cfg = defaultCfg {xmax=3, rate=0.01}
 
 > -- | example input for testing 'osc1'
 > vdd1 = CT.signal [(0,\_->2),(1,\_->1.5),(2,\_->1)] :: CT.Signal Rational
@@ -129,16 +129,20 @@ We encode the capcitor state (i.e. the states of $sw_1$ and $sw_2$) through the 
 >     embed p de        = let (t, sy) = DE.toSY de
 >                         in DE.toCT $ SY.toDE t (p sy)
 
-> -- | Signal of discrete events. It carries time stamps for didactic
-> -- purpose.
-> sCtrl = DE.signal [(0,0), (0.6,0.6), (1.4,1.4), (2.3,2.3), (2.8,2.8)] :: DE.Signal TimeStamp
->
+%$
+
+Now let us create two situations to test \texttt{osc2}. The control signal \texttt{sCtrl} injects events at timestamps 0, 0.6, 1.4, 2.3 and 2.8, causing the SY state machine to react each time changing its state from \texttt{Charge} to \texttt{Discharge} and vice-versa. The first $V_{DD}$ input \texttt{vdd21} is mirroring an ``ideal case'', when changes occur at time instants where switching happens, meaning that it does not affect the evolution of the $V_O$ rule. On the contrary, \texttt{vdd22} comes at arbitrary times, thus affecting the output in a way that is unrealistic, i.e. $V_O$ changes values abruptly and instantaneously, which strays away from the acceptable behavior of a capacitor. This can be seen in \cref{fig:osc2-plot}.
+
+> -- | Signal of discrete events. It carries time stamps for didactic  purpose.
+> sCtrl = DE.signal [(0,0),(0.6,0.6),(1.4,1.4),(2.3,2.3),(2.8,2.8)] :: DE.Signal TimeStamp
+> 
 > -- | example input for testing 'osc2'
-> vdd2 = CT.signal [(0,\_->2),(1.4,\_->1.5),(2.8,\_->1)] :: CT.Signal Rational
->
+> vdd21 = CT.signal [(0,\_->2),(1.4,\_->1.5),(2.8,\_->1)] :: CT.Signal Rational
+> vdd22 = CT.signal [(0,\_->1),(0.8,\_->2),(1.6,\_->1.5)] :: CT.Signal Rational
+> 
 > -- | plotting the example responses of 'osc2'
-> plot21 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd2, osc2 vdd2 sCtrl]
-> plot22 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd1, osc2 vdd1 sCtrl]
+> plot21 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd21, osc2 vdd21 sCtrl]
+> plot22 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd22, osc2 vdd22 sCtrl]
 
 
 \begin{figure}[ht!]\centering
@@ -152,9 +156,39 @@ We encode the capcitor state (i.e. the states of $sw_1$ and $sw_2$) through the 
 \label{fig:osc2-plot}
 \end{figure}
 
+The second case in \cref{fig:osc2-plot} can be explained easily if we consider the fact that $V_O$ itself is the result of a statically pre-calculated function of time. There is no notion of feedback response to the continuous inputs, the only feedback is synchronous reactive for \texttt{osc2} and even \texttt{osc1}. In other words any change on the input will affect how the output ``looks like'', but it will not affect the continuous behavior which, as said, is pre-calculated. In order to influence the continuous behavior, some sort of continuous feedback is necessary, which is usually non-causal, thus uncomputable. Without going too much into detail we can say that in order to model a realistic behavior of the capacitor response in $V_O$, we need to embed an ordinary differential equation (ODE) solver within a synchronous reactive state machine\footnote{theoretical implications will be analyzed in the upcoming journal publications}, which models precisely eq.~\eqref{eq:cap-vout}.
+
+First let us model a simple RC bridge like in \cref{fig:rc-circuit} which acts like a low-pass filter, and acts according to eq.~\eqref{eq:cap-vout}. As we mention, we model this circuit as a SY state machine embedded within a CT environment.
+
+\begin{figure}[ht!]\centering
+\includegraphics[width=.3\textwidth]{rc-circuit}
+\includegraphics[width=.5\textwidth]{rc-block}
+\caption{RC bridge: circuit (left); block diagram based on eq.~\eqref{eq:cap-vout} (right)}
+\label{fig:rc-circuit}
+\end{figure}
+
+
+> euler step f p t0 t = iterate p t0
+>   where
+>     h = time step
+>     calc vp v = (h * rc)/(h + rc) * (1/rc * v + 1/h * vp)
+>     iterate st ti
+>       | t < time ti = st
+>       | otherwise   = iterate (calc st $ f (time ti)) (ti + step)
+
+
+\begin{figure}[ht!]\centering
+\includegraphics[]{atom-rcfilter}
+\caption{\textsc{ForSyDe-Atom} model of the RC bridge in \cref{fig:rc-circuit}}
+\label{fig:rc-circuit}
+\end{figure}
+
+> rcfilter :: CT.Signal Rational -> CT.Signal Rational
+> rcfilter s
+>   = let (ts, sy) = DE.toSY $ CT.toDE s
+>         out      = SY.state21 ns (\_->0) ts sy
+>         ns p t s = euler 0.01 s (p $ time t) t
+>     in DE.toCT $ SY.toDE ts out
 
 > s1 = CT.signal [(0,\_->2), (0.5,\_->0), (1,\_->1.5), (1.5,\_->0), (2,\_->1), (2.5,\_->0)] :: CT.Signal Rational
-> s2 = CT.signal [(0,\_->2),(1,\_->1.5),(2,\_->1)]      :: CT.Signal Rational
-> s3 = CT.signal [(0,\_->2),(1.2,\_->1.5),(2.3,\_->1)]  :: CT.Signal Rational
-> s4 = DE.signal [(0,0), (1.2,1.2), (2.3,2.3)] :: DE.Signal TimeStamp
-> dls = CT.unit (milisec 500, \t -> 1 - T.exp (-t / rc))
+
