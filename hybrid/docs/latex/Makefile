@@ -116,7 +116,7 @@ $(DOCNAME).pdf: $(DOCNAME).tex \
 	done
 
 view: doc
-	@$(OPEN) $(DOCNAME).pdf
+	@$(OPEN) $(DOCNAME).pdf &
 
 clean:
 	@find . -name "*.aux" -type f -delete
