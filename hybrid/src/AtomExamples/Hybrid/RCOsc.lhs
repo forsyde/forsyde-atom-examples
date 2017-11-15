@@ -247,7 +247,7 @@ Now let us modify \texttt{osc2} from \cref{fig:osc2} to mirror the correct behav
 \label{fig:osc4}
 \end{figure}
 
-Testing \texttt{osc4} against the same inputs as \texttt{osc2} in \cref{fig:osc2-plot}, we get the response plotted in \cref{fig:osc4-plot}, which is now the correct behavior of the RC circuit with respect to its inputs. As expected, the output describes correctly the state and history of the capacitor.
+Testing \texttt{osc4} against the same inputs as \texttt{osc2} in \cref{fig:osc2-plot}, we get the response plotted in \cref{fig:osc4-plot}, which is now the correct behavior of the RC circuit with respect to its inputs. As expected, the output describes correctly the dynamics of the system based on the state and history of the capacitor.
 
 > plot41 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd22, osc4 vdd22 sCtrl]
 
@@ -277,7 +277,8 @@ We consider the same input scenarios for all 4 models:
 > -- | Switch control signal for performance testing
 > ctlTest = DE.signal [(0,()),(0.5,()),(1,()),(1.5,()),(2,()),(2.5,())] :: DE.Signal ()
 
-First, let us test the performance of each model in case of one evaluation point. This can be easily found out in \texttt{ghci} by adding the option \texttt{:set +s} during an interpreter session. For showing the precision of the model calculation, we convert the output rational numbers into floating point representation.
+
+\textbf{DISCLAIMER:} we have measured the performance for all experiments using the  \texttt{:set +s} directive in a \texttt{ghci} interpreter session, which offers some crude information about the run-time. The measurements are by no means realistic for compiled and optimized programs, but rather give a rough idea about the raw, un-optimized functions run directly in the interpreter. In any case, this offers a common ground for comparing implementations between them to observe trends and the influences of the design decisions, but not to judge \textsc{ForSyDe-Atom} as such.
 
 < λ> :set +s
 < λ> fromRational $ osc1 vddTest         `CT.at` 2.8
@@ -307,5 +308,16 @@ First, let us test the performance of each model in case of one evaluation point
   \label{tab:rc-exp}
 \end{table}
 
-The experimental results on an computer with Intel® Core™ i7-3770 CPU @ 3.40GHz $\times$ 8 cores, and 31,4 GiB RAM are shown in \cref{tab:rc-exp}. As expected, \texttt{osc1} and \texttt{osc2} perform in almost negligible time for both experiments due to lazy evaluation which performs computation only at the requested evaluation point. However, the lazy evaluation is costly in terms of run-time memory, fact noticed especially for \texttt{rcfiler} and \texttt{osc4} due to the fact that intermediate structures need to be stored before evaluating. The complexity of \texttt{rcfilter} and \texttt{osc4} are seen both in the execution time and in the memory consumption. Apart from the cost in performance, model fidelity for unknown inputs came also with a high price in loss of precision due to chained numerical computation, fact seen from the evaluation results of \textbf{Experiment 1} in the interpreter listing above. Choosing a better solver than \texttt{euler}, e.g. a Runge-Kutta solver, or even better, a symbolic solver, could improve both performance and precision, but that is out of the scope of this report. Another, rather surprising fact is that \texttt{osc2} performs slightly better than \texttt{osc1}, probably to the lack of tag calculus in the SY domain, i.e. tags are mainly passed untouched between interfaces, whereas calculations are performed in a synchronous reactive manner on values only.
+The experimental results on an computer with Intel® Core™ i7-3770 CPU @ 3.40GHz $\times$ 8 threads, and 31,4 GiB RAM are shown in \cref{tab:rc-exp}. As expected, \texttt{osc1} and \texttt{osc2} perform in almost negligible time for both experiments due to lazy evaluation which performs computation only at the requested evaluation point. However, the lazy evaluation is costly in terms of run-time memory, fact noticed especially for \texttt{rcfiler} and \texttt{osc4} due to the fact that intermediate structures need to be stored before evaluating. The complexity of \texttt{rcfilter} and \texttt{osc4} are seen both in the execution time and in the memory consumption. Apart from the cost in performance, model fidelity for unknown inputs came also with a high price in loss of precision due to chained numerical computation, fact seen from the evaluation results of \textbf{Experiment 1} in the interpreter listing above. Choosing a better solver than \texttt{euler}, e.g. a Runge-Kutta solver, or even better, a symbolic solver, could improve both performance and precision, but that is out of the scope of this report. Another, rather surprising fact is that \texttt{osc2} performs slightly better than \texttt{osc1}, probably to the lack of tag calculus in the SY domain, i.e. tags are mainly passed untouched between interfaces, whereas calculations are performed in a synchronous reactive manner on values only.
+
+\begin{figure}[ht!]\centering
+\includegraphics[width=\textwidth]{plot-exec}
+\caption{Execution time and memory consumption for \textbf{Experiment 2}}
+\label{fig:plot-exec}
+\end{figure}
+
+To get a feeling of the cost complexity of the models for \texttt{osc1}, \texttt{osc2} and \texttt{osc4}, we plot the execution time and memory consumption during \textbf{Experiment 2} for three resolutions: 10 milliseconds, 50 milliseconds and 100 milliseconds. This way we can observe the trends in \cref{fig:plot-exec}, where the most notable one is the exponential growth in execution time for \texttt{osc4}. This can be explained recalling the so-called ``time leaks'' observed by \cite{hudak03} (among others), which occur due to the fact that lazy evaluation forces to recalculate all previous states of the ODE solver in order to evaluate the current sample. In functional reactive programming (FRP), a solution to time leaks is the concept of ``continuation'', which is roughly what happens when the synchronous reactive FSM receives a new discrete event: it stores the current state to the ODE to be used in the future. Knowing this, let us see what happens when we double the number of discrete events within the input $V_{DD}$ signal.
+
+> -- | VDD input for performance testing, having twice more discrete events than 'vddTest'
+> vddTest1 = CT.signal [(0,\_->2),(0.5,\_->2),(1,\_->1.5),(1.5,\_->1.5),(2,\_->1),(2.5,\_->1)] :: CT.Signal Rational
 
