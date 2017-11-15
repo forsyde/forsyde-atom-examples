@@ -1,0 +1,114 @@
+Hours of hacking await!
+If I break, you can:
+  1. Restart:           M-x haskell-process-restart
+  2. Configure logging: C-h v haskell-process-log (useful for debugging)
+  3. General config:    M-x customize-mode
+  4. Hide these tips:   C-h v haskell-process-show-debug-tips
+λ> plotGnu $ prepareL noJunkCfg {xmax=3, rate=0.05} $ [s2, osc1 s2]
+Dumped sig-ct1, sig-ct2 in ./fig
+Signal(s) sig-ct1, sig-ct2 plotted.
+λ> plotGnu $ prepareL silentCfg {xmax=3, rate=0.05} $ [s2, osc1 s2]
+λ> plotGnu $ prepareL defaultCfg {xmax=3, rate=0.05} $ [s2, osc1 s2]
+Dumped sig-ct1, sig-ct2 in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ct_-latex.tex,
+                  PostScript output to ./fig/sig-ct_-latex.eps
+Signal(s) sig-ct1, sig-ct2 plotted.
+λ> plotGnu $ prepareL defaultCfg {xmax=3, rate=0.05, labels=["V_DD","V_O"]} $ [s2, osc1 s2]
+Dumped V_DD, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_DD_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_DD_V_O-latex.eps
+Signal(s) V_DD, V_O plotted.
+λ> plotGnu $ prepareL defaultCfg {xmax=3, rate=0.05, labels=["V_{DD}","V_O"]} $ [s2, osc1 s2]
+Dumped V_{DD}, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_{DD}_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_{DD}_V_O-latex.eps
+Signal(s) V_{DD}, V_O plotted.
+λ> plot22
+Dumped V_{DD}, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_{DD}_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_{DD}_V_O-latex.eps
+Signal(s) V_{DD}, V_O plotted.
+λ> plot22
+Dumped V_{DD}, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_{DD}_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_{DD}_V_O-latex.eps
+Signal(s) V_{DD}, V_O plotted.
+λ> plot22
+Dumped V_{DD}, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_{DD}_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_{DD}_V_O-latex.eps
+Signal(s) V_{DD}, V_O plotted.
+λ> plot22
+Dumped V_{DD}, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_{DD}_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_{DD}_V_O-latex.eps
+Signal(s) V_{DD}, V_O plotted.
+λ> plot22
+Dumped V_{DD}, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_{DD}_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_{DD}_V_O-latex.eps
+Signal(s) V_{DD}, V_O plotted.
+λ> plot22
+Dumped V_{DD}, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_{DD}_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_{DD}_V_O-latex.eps
+Signal(s) V_{DD}, V_O plotted.
+λ> plot22
+Dumped V_{DD}, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_{DD}_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_{DD}_V_O-latex.eps
+Signal(s) V_{DD}, V_O plotted.
+λ> plotGnu $ prepareL defaultCfg {xmax=3, rate=0.05, labels=["V_I","V_O"]} $ [s1, rcfilter s1]
+Dumped V_I, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_I_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_I_V_O-latex.eps
+Signal(s) V_I, V_O plotted.
+λ> plotGnu $ prepareL defaultCfg {xmax=3, rate=0.01, labels=["V_I","V_O"]} $ [s1, rcfilter s1]
+Dumped V_I, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_I_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_I_V_O-latex.eps
+Signal(s) V_I, V_O plotted.
+λ> plotGnu $ prepareL defaultCfg {xmax=3, rate=0.01, labels=["V_I","V_O"]} $ [s1, rcfilter1 s1]
+Dumped V_I, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_I_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_I_V_O-latex.eps
+Signal(s) V_I, V_O plotted.
+λ> plotGnu $ prepareL defaultCfg {xmax=3, rate=0.01, labels=["V_I","V_O"]} $ [s1, rcfilter1 s1]
+Dumped V_I, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_I_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_I_V_O-latex.eps
+Signal(s) V_I, V_O plotted.
+λ> plotGnu $ prepareL defaultCfg {xmax=3, rate=0.01, labels=["V_I","V_O"]} $ [s1, rcfilter1 s1]
+Dumped V_I, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_I_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_I_V_O-latex.eps
+Signal(s) V_I, V_O plotted.
+λ> plotGnu $ prepareL defaultCfg {xmax=3, rate=0.01, labels=["V_I","V_O"]} $ [s1, rcfilter1 s1]
+Dumped V_I, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_I_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_I_V_O-latex.eps
+Signal(s) V_I, V_O plotted.
+λ> plotGnu $ prepareL defaultCfg {xmax=3, rate=0.01, labels=["V_I","V_O"]} $ [s1, rcfilter1 s1]
+Dumped V_I, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_I_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_I_V_O-latex.eps
+Signal(s) V_I, V_O plotted.
+λ> plotGnu $ prepareL defaultCfg {xmax=3, rate=0.01, labels=["V_I","V_O"]} $ [s1, rcfilter1 s1]
+Dumped V_I, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_I_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_I_V_O-latex.eps
+Signal(s) V_I, V_O plotted.
+Cabal file changed: 5e6bb2b43ffd68413d0109cb4a98c998
+Restarting process ...
+Your wish is my IO ().
+If I break, you can:
+  1. Restart:           M-x haskell-process-restart
+  2. Configure logging: C-h v haskell-process-log (useful for debugging)
+  3. General config:    M-x customize-mode
+  4. Hide these tips:   C-h v haskell-process-show-debug-tips
+λ> plot41
+Dumped V_{DD}, V_O in ./fig
+"./fig/plot10.gnuplot", line 10: warning: Resetting primary output file to ./fig/sig-ctV_{DD}_V_O-latex.tex,
+                  PostScript output to ./fig/sig-ctV_{DD}_V_O-latex.eps
+Signal(s) V_{DD}, V_O plotted.
+λ> 

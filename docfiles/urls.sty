@@ -19,3 +19,18 @@
 
 \newcommand{\utilurl}{https://forsyde.github.io/forsyde-atom/ForSyDe-Atom-Utility.html}
 \newcommand{\utilploturl}{https://forsyde.github.io/forsyde-atom/ForSyDe-Atom-Utility-Plot.html}
+
+
+\newcommand\addcase[3]{%
+  \expandafter\def\csname\string#1@case@#2\endcsname{#3}%
+}
+\newcommand\makeswitch[2][]{%
+  \newcommand#2[1]{%
+    \ifcsname\string#2@case@##1\endcsname\csname\string#2@case@##1\endcsname\else#1\fi%
+  }%
+}
+
+\makeswitch[]\reportname
+\addcase\reportname{ch:getting-started}{the report ``Getting started with \textsc{ForSyDe-Atom}'' within the same repository}
+\addcase\reportname{ch:hybrid}{the report ``Hybrid CT/DT models in \textsc{ForSyDe-Atom}'' within the same repository}
+

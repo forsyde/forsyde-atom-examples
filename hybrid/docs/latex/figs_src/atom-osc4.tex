@@ -1,0 +1,37 @@
+\documentclass{standalone}
+\usepackage[math,plot,tikz]{forsyde}
+
+\begin{document}
+\begin{tikzpicture}
+  \standard[process,moc=sy,f={\noexpand\texttt{swF};\noexpand\texttt{Charging}},type=stated] (stated) {};
+  \cluster[process,moc=de,inner sep=15pt] (embed) <(stated)> {\texttt{DE.embedSY}};
+  \standard[process,moc=de,right of=embed,yshift=1cm,f={\noexpand\texttt{vddF}},type=comb,ni=2] (ctlv) {};
+  \interface[above of=embed] (ctde) {ct}{de};
+  \standard[process,moc=sy,right of=ctlv,xshift=1.5cm,f={\noexpand\texttt{nsEU};$t \mapsto 0$},type=state] (solver) {};
+  \cluster[process,moc=de,inner sep=15pt] (embsolver) <(solver)> {embed};
+  \interface[right of=embsolver] (dect) {de}{ct};
+
+  \node[xshift=-2.5cm,anchor=east] (vdd) at (ctde) {$V_{DD}$};
+  \node[xshift=-2cm,anchor=east] (sctl) at (stated) {$S_{\text{control}}$};
+  \node[xshift=1cm,anchor=west] (vo) at (dect) {$V_O$};
+  
+  \path
+  (vdd)  edge[s=ct,->] (ctde)
+  (ctde) edge[s=de,-|-=.8,->] (ctlv.w1)
+  (sctl) edge[trans={s=de}{embed-west}{s=sy,srcport,->}] (stated)
+  (stated) edge[s=sy] (embed.east)
+  (embed.east) edge[s=de,srcport,-|-,->] (ctlv.w2)
+  (ctlv) edge[trans={s=de}{embsolver-west}{s=sy,srcport,->}] (solver)
+  (solver) edge[trans={s=sy}{embsolver-east}{s=de,srcport,->}] (dect)
+  (embsolver.south) edge[s=sy,srcport,->] (solver.south)
+  (dect) edge[s=ct,->] (vo)
+  ;
+
+  \node[anchor=south east] at (embsolver.south) {\tiny\texttt{timestamps}};
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End:

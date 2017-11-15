@@ -144,7 +144,6 @@ Now let us create two situations to test \texttt{osc2}. The control signal \text
 > plot21 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd21, osc2 vdd21 sCtrl]
 > plot22 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd22, osc2 vdd22 sCtrl]
 
-
 \begin{figure}[ht!]\centering
 \begin{minipage}{.47\textwidth}
 \scalebox{.5}{\input{input/sig-osc2-latex}}
@@ -219,7 +218,7 @@ Testing the filter against a square wave signal, we get the response plotted in 
 \label{fig:rcfilter-plot}
 \end{figure}
 
-Now let us modify \texttt{osc2} from \cref{fig:osc2} to mirror the correct behavior of the circuit in \cref{fig:osc-circuit}. Seems to it that there is not much to do, as \texttt{rcfilter} already responds correctly to any input. Now it only remains to separate the discrete effect of the switch controller from the $V_{DD}$ as two separate inputs. 
+Now let us modify \texttt{osc2} from \cref{fig:osc2} to mirror the correct behavior of the circuit in \cref{fig:osc-circuit}. Seems to it that there is not much to do, as \texttt{rcfilter} already responds correctly to any input. On the other hand the RC oscillator as represented in  \cref{fig:osc-circuit} admits as inputs both $V_{DD}$ and the control signal for $sw_1$ and $sw_2$. To correctly model that in \textsc{ForSyDe-Atom} we need to separate the FSM which controls the state of the capacitor as charging or discharging, which in turn will generate $V_I$. We do that like in \cref{fig:osc4}.
 
 > -- | ODE-based RC oscillator model
 > osc4 :: CT.Signal Rational  -- ^ VDD input signal
@@ -230,16 +229,25 @@ Now let us modify \texttt{osc2} from \cref{fig:osc2} to mirror the correct behav
 >         swState = DE.embedSY11 (SY.stated11 swF Charging) ctl
 >         swF Charging    _  = Discharging
 >         swF Discharging _  = Charging
->         -- syncs the state and VDD signals and converts to SY
->         (ts, swSY, vddSY)  = DE.toSY2 swState $ CT.toDE vdd
 >         -- transforms VDD into VI for the RC filter
->         vddSwitched        = SY.comb21 vddF swSY vddSY
+>         vddSwitched        = DE.comb21 vddF swState $ CT.toDE vdd
 >         vddF Charging    v = v
 >         vddF Discharging _ = \_->0
 >         -- state machine with ODE solver modeling an RC filter
->         out         = SY.state21 nsEU (\_->0) ts vddSwitched
->         nsEU p t s  = euler 0.01 s (p (time t)) t
->     in DE.toCT $ SY.toDE ts out
+>         vOut        = embed (SY.state21 nsEU (\_->0)) vddSwitched
+>         nsEU p t s  = euler 0.01 s (p $ time t) t
+>         -- custom wrapper that embeds a SY tag-aware process into a DE environment
+>         embed p de  = let (t, v) = DE.toSY de
+>                       in SY.toDE t (p t v)  
+>     in DE.toCT vOut
+
+\begin{figure}[ht!]\centering
+\includegraphics[]{atom-osc4}
+\caption{\textsc{ForSyDe-Atom} model of the RC oscillator described by \texttt{osc4}}
+\label{fig:osc4}
+\end{figure}
+
+Testing \texttt{osc4} against the same inputs as \texttt{osc2} in \cref{fig:osc2-plot}, we get the response plotted in \cref{fig:osc4-plot}, which is now the correct behavior of the RC circuit with respect to its inputs. As expected, the output describes correctly the state and history of the capacitor.
 
 > plot41 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd22, osc4 vdd22 sCtrl]
 
@@ -248,3 +256,56 @@ Now let us modify \texttt{osc2} from \cref{fig:osc2} to mirror the correct behav
 \caption{Response of \texttt{osc4}}
 \label{fig:osc4-plot}
 \end{figure}
+
+We have shown three different models of an RC oscillator circuit represented in \cref{fig:osc-circuit} at different levels of complexity, and a model of an RC bridge represented in \cref{fig:rc-circuit}. The fact that they are different does not mean that either is ``more correct/incorrect'' than the other. Either of them might very well be treated as ``correct'' depending on what we consider or not the acceptable inputs (note that we have not defined them on purpose). As expected, the more we consider the inputs as sources of non-determinism, the more complex our model needs to be in order to cover ``special'' cases. As you might guess already, this comes at a severe cost of run-time performance.
+
+Let us briefly measure this cost in performance between the four presented models. For this, we consider two situations:
+
+\begin{itemize}
+\item[\textbf{Experiment 1}] we need to find out $V_O$ at $t=2.8$ seconds.
+\item[\textbf{Experiment 2}] we need to sample $V_O$ for the whole period $t=[0,3]$ seconds, with a precision of 50 milliseconds.
+\end{itemize}
+
+We consider the same input scenarios for all 4 models:
+
+> -- | plotting/sampling configuration for performance testing
+> cfgTest = defaultCfg {xmax=3, rate=0.005}
+> -- | VDD input for performance testing
+> vddTest = CT.signal [(0,\_->2),(1,\_->1.5),(2,\_->1)] :: CT.Signal Rational
+> -- | VI input for performance testing of the RC filter model
+> viTest = CT.signal [(0,\_->2),(0.5,\_->0),(1,\_->1.5),(1.5,\_->0),(2,\_->1),(2.5,\_->0)] :: CT.Signal Rational
+> -- | Switch control signal for performance testing
+> ctlTest = DE.signal [(0,()),(0.5,()),(1,()),(1.5,()),(2,()),(2.5,())] :: DE.Signal ()
+
+First, let us test the performance of each model in case of one evaluation point. This can be easily found out in \texttt{ghci} by adding the option \texttt{:set +s} during an interpreter session. For showing the precision of the model calculation, we convert the output rational numbers into floating point representation.
+
+< λ> :set +s
+< λ> fromRational $ osc1 vddTest         `CT.at` 2.8
+< 4.9787192469339395e-2
+< (0.01 secs, 398,792 bytes)
+< λ> fromRational $ osc2 vddTest ctlTest `CT.at` 2.8
+< 4.9787192469339395e-2
+< (0.01 secs, 385,952 bytes)
+< λ> fromRational $ rcfilter viTest      `CT.at` 2.8
+< 5.169987618408467e-2
+< (0.08 secs, 34,044,128 bytes)
+< λ> fromRational $ osc4 vddTest ctlTest `CT.at` 2.8
+< 5.169987618408467e-2
+< (0.07 secs, 34,047,720 bytes)
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{r||c|c||c|c}
+    \multirow{ 2}{*}{Model} & \multicolumn{2}{c||}{\textbf{Experiment 1}} & \multicolumn{2}{c}{\textbf{Experiment 2}} \\ 
+    & time (s) & memory (MB) & time (s) & memory (MB) \\ \midrule
+    \texttt{osc1}     & 0.01 & 0.4 & 0.09 & 23 \\
+    \texttt{osc2}     & 0.01 & 0.4 & 0.09 & 18 \\
+    \texttt{rcfilter} & 0.08 & 34  & 5.04 & 1930 \\
+    \texttt{osc4}     & 0.07 & 34  & 5.56 & 1930
+  \end{tabular}
+  \caption{Experimental results for testing the RC models}
+  \label{tab:rc-exp}
+\end{table}
+
+The experimental results on an computer with Intel® Core™ i7-3770 CPU @ 3.40GHz $\times$ 8 cores, and 31,4 GiB RAM are shown in \cref{tab:rc-exp}. As expected, \texttt{osc1} and \texttt{osc2} perform in almost negligible time for both experiments due to lazy evaluation which performs computation only at the requested evaluation point. However, the lazy evaluation is costly in terms of run-time memory, fact noticed especially for \texttt{rcfiler} and \texttt{osc4} due to the fact that intermediate structures need to be stored before evaluating. The complexity of \texttt{rcfilter} and \texttt{osc4} are seen both in the execution time and in the memory consumption. Apart from the cost in performance, model fidelity for unknown inputs came also with a high price in loss of precision due to chained numerical computation, fact seen from the evaluation results of \textbf{Experiment 1} in the interpreter listing above. Choosing a better solver than \texttt{euler}, e.g. a Runge-Kutta solver, or even better, a symbolic solver, could improve both performance and precision, but that is out of the scope of this report. Another, rather surprising fact is that \texttt{osc2} performs slightly better than \texttt{osc1}, probably to the lack of tag calculus in the SY domain, i.e. tags are mainly passed untouched between interfaces, whereas calculations are performed in a synchronous reactive manner on values only.
+

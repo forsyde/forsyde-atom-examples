@@ -4,15 +4,17 @@
 \begin{document}
   \begin{tikzpicture}
   \basic[primitive,f={$ns$}]               (ns) {$\MocCmb$};
-  \basic[primitive,f={500ms,$V_C$}, right of=ns](mem){$\MocDel$};
-  \basic[primitive,f={$\times$}, right of=mem] (od) {$\MocCmb$};
+  \basic[primitive,f={500ms,$V_{O,\text{charge}}$}, right of=ns](mem){$\MocDel$};
+  \basic[primitive,f={$\times$}, xshift=2cm] (od) <mem> {$\MocCmb$};
   % \draw[s] (ns.205) -- ++(-.3,0);
-  \draw[s,->] (ns) to (mem) to ++(.75,0) node[anchor=north] (a){$st$}
-               |- ++(0,.75) -- ++(-2.8,0) |- (ns); 
-  \draw[s,->] (a.north) to (od);
-  \node[shift={(-1,-.5)}, anchor=east] (vc) at (ns) {$V_{O,\text{charge}}$}; 
-  \node[shift={(-1,1)}, anchor=east] (vdd) at (ns) {$V_{DD}$};
-  \draw[s,->] (vc) -| (mem) (vdd) -| (od) (od) -- ++(1,0);
+  \draw[s=ct,->] (ns) to (mem) to ++(1.3,0) node[anchor=north] (a){$st$}
+               |- ++(0,.5) coordinate (b) -- ++(0,.5) -- ++(-3.5,0) |- (ns); 
+  \draw[s=ct,->] (a.north) to (od);
+  % \node[shift={(-1,-.5)}, anchor=east] (vc) at (ns) {$V_{O,\text{charge}}$};
+  
+  \node[shift={(-1.5,-.5)}, anchor=east] (vdd) at (ns) {$V_{DD}$};
+  \draw[s=ct,->] (vdd) -| (od) (od) -- ++(2,0);
+  \cluster[composite, inner sep=20pt] <(ns)(od)(b)(mem)> {\texttt{CT.mealy}};
 \end{tikzpicture}
 \end{document}
 
