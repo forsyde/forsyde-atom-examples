@@ -16,6 +16,23 @@ Here is what this repository contains:
  * fft (TBA)
  * adc (TBA)
 
+## Publications
+
+The following publications reference material from this repository: 
+
+ * George Ungureanu and Ingo Sander. 2017. A layered formal framework for modeling of cyber-physical systems. In _Proceedings of the Conference on Design, Automation & Test in Europe_ (DATE '17). Lausanne, Switzerland, March 2017, pp. 1715–1720. ( [slides][date17-slides] | [doi][date17-doi] | [bib][date17-bib] )
+   - case study report: from the [user manual](manual.pdf), chapter _"Getting Started with ForSyDe-Atom"_, Section _"Toy example: a focus on MoCs"_
+   - executable source: [forsyde-atom-examples/getting-started](getting-started)
+
+ * George Ungureanu, José E. G. de Medeiros and Ingo Sander. 2018. Bridging discrete and continuous time models with Atoms. In _Proceedings of the Conference on Design, Automation & Test in Europe_ (DATE '18). Dresden, Germany, March 2018 [ pre-print ]
+   - case study report: from the [user manual](manual.pdf), chapter _"Hybrid CT/DT Models in ForSyDe-Atom"_, Section _"RC Oscillator"_
+   - executable source: [forsyde-atom-examples/hybrid](hybrid)
+
+[date17-slides]: https://www.researchgate.net/publication/320004563_Slides_handout_from_DATE%2717_talk
+[date17-doi]: https://doi.org/10.23919/DATE.2017.7927270
+[date17-bib]: https://people.kth.se/~ugeorge/cite/publications.html#Ungureanu17:DATE
+
+
 ## Installation and usage
 
 Each demonstrator contains additional info regarding installation and usage. This section provides general tips on how to operate this repository.
