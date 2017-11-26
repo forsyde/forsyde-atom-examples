@@ -1,4 +1,4 @@
-ATOM_VER := 0.2.1
+ATOM_VER := 0.2.2
 ATOM_LIB := ../.deps/forsyde-atom-v$(ATOM_VER)
 ATOM_URL := -b $(ATOM_VER) https://github.com/forsyde/forsyde-atom.git
 

@@ -21,6 +21,6 @@ library
   -- other-extensions:    
   build-depends:       base >=4 && <6
                      , forsyde-atom >=0.2.2 && <0.3
-                     , forsyde-reactive
+                     -- , forsyde-reactive
   hs-source-dirs:      src
   default-language:    Haskell2010
