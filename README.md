@@ -6,6 +6,7 @@ This is a common archive for examples and demonstrators for [ForSyDe-Atom](https
 
  * **separate**: because each example has different dependencies, and was developed for different releases of [ForSyDe-Atom](https://github.com/forsyde/forsyde-atom). That is why it is important to run them in separate sandboxed environments.
  * **libraries**: because it is more convenient to run different functions or configurations inside the `ghci` interpreter or a new Haskell file as simple as calling library-exported functions.
+ * **literate**: because the main targets are human-readable documents, where the code listed is the same as the code executed, and it is guaranteed to be compatible with the respective release of [ForSyDe-Atom](https://github.com/forsyde/forsyde-atom).
 
 ## List of examples
 
