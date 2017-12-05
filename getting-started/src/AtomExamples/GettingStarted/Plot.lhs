@@ -92,7 +92,11 @@ The plot library also has a few functions which create and (optionally) fire \hr
 > plot2 = let cfg = config {xmax=8, labels=["testsig1","testsig2"]}
 >         in  plotGnu $ prepareL cfg [testsig1,testsig2]
 
-\input{input/sig-sytestsig1_testsig2-latex}
+\begin{figure}[h]\centering
+\input{\RootPath/input/sig-sytestsig1_testsig2-latex}
+\label{fig:gnu-sy}
+\caption[Example SY signal plot with Gnuplot]{SY signal in Gnuplot as a impulse plot}
+\end{figure}
 
 Different input data creates different types of plots, as we will see in future sections.
 
@@ -114,9 +118,9 @@ Also, there is a command \href{\utilploturl}{\texttt{plotLatex}} for generating 
 >          in  plotLatex $ prepareL cfg [testsig1,testsig2]
 
 \begin{figure}[ht!]\centering
-\includegraphics[]{figs/plot-sy}
+\includegraphics[]{plot-sy}
 \label{fig:plot-sy}
-\caption{SY signal plot in \textsc{ForSyDe-}\LaTeX\ as a matrix of nodes}
+\caption[Example SY signal plot with \textsc{ForSyDe-}\LaTeX]{SY signal plot in \textsc{ForSyDe-}\LaTeX\ as a matrix of nodes}
 \end{figure}
 
 The SY signal plot is nothing spectacular, but wraps the events in a matrix of nodes which can be embedded into a more complex \textsc{TikZ} figure. Other signals produce other plots. Most generated plots will need manual tweaking in order to look good. Check the \href{https://github.com/forsyde/forsyde-latex/blob/master/extras/refman.pdf}{user manual} on how to customize each plot. 

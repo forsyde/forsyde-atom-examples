@@ -35,19 +35,19 @@ Let us print and plot the inputs against the outputs, using the test signals and
 \begin{figure}[ht!]
   \centering
   \subfloat[\texttt{latexIn}]{
-    \includegraphics[width=.35\textwidth]{figs/sdf-latex-in}
+    \includegraphics[width=.35\textwidth]{sdf-latex-in}
     \label{fig:sdf-latex-in}}
   \hfill
   \subfloat[\texttt{latexS1}]{
-    \includegraphics[width=0.25\textwidth]{figs/sdf-latex-s1}
+    \includegraphics[width=0.25\textwidth]{sdf-latex-s1}
     \label{fig:sdf-latex-s1}}%
   \hfill
   \subfloat[\texttt{gnuIn}]{
-    \includegraphics[width=0.4\textwidth]{figs/sdf-gnu-in}
+    \includegraphics[width=0.4\textwidth]{sdf-gnu-in}
     \label{fig:sdf-gnu-in}}%
   \hfill
   \subfloat[\texttt{gnuS1}]{
-    \includegraphics[width=0.4\textwidth]{figs/sdf-gnu-s1}
+    \includegraphics[width=0.4\textwidth]{sdf-gnu-s1}
     \label{fig:sdf-gnu-s1}}%
 \end{figure}
 
@@ -72,11 +72,11 @@ Again, let us print and plot the output signals using the test inputs and utilit
 \begin{figure}[ht!]
   \centering
   \subfloat[\texttt{latexS2}]{
-    \includegraphics[width=.2\textwidth]{figs/sdf-latex-s2}
+    \includegraphics[width=.2\textwidth]{sdf-latex-s2}
     \label{fig:sdf-latex-s2}}
   \hfill
   \subfloat[\texttt{gnuS2}]{
-    \includegraphics[width=.3\textwidth]{figs/sdf-gnu-s2}
+    \includegraphics[width=.3\textwidth]{sdf-gnu-s2}
     \label{fig:sdf-gnu-s2}}%
 \end{figure}
 
@@ -104,10 +104,10 @@ As for DE and CT instances, a SDF \texttt{filter} process does not really make s
 \begin{figure}[ht!]
   \centering
   \subfloat[\texttt{latexS3}]{
-    \includegraphics[width=.2\textwidth]{figs/sdf-latex-s3}
+    \includegraphics[width=.2\textwidth]{sdf-latex-s3}
     \label{fig:sdf-latex-s3}}
   \hfill
   \subfloat[\texttt{gnuS3}]{
-    \includegraphics[width=.3\textwidth]{figs/sdf-gnu-s3}
+    \includegraphics[width=.3\textwidth]{sdf-gnu-s3}
     \label{fig:sdf-gnu-s3}}%
 \end{figure}

@@ -4,7 +4,7 @@ In this section we model the  RC oscillator setup in \cref{fig:osc-circuit}. Des
 
 \begin{figure}[ht!]\centering
 \includegraphics[width=.5\textwidth]{sawtooth-circuit}
-\caption{RC oscillator setup}
+\caption[RC orcillator circuit]{RC oscillator setup}
 \label{fig:osc-circuit}
 \end{figure}
 
@@ -51,7 +51,7 @@ Naturally, in \textsc{ForSyDe-Atom} we can model the oscillator in multiple ways
 
 \begin{figure}[ht!]\centering
 \includegraphics[width=.5\textwidth]{atom-generator}
-\caption{Internal pattern of the initial RC oscillator setup}
+\caption[First \textsc{ForSYDe-Atom} model of RC oscillator]{Internal pattern of the initial RC oscillator setup}
 \label{fig:osc1}
 \end{figure}
 
@@ -75,8 +75,8 @@ Plotting the output against an "arbitrary" $V_{DD}$, we get \cref{fig:osc1-plot}
 > plot1 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd1, osc1 vdd1]
 
 \begin{figure}[ht!]\centering
-\input{input/sig-osc1-latex}
-\caption{Response of \texttt{osc1}}
+\input{\RootPath/input/sig-osc1-latex}
+\caption[Test response of the first RC oscillator model]{Response of \texttt{osc1}}
 \label{fig:osc1-plot}
 \end{figure}
 
@@ -102,7 +102,7 @@ Continuing to adhere to the school of thought of \cite{Lee17}, where the merit o
 %
 \begin{figure}[ht!]\centering
 \includegraphics{atom-osc2}
-\caption{RC oscillator model which reacts to a discrete control signal. Shapes decorating signals suggest the type of carried tokens: circles = scalars; squares = functions}
+\caption[Second \textsc{ForSYDe-Atom} model of RC oscillator]{RC oscillator model which reacts to a discrete control signal. Shapes decorating signals suggest the type of carried tokens: circles = scalars; squares = functions}
 \label{fig:osc2}
 \end{figure}
 
@@ -146,12 +146,12 @@ Now let us create two situations to test \texttt{osc2}. The control signal \text
 
 \begin{figure}[ht!]\centering
 \begin{minipage}{.47\textwidth}
-\scalebox{.5}{\input{input/sig-osc2-latex}}
+\scalebox{.5}{\input{\RootPath/input/sig-osc2-latex}}
 \end{minipage}
 \begin{minipage}{.47\textwidth}
-\scalebox{.5}{\input{input/sig-osc2-latex-1}}
+\scalebox{.5}{\input{\RootPath/input/sig-osc2-latex-1}}
 \end{minipage}
-\caption{Response of \texttt{osc2}}
+\caption[Test response of the second RC oscillator model]{Response of \texttt{osc2}}
 \label{fig:osc2-plot}
 \end{figure}
 
@@ -160,7 +160,7 @@ The second case in \cref{fig:osc2-plot} can be explained easily if we consider t
 \begin{figure}[ht!]\centering
 \includegraphics[width=.3\textwidth]{rc-circuit}
 \includegraphics[width=.5\textwidth]{rc-block}
-\caption{RC bridge: circuit (left); block diagram based on eq.~\eqref{eq:cap-vout} (right)}
+\caption[RC filter: circuit and ODE block diagram]{RC bridge: circuit (left); block diagram based on eq.~\eqref{eq:cap-vout} (right)}
 \label{fig:rc-circuit}
 \end{figure}
 %
@@ -193,7 +193,7 @@ As said earlier, we model the RC circuit in \cref{fig:rc-circuit} by including t
 
 \begin{figure}[ht!]\centering
 \includegraphics[]{atom-rcfilter}
-\caption{\textsc{ForSyDe-Atom} model of the RC bridge in \cref{fig:rc-circuit}}
+\caption[\textsc{ForSYDe-Atom} model of RC filter]{\textsc{ForSyDe-Atom} model of the RC bridge in \cref{fig:rc-circuit}}
 \label{fig:atom-rc}
 \end{figure}
 
@@ -213,8 +213,8 @@ Testing the filter against a square wave signal, we get the response plotted in 
 > plot31 = plotGnu $ prepareL cfg {labels=["V_I","V_O"]} $ [vi3, rcfilter vi3]
 
 \begin{figure}[ht!]\centering
-\input{input/sig-rcfiler-latex}
-\caption{Response of \texttt{rcfilter}}
+\input{\RootPath/input/sig-rcfiler-latex}
+\caption[Test response of the RC filter model]{Response of \texttt{rcfilter}}
 \label{fig:rcfilter-plot}
 \end{figure}
 
@@ -243,7 +243,7 @@ Now let us modify \texttt{osc2} from \cref{fig:osc2} to mirror the correct behav
 
 \begin{figure}[ht!]\centering
 \includegraphics[]{atom-osc4}
-\caption{\textsc{ForSyDe-Atom} model of the RC oscillator described by \texttt{osc4}}
+\caption[Third \textsc{ForSYDe-Atom} model of RC oscillator]{\textsc{ForSyDe-Atom} model of the RC oscillator described by \texttt{osc4}}
 \label{fig:osc4}
 \end{figure}
 
@@ -252,8 +252,8 @@ Testing \texttt{osc4} against the same inputs as \texttt{osc2} in \cref{fig:osc2
 > plot41 = plotGnu $ prepareL cfg {labels=["V_{DD}","V_O"]} $ [vdd22, osc4 vdd22 sCtrl]
 
 \begin{figure}[ht!]\centering
-\input{input/sig-osc4-latex}
-\caption{Response of \texttt{osc4}}
+\input{\RootPath/input/sig-osc4-latex}
+\caption[Test response of the third RC oscillator model]{Response of \texttt{osc4}}
 \label{fig:osc4-plot}
 \end{figure}
 
@@ -312,7 +312,7 @@ The experimental results on an computer with Intel® Core™ i7-3770 CPU @ 3.40G
 
 \begin{figure}[ht!]\centering
 \includegraphics[width=\textwidth]{plot-exec}
-\caption{Execution time and memory consumption for \textbf{Experiment 2}}
+\caption[Execution times and memory consumtion for experients]{Execution time and memory consumption for \textbf{Experiment 2}}
 \label{fig:plot-exec}
 \end{figure}
 

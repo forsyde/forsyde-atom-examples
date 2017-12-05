@@ -16,8 +16,8 @@ For this exercise, we will create a custom \texttt{comb} pattern with 5 inputs a
 The best way to start building your own patterns is to study the source code for the existing patterns and see how they are made. If you don't want to dig into the source code of \textsc{ForSyDe-Atom}, there is a link in the \href{\mocurl}{API documentation} for each exported element, as suggested in \cref{fig:API-screenshot}. 
 
 \begin{figure}[h!]\centering
-\includegraphics[width=.8\linewidth]{figs/API-screenshot.png}
-\caption{Screenshot from the API documentation. The link to the source code is marked with a red rectangle}
+\includegraphics[width=.8\linewidth]{API-screenshot.png}
+\caption[Screenshot from online API documentation]{Screenshot from the API documentation. The link to the source code is marked with a red rectangle}
 \label{fig:API-screenshot}
 \end{figure}
 
@@ -30,7 +30,7 @@ The applicative mechanism explained in the previous paragraph is depicted in \cr
 >   = (f -.- s1 -*- s2 -*- s3 -*- s4 -*- s5 -*<<)
 
 \begin{figure}[h!]\centering
-\includegraphics[width=.6\linewidth]{figs/comb}
+\includegraphics[width=.6\linewidth]{comb}
 \caption{Composition of atoms forming the \texttt{comb} pattern}
 \label{fig:custom-comb}
 \end{figure}

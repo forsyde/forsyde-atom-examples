@@ -106,17 +106,18 @@ $(DOCNAME).pdf: $(DOCNAME).tex \
 		figures $(LITERATEFILES) $(TEXFILES) \
 		$(LATEXFILES) $(STYLEFILES) $(BIBFILES) \
                 $(DOCNAME).bbl Makefile $(STYLEFILES) $(BIBFILES)
-	pdflatex --shell-escape $(DOCNAME)
-	biber $(DOCNAME)
-	pdflatex $(DOCNAME)
+	@echo "Making  $(DOCNAME)"
+	pdflatex --shell-escape $(DOCNAME) $(DEBUG)
+	biber --validate_datamodel $(DOCNAME) $(DEBUG)
+	pdflatex $(DOCNAME) $(DEBUG)
 	@while ( grep "Rerun to get cross-references" 	\
 	$(DOCNAME).log > /dev/null ); do		\
 	        echo '** Re-running LaTeX **';		\
-	        pdflatex $(DOCNAME);			\
+	        pdflatex $(DOCNAME)  $(DEBUG);		\
 	done
 
 view: doc
-	@$(OPEN) $(DOCNAME).pdf &
+	@$(OPEN) $(DOCNAME).pdf
 
 clean:
 	@find . -name "*.aux" -type f -delete
@@ -181,10 +182,10 @@ figs/%.png: $(S_FIGS_DIR)/%.png
 figs/%.pdf: $(S_FIGS_DIR)/%.tex
 	@echo $(@F)
 	@$(MKDIR) $(@D)
-	TEXINPUTS=:$(S_FIGS_DIR)/:$(STYDIR)/ pdflatex $(*F)
-	$(MV) $(@F) $@
-	$(RM) *.log
-	$(RM) *.aux
+	@TEXINPUTS=:$(S_FIGS_DIR)/:$(STYDIR)/ pdflatex $(*F) $(DEBUG)
+	@$(MV) $(@F) $@
+	@$(RM) *.log
+	@$(RM) *.aux
 
 # Rule for FIG files (xfig)
 # Create combined pdf/latex figures from .fig file
@@ -199,8 +200,8 @@ figs/%.pdf: $(S_FIGS_DIR)/%.pdf
 	@$(CP) $< $@
 
 $(DOCNAME).bbl : $(DOCNAME).tex $(BIBFILES)
-	pdflatex $(DOCNAME).tex
-	biber $(DOCNAME)
+	pdflatex $(DOCNAME).tex $(DEBUG)
+	biber --validate_datamodel $(DOCNAME) $(DEBUG)
 
 .PHONY: all clean superclean figures
 

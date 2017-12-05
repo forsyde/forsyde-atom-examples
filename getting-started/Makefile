@@ -6,7 +6,7 @@ LATEX_LIB := ../.deps/forsyde-latex
 LATEX_URL := -b dev-atom https://github.com/forsyde/forsyde-latex.git
 
 API_PATH := docs/api
-REPORT_PATH := docs/latex
+REPORT_PATH := docs/latex 
 
 dependencies:
 	@mkdir -p ../.deps
@@ -32,7 +32,7 @@ api:
 	@cabal haddock --hyperlink-source | awk 'END {print $$NF}' | xargs dirname | xargs -I {} mv {} $(API_PATH)
 
 report:
-	@$(MAKE) -C $(REPORT_PATH)
+	@$(MAKE) -C $(REPORT_PATH) DEBUG="> /dev/null"
 
 docs: dependencies api report
 	@echo

@@ -37,19 +37,19 @@ When printing \texttt{ide} and \texttt{vde} we can see the effects of rounding t
 \begin{figure}[ht!]
   \centering
   \subfloat[\texttt{latexIn}]{
-    \includegraphics[width=.43\textwidth]{figs/de-latex-in}
+    \includegraphics[width=.43\textwidth]{de-latex-in}
     \label{fig:de-latex-in}}
   \hfill
   \subfloat[\texttt{latexS1}]{
-    \includegraphics[width=0.43\textwidth]{figs/de-latex-s1}
+    \includegraphics[width=0.43\textwidth]{de-latex-s1}
     \label{fig:de-latex-s1}}%
   \hfill
   \subfloat[\texttt{gnuIn}]{
-    \includegraphics[width=0.43\textwidth]{figs/de-gnu-in}
+    \includegraphics[width=0.43\textwidth]{de-gnu-in}
     \label{fig:de-gnu-in}}%
   \hfill
   \subfloat[\texttt{gnuS1}]{
-    \includegraphics[width=0.43\textwidth]{figs/de-gnu-s1}
+    \includegraphics[width=0.43\textwidth]{de-gnu-s1}
     \label{fig:de-gnu-s1}}%
 \end{figure}
 
@@ -70,11 +70,11 @@ The second stage according to \cref{fig:subfig1} is also defined as a \href{\ske
 \begin{figure}[ht!]
   \centering
   \subfloat[\texttt{latexS2}]{
-    \includegraphics[width=.5\textwidth]{figs/de-latex-s2}
+    \includegraphics[width=.5\textwidth]{de-latex-s2}
     \label{fig:de-latex-s2}}
   \hfill
   \subfloat[\texttt{gnuS2}]{
-    \includegraphics[width=.43\textwidth]{figs/de-gnu-s2}
+    \includegraphics[width=.43\textwidth]{de-gnu-s2}
     \label{fig:de-gnu-s2}}%
 \end{figure}
 
@@ -100,10 +100,10 @@ For the last stage of the \texttt{toy} system  there is no DE process constructo
 \begin{figure}[ht!]
   \centering
   \subfloat[\texttt{latexS3}]{
-    \includegraphics[width=.45\textwidth]{figs/de-latex-s3}
+    \includegraphics[width=.45\textwidth]{de-latex-s3}
     \label{fig:de-latex-s3}}
   \hfill
   \subfloat[\texttt{gnuS3}]{
-    \includegraphics[width=.43\textwidth]{figs/de-gnu-s3}
+    \includegraphics[width=.43\textwidth]{de-gnu-s3}
     \label{fig:de-gnu-s3}}%
 \end{figure}

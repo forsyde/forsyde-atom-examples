@@ -104,86 +104,86 @@ And that's it! Let us plot now the test signals and the responses of the system 
 \begin{sidewaysfigure}[p]\centering
 \begin{tabular}{ c c c c c }
   \subfloat[\texttt{iSDF}]{
-    \includegraphics[scale=.66]{figs/p-sdf-latex-is}
+    \includegraphics[scale=.66]{p-sdf-latex-is}
     \label{fig:p-sdf-latex-is}}%
   &
   \subfloat[\texttt{vSDF}]{
-    \includegraphics[scale=.66]{figs/p-sdf-latex-iv}
+    \includegraphics[scale=.66]{p-sdf-latex-iv}
     \label{fig:p-sdf-latex-iv}}%
   &
   \subfloat[\texttt{s1SDF}]{
-    \includegraphics[scale=.66]{figs/p-sdf-latex-s1}
+    \includegraphics[scale=.66]{p-sdf-latex-s1}
     \label{fig:p-sdf-latex-s1}}%
   &
   \subfloat[\texttt{s2SDF}]{
-    \includegraphics[scale=.66]{figs/p-sdf-latex-s2}
+    \includegraphics[scale=.66]{p-sdf-latex-s2}
     \label{fig:p-sdf-latex-s2}}%
   &
   \subfloat[\texttt{s3SDF}]{
-    \includegraphics[scale=.66]{figs/p-sdf-latex-s3}
+    \includegraphics[scale=.66]{p-sdf-latex-s3}
     \label{fig:p-sdf-latex-s3}}%
   \\
   \subfloat[\texttt{iSY}]{
-    \includegraphics[scale=.66]{figs/p-sy-latex-is}
+    \includegraphics[scale=.66]{p-sy-latex-is}
     \label{fig:p-sy-latex-is}}%
   &
   \subfloat[\texttt{vSY}]{
-    \includegraphics[scale=.66]{figs/p-sy-latex-iv}
+    \includegraphics[scale=.66]{p-sy-latex-iv}
     \label{fig:p-sy-latex-iv}}%
   &
   \subfloat[\texttt{s1SY}]{
-    \includegraphics[scale=.66]{figs/p-sy-latex-s1}
+    \includegraphics[scale=.66]{p-sy-latex-s1}
     \label{fig:p-sy-latex-s1}}%
   &
   \subfloat[\texttt{s2SY}]{
-    \includegraphics[scale=.66]{figs/p-sy-latex-s2}
+    \includegraphics[scale=.66]{p-sy-latex-s2}
     \label{fig:p-sy-latex-s2}}%
   &
   \subfloat[\texttt{s3SY}]{
-    \includegraphics[scale=.66]{figs/p-sy-latex-s3}
+    \includegraphics[scale=.66]{p-sy-latex-s3}
     \label{fig:p-sy-latex-s3}}%
   \\
   \subfloat[\texttt{iDE}]{
-    \includegraphics[scale=.66]{figs/p-de-latex-is}
+    \includegraphics[scale=.66]{p-de-latex-is}
     \label{fig:p-de-latex-is}}%
   &
   \subfloat[\texttt{vDE}]{
-    \includegraphics[scale=.66]{figs/p-de-latex-iv}
+    \includegraphics[scale=.66]{p-de-latex-iv}
     \label{fig:p-de-latex-iv}}%
   &
   \subfloat[\texttt{s1DE}]{
-    \includegraphics[scale=.66]{figs/p-de-latex-s1}
+    \includegraphics[scale=.66]{p-de-latex-s1}
     \label{fig:p-de-latex-s1}}%
   &
   \subfloat[\texttt{s2DE}]{
-    \includegraphics[scale=.66]{figs/p-de-latex-s2}
+    \includegraphics[scale=.66]{p-de-latex-s2}
     \label{fig:p-de-latex-s2}}%
   &
   \subfloat[\texttt{s3DE}]{
-    \includegraphics[scale=.66]{figs/p-de-latex-s3}
+    \includegraphics[scale=.66]{p-de-latex-s3}
     \label{fig:p-de-latex-s3}}%
   \\
   \subfloat[\texttt{iCT}]{
-    \includegraphics[scale=1.2]{figs/p-ct-latex-is}
+    \includegraphics[scale=1.2]{p-ct-latex-is}
     \label{fig:p-ct-latex-is}}%
   &
   \subfloat[\texttt{vCT}]{
-    \includegraphics[scale=1.2]{figs/p-ct-latex-iv}
+    \includegraphics[scale=1.2]{p-ct-latex-iv}
     \label{fig:p-ct-latex-iv}}%
   &
   \subfloat[\texttt{s1CT}]{
-    \includegraphics[scale=1.2]{figs/p-ct-latex-s1}
+    \includegraphics[scale=1.2]{p-ct-latex-s1}
     \label{fig:p-ct-latex-s1}}%
   &
   \subfloat[\texttt{s2CT}]{
-    \includegraphics[scale=1.2]{figs/p-ct-latex-s2}
+    \includegraphics[scale=1.2]{p-ct-latex-s2}
     \label{fig:p-ct-latex-s2}}%
   &
   \subfloat[\texttt{s3CT}]{
-    \includegraphics[scale=1.2]{figs/p-ct-latex-s3}
+    \includegraphics[scale=1.2]{p-ct-latex-s3}
     \label{fig:p-ct-latex-s3}}%
 \end{tabular}
-\caption{Inputs and outputs for the polymorphic \texttt{toy} system in \cref{sec:poly-instance}}
+\caption[Test input and output signals for a polymorphic process network]{Inputs and outputs for the polymorphic \texttt{toy} system in \cref{sec:poly-instance}}
 \label{fig:poly-test}
 \end{sidewaysfigure}
 

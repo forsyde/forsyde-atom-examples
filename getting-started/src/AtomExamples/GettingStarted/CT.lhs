@@ -31,19 +31,19 @@ We cannot print \texttt{ict} nor \texttt{vct} any more, but we can plot them. Ag
 \begin{figure}[ht!]
   \centering
   \subfloat[\texttt{latexIn}]{
-    \includegraphics[width=.43\textwidth]{figs/ct-latex-in}
+    \includegraphics[width=.43\textwidth]{ct-latex-in}
     \label{fig:ct-latex-in}}
   \hfill
   \subfloat[\texttt{latexS1}]{
-    \includegraphics[width=0.43\textwidth]{figs/ct-latex-s1}
+    \includegraphics[width=0.43\textwidth]{ct-latex-s1}
     \label{fig:ct-latex-s1}}%
   \hfill
   \subfloat[\texttt{gnuIn}]{
-    \includegraphics[width=0.43\textwidth]{figs/ct-gnu-in}
+    \includegraphics[width=0.43\textwidth]{ct-gnu-in}
     \label{fig:ct-gnu-in}}%
   \hfill
   \subfloat[\texttt{gnuS1}]{
-    \includegraphics[width=0.43\textwidth]{figs/ct-gnu-s1}
+    \includegraphics[width=0.43\textwidth]{ct-gnu-s1}
     \label{fig:ct-gnu-s1}}%
 \end{figure}
 
@@ -62,11 +62,11 @@ The second stage is a \href{\skelvecurl}{\texttt{reduce}} network of CT \href{\m
 \begin{figure}[ht!]
   \centering
   \subfloat[\texttt{latexS2}]{
-    \includegraphics[width=.5\textwidth]{figs/ct-latex-s2}
+    \includegraphics[width=.5\textwidth]{ct-latex-s2}
     \label{fig:ct-latex-s2}}
   \hfill
   \subfloat[\texttt{gnuS2}]{
-    \includegraphics[width=.43\textwidth]{figs/ct-gnu-s2}
+    \includegraphics[width=.43\textwidth]{ct-gnu-s2}
     \label{fig:ct-gnu-s2}}%
 \end{figure}
 
@@ -90,10 +90,10 @@ For the last stage of the \texttt{toy} system  there is no CT process constructo
 \begin{figure}[ht!]
   \centering
   \subfloat[\texttt{latexS3}]{
-    \includegraphics[width=.45\textwidth]{figs/ct-latex-s3}
+    \includegraphics[width=.45\textwidth]{ct-latex-s3}
     \label{fig:ct-latex-s3}}
   \hfill
   \subfloat[\texttt{gnuS3}]{
-    \includegraphics[width=.43\textwidth]{figs/ct-gnu-s3}
+    \includegraphics[width=.43\textwidth]{ct-gnu-s3}
     \label{fig:ct-gnu-s3}}%
 \end{figure}

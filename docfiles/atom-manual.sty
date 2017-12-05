@@ -51,6 +51,8 @@
              style   = authoryear,
              maxcitenames=2]{biblatex}
 
+\usepackage{pdfpages}
+             
 \usepackage{listings}
 \usepackage{color}
 \newcommand*{\ttfamilywithbold}{\fontfamily{lmtt}\selectfont}
@@ -126,9 +128,51 @@
 
 \newcommand{\event}[2]{#2_{\textcolor{black!70}{@ #1}}}
 
-\newcommand{\chapterref}[1]{\reportname{#1}}
+\newcommand{\chapterref}[1]{\cref{#1}}
 
-\newcommand*{\RootPath}{./}%
-\newcommand*{\SelfRef}{report}
+\makeatletter
+\newenvironment{summary}
+{% \begin{center}\textbf{Abstract}\end{center}
+  \list{}{\listparindent 1em%
+    % \setlength{\leftmargin}{<value>} adjust if you need
+    \itemindent\listparindent
+    \rightmargin\leftmargin
+    \parsep\z@ \@plus\p@}%
+\item\relax}
+{\endlist}
+\makeatother
 
-\graphicspath{{./figs/}}
+\definecolor{RoyalRed}{RGB}{157,16, 45}
+
+
+
+\setcounter{tocdepth}{1}
+
+
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+  { \normalsize \huge  \color{black}}
+  {\flushright \normalsize \color{RoyalRed} \MakeUppercase { \chaptertitlename \hspace{1 ex} }  { \fontsize{60}{60}\selectfont \color{RoyalRed} \sffamily  \thechapter }} {10 pt}{\bfseries\huge}
+
+\usepackage{etoolbox}
+
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+
+\usepackage{minitoc}
+\usepackage[a4paper, margin=1.5in]{geometry}
+\usepackage{graphicx}
+
+
+\usepackage{fancyhdr}% http://ctan.org/pkg/fancyhdr
+% \renewcommand{\headrulewidth}{0.4pt}% Default \headrulewidth is 0.4pt
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\scshape\nouppercase{\leftmark}}
+\fancyhead[RO]{\scshape\nouppercase{\rightmark}}
+\fancyhead[RE,LO]{\thepage}
+
+\newcommand*{\SelfRef}{chapter}%

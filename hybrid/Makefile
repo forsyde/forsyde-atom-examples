@@ -32,7 +32,7 @@ api:
 	@cabal haddock --hyperlink-source | awk 'END {print $$NF}' | xargs dirname | xargs -I {} mv {} $(API_PATH)
 
 report:
-	@$(MAKE) -C $(REPORT_PATH)
+	@$(MAKE) -C $(REPORT_PATH) DEBUG="> /dev/null"
 
 docs: dependencies api report
 	@echo

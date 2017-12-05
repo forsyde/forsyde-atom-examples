@@ -37,19 +37,19 @@ Let us print and plot the inputs against the outputs, using the test signals and
 \begin{figure}[ht!]
   \centering
   \subfloat[\texttt{latexIn}]{
-    \includegraphics[width=.35\textwidth]{figs/sy-latex-in}
+    \includegraphics[width=.35\textwidth]{sy-latex-in}
     \label{fig:sy-latex-in}}
   \hfill
   \subfloat[\texttt{latexS1}]{
-    \includegraphics[width=0.4\textwidth]{figs/sy-latex-s1}
+    \includegraphics[width=0.4\textwidth]{sy-latex-s1}
     \label{fig:sy-latex-s1}}%
   \hfill
   \subfloat[\texttt{gnuIn}]{
-    \includegraphics[width=0.48\textwidth]{figs/sy-gnu-in}
+    \includegraphics[width=0.48\textwidth]{sy-gnu-in}
     \label{fig:sy-gnu-in}}%
   \hfill
   \subfloat[\texttt{gnuS1}]{
-    \includegraphics[width=0.48\textwidth]{figs/sy-gnu-s1}
+    \includegraphics[width=0.48\textwidth]{sy-gnu-s1}
     \label{fig:sy-gnu-s1}}%
 \end{figure}
 
@@ -73,11 +73,11 @@ Again, let us print and plot the output signals using the test inputs and utilit
 \begin{figure}[ht!]
   \centering
   \subfloat[\texttt{latexS2}]{
-    \includegraphics[width=.45\textwidth]{figs/sy-latex-s2}
+    \includegraphics[width=.45\textwidth]{sy-latex-s2}
     \label{fig:sy-latex-s2}}
   \hfill
   \subfloat[\texttt{gnuS2}]{
-    \includegraphics[width=.44\textwidth]{figs/sy-gnu-s2}
+    \includegraphics[width=.44\textwidth]{sy-gnu-s2}
     \label{fig:sy-gnu-s2}}%
 \end{figure}
 
@@ -102,10 +102,10 @@ We print and plot the system response to the test signals defined in \cref{sec:t
 \begin{figure}[ht!]
   \centering
   \subfloat[\texttt{latexS3}]{
-    \includegraphics[width=.45\textwidth]{figs/sy-latex-s3}
+    \includegraphics[width=.45\textwidth]{sy-latex-s3}
     \label{fig:sy-latex-s3}}
   \hfill
   \subfloat[\texttt{gnuS3}]{
-    \includegraphics[width=.44\textwidth]{figs/sy-gnu-s3}
+    \includegraphics[width=.44\textwidth]{sy-gnu-s3}
     \label{fig:sy-gnu-s3}}%
 \end{figure}

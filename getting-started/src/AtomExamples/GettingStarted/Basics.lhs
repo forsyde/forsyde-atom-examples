@@ -75,7 +75,7 @@ Calling it in the interpreter with \texttt{testsig1} and \texttt{testsig2} as ar
 which is the expected output, as based on the definition of the SY MoC, all events following the sixth one from \texttt{testsig2} are not synchronous to any event in \texttt{testsig1}.
 
 \begin{figure}[ht!]\centering
-\includegraphics[]{figs/basics-pn.pdf}
+\includegraphics[]{basics-pn.pdf}
 \caption{Simple process network as composition of processes}
 \label{fig:basic-composite}
 \end{figure}
@@ -112,13 +112,13 @@ It is easy to grasp the concept of layers once you understand how \emph{higher o
 
 \begin{figure}[ht!]\centering
 \begin{minipage}{.45\textwidth}\centering
- \includegraphics[width=\linewidth]{figs/basics-2layer.pdf}
- \caption{Layered structure of the processes in fig.~\ref{fig:basic-composite}}
+ \includegraphics[width=\linewidth]{basics-2layer.pdf}
+ \caption[Processes structured with 2 layers]{Layered structure of the processes in fig.~\ref{fig:basic-composite}}
  \label{fig:basic-2layer}
 \end{minipage}\hfill%
 \begin{minipage}{.46\textwidth}\centering
- \includegraphics[width=\linewidth]{figs/basics-3layer.pdf}
- \caption{Layered structure of the processes describing absent events}
+ \includegraphics[width=\linewidth]{basics-3layer.pdf}
+ \caption[Processes structured with 3 layers]{Layered structure of the processes describing absent events}
  \label{fig:basic-3layer}
 \end{minipage}
 \end{figure}
