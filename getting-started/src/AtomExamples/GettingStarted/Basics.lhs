@@ -1,3 +1,6 @@
+\section{The basics}
+\label{sec:getting-started:basic-usage}
+
 This section introduces some basic modeling features of \textsc{ForSyDe-Atom}, such as helpers and process constructors. The module is re-exported by \texttt{AtomExamples.GettingStarted} which is pre-loaded in a \texttt{repl} session, so there is no need to import it manually.
 
 > module AtomExamples.GettingStarted.Basics where
@@ -160,7 +163,7 @@ Everything seems all right. Now testing \texttt{testAp2} on \texttt{testAsig1} a
 < *AtomExamples.GettingStarted SY> takeS 10 $ testAp2 testAsig2 testAsig1
 < {1,3,*** Exception: [ExB.Absent] Illegal occurrence of an absent and present event
 
-Uh oh... Actually this \emph{is} the correct behavior of a resolution function for absent events, as defined in synchronous reactive languages such as Lustre \cite{halbwachs91}. Let us remedy the situation, but this time using another library-provided process constructor, \href{\mocsyurl}{\texttt{when'}}. 
+Uh oh... Actually this \emph{is} the correct behavior of a resolution function for absent events, as defined in synchronous reactive languages such as Lustre \cite{Halbwachs91}. Let us remedy the situation, but this time using another library-provided process constructor, \href{\mocsyurl}{\texttt{when'}}. 
 
 > testAsig2' = when' mask testsig2
 >   where

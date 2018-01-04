@@ -1,4 +1,7 @@
-This example has been used as a case study for introducing the new concepts of \textsc{ForSyDe-Atom} in the paper of \cite{ungureanu17}. It describes the simple system from \cref{fig:subfig1} which exposes four layers, structured like in \cref{fig:toy-4layer}. This system is then fed vectors of signals describing different MoCs and its response is observed. In \cref{fig:subfig2,fig:subfig3,fig:subfig4,fig:subfig5} some possible projections on the different layers are depicted. For now they are used just as trivia, and you need not bother with them that much.
+\section{Toy example: a focus on MoCs}
+\label{sec:getting-started:toy-example}
+
+This example has been used as a case study for introducing the new concepts of \textsc{ForSyDe-Atom} in the paper of \cite{Ungureanu17}. It describes the simple system from \cref{fig:subfig1} which exposes four layers, structured like in \cref{fig:toy-4layer}. This system is then fed vectors of signals describing different MoCs and its response is observed. In \cref{fig:subfig2,fig:subfig3,fig:subfig4,fig:subfig5} some possible projections on the different layers are depicted. For now they are used just as trivia, and you need not bother with them that much.
 \vspace{-.4cm}
 \begin{figure}[ht!]
   \centering
@@ -34,7 +37,7 @@ This is a synthetic example meant to introduce as many concepts as possible in a
 \item alternative designs for the same \texttt{toy} system to show the effect of MoCs. First it is instantiated using different process constructor helpers defined for each MoC separately. Afterwards it is written as one single polymorphic instance using MoC layer patterns, overloaded with execution semantics in accordance with the tag system injected into the system.
 \end{itemize}
 
-For the sake of brevity, we also provide the functional description in the language introduced by \cite{ungureanu17} in eqs.~\eqref{eq:case1}--\eqref{eq:moore} and \cref{tab:application}. Do not bother much about this notation either, as this exact definition will appear in the code in a more ``human readable'' form.
+For the sake of brevity, we also provide the functional description in the language introduced by \cite{Ungureanu17} in eqs.~\eqref{eq:case1}--\eqref{eq:moore} and \cref{tab:application}. Do not bother much about this notation either, as this exact definition will appear in the code in a more ``human readable'' form.
 
 \begin{align}
   \mathtt{toy}& : \SkelVec{V} \rightarrow

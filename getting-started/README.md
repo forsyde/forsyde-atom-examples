@@ -1,5 +1,7 @@
 # Getting Started with ForSyDe-Atom
 
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+
 This project is a collection of examples for getting started with modelling in ForSyDe-Atom. They show practical usages of the main concepts of ForSyDe-Atom and introduce the main features of this modelling library. It has been developed with [`forsyde-atom-v0.2.1`](https://github.com/forsyde/forsyde-atom/releases/tag/0.2.1.1).
 
 The libraries exported by this Haskell package contain literate code for generating the chapter in the [user manual](../manual.pdf) called "Getting Started with ForSyDe-Atom", and functions that are meant to be used as hands-on examples. These functions should be loaded in an interpreter session and executed in while reading and following the mentioned document.

@@ -1,3 +1,6 @@
+\subsection{Visualizing your data}
+\label{sec:getting-started:visu-your-data}
+
 Up until now, we have made use of the \texttt{Show} instance of the \textsc{ForSyDe-Atom} data types to print out signals on the terminal screen. While this remains the main way to test if a model is working properly, there are alternative ways to plot data. This section introduces the reader to the \href{\utilploturl}{\texttt{ForSyDe.Atom.Utility.Plot}} library of utilities for visualizing signals or other data types.
 
 The functions presented in this section are defined in the following module, which is exported by \texttt{AtomExamples.GettingStarted}.

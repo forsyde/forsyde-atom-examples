@@ -31,8 +31,7 @@ api:
 	@rm -rf $(API_PATH)
 	@cabal haddock --hyperlink-source | awk 'END {print $$NF}' | xargs dirname | xargs -I {} mv {} $(API_PATH)
 
-report:
-	@$(MAKE) -C $(REPORT_PATH) DEBUG="> /dev/null"
+report: docs/latex/report.pdf
 
 docs: dependencies api report
 	@echo
@@ -53,3 +52,6 @@ remove: uninstall
 	rm -rf $(LATEX_LIB)
 
 .PHONY: dependencies install docs api report uninstall remove
+
+/ocs/latex/report.pdf:
+	@$(MAKE) -C $(REPORT_PATH) DEBUG="> /dev/null"

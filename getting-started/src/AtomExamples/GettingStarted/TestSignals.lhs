@@ -1,3 +1,6 @@
+\subsection{Test input signals}
+\label{sec:getting-started:test-signals}
+
 In the following examples we will use a set of test signals defined in the following module, which is also re-exported by \texttt{AtomExamples.GettingStarted} (i.e. you don't need to import it):
 
 > module AtomExamples.GettingStarted.TestSignals where
@@ -62,7 +65,7 @@ Now we need to create for each MoC the vectors with the initial states for the M
 >   (Ts.milisec 1000, pconst (-1)),
 >   (Ts.milisec 1400, pconst   1 )]   :: V.Vector (TimeStamp, Time -> AbstExt Time)
 
-For the polymorphic instance in \cref{sec:poly-instance} we need to provide the initial states as wrapped in signals, so we create unit signals:
+For the polymorphic instance in \cref{sec:getting-started:poly-instance} we need to provide the initial states as wrapped in signals, so we create unit signals:
 
 > sisdf = SDF.signal <$> isdf
 > sisy  = SY.unit    <$> isy
