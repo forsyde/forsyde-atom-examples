@@ -9,16 +9,16 @@ We usually start a \textsc{ForSyDe-Atom} module by importing the \texttt{ForSyDe
 
 > import ForSyDe.Atom
 
-In this section we will only test \href{\mocsyurl}{synchronous processes} as patterns defined in the \href{\mocurl}{MoC} layer. An extensive library of types, utilities and helpers for SY process constructors can be used by importing the \href{\mocsyurl}{\texttt{ForSyDe.Atom.MoC.SY}} module.
+In this section we will only test \fref[synchronous processes]{\mocsyurl}\ as patterns defined in the \fref[MoC layer]{\mocurl}. An extensive library of types, utilities and helpers for SY process constructors can be used by importing the \fref[\texttt{ForSyDe.Atom.MoC.SY}]{\mocsyurl}\ module.
 
 > import ForSyDe.Atom.MoC.SY
 
-Next we import the \texttt{Absent} extended behavior, defined in the \href{\exburl}{ExB} layer, to get a glimpse of modeling using multiple layers. As with the previous, we need to specifically import the \href{\exbabsurl}{\texttt{ForSyDe.Atom.ExB.Absent}} library to access the helpers and types.
+Next we import the \texttt{Absent} extended behavior, defined in the \fref[ExB layer]{\exburl}, to get a glimpse of modeling using multiple layers. As with the previous, we need to specifically import the \fref[\texttt{ForSyDe.Atom.ExB.Absent}]{\exbabsurl}\ library to access the helpers and types.
 
 > import ForSyDe.Atom.ExB (res11, res21)
 > import ForSyDe.Atom.ExB.Absent
 
-The \href{\atomurl}{\emph{signal}} is the basic data type defined in the MoC layer, and it encodes a \emph{tag system} which describes time, causality and other key properties of CPS. In the case of SY MoC, a signal defines a total order between events. There are several ways to instantiate a signal in \textsc{ForSyDe-Atom}. The most usual one is to create it from a list of values using the \href{\mocsyurl}{\texttt{signal}} helper. By studying its type signature in the \href{\mocsyurl}{online API documentation}, one can see that it needs a list of elements of type \texttt{a} as argument, so let us create a test signal \texttt{testsig1}:
+The \href{\atomurl}{\emph{signal}} is the basic data type defined in the MoC layer, and it encodes a \emph{tag system} which describes time, causality and other key properties of CPS. In the case of SY MoC, a signal defines a total order between events. There are several ways to instantiate a signal in \textsc{ForSyDe-Atom}. The most usual one is to create it from a list of values using the \fref[\texttt{signal}]{\mocsyurl}\ helper. By studying its type signature in the \fref{\mocsyurl}, one can see that it needs a list of elements of type \texttt{a} as argument, so let us create a test signal \texttt{testsig1}:
 
 > testsig1 = signal [1,2,3,4,5]
 
@@ -37,7 +37,7 @@ The type of \texttt{testsig1} tells us that the \texttt{signal} helper created a
 <   Stream (ForSyDe.Atom.MoC.SY.Core.SY a)
 <   	-- Defined in ForSyDe.Atom.MoC.SY.Core
 
-which shows that it is in fact a type alias for a \href{\mocstreamurl}{\texttt{Stream}} of \href{\mocsyurl}{\texttt{SY}} events. If this became too confusing, please read the MoC layer overview in this \href{\atomurl}{online API documentation page}. Unfortunately the names printed as interactive information are verbose and show their exact location in the structure of \textsc{ForSyDe-Atom}. We do not care about this in the source code, since we imported the SY library properly. To benefit from the same treatment in the interpreter session, we need to do the same:
+which shows that it is in fact a type alias for a \fref[\texttt{Stream}]{\mocstreamurl}\ of \fref[\texttt{SY}]{\mocsyurl}\ events. If this became too confusing, please read the MoC layer overview in this \href{\atomurl}{online API documentation page}. Unfortunately the names printed as interactive information are verbose and show their exact location in the structure of \textsc{ForSyDe-Atom}. We do not care about this in the source code, since we imported the SY library properly. To benefit from the same treatment in the interpreter session, we need to do the same:
 
 
 < *AtomExamples.GettingStarted> import ForSyDe.Atom.MoC.SY as SY
@@ -45,12 +45,12 @@ which shows that it is in fact a type alias for a \href{\mocstreamurl}{\texttt{S
 < type Signal a = Stream (SY a)
 <  	-- Defined in ForSyDe.Atom.MoC.SY.Core
 
-Another way of creating a SY signal is by means of a \href{\mocsyurl}{\texttt{generate}} process, which generates an infinite signal from a kernel value. By studying the \href{\mocsyurl}{\texttt{online API documentation}}, you can see that the SY library provides a number of helpers for this particular process constructor, the one generating one output signal being \texttt{generate1}. Let us first check the type signature for this helper function:
+Another way of creating a SY signal is by means of a \fref[\texttt{generate}]{\mocsyurl}\ process, which generates an infinite signal from a kernel value. By studying the \fref{\mocsyurl}, you can see that the SY library provides a number of helpers for this particular process constructor, the one generating one output signal being \texttt{generate1}. Let us first check the type signature for this helper function:
 
 < *AtomExamples.GettingStarted SY> :t generate1
 < generate1 :: (b1 -> b1) -> b1 -> Signal b1
 
-So basically, as suggested in the \href{\mocsyurl}{\texttt{online API documentation}}, this helper takes a "next state" function of type \texttt{a -> a}, a kernel value of type \texttt{a}, and it generates a signal of tyle \texttt{Signal a}. With this in mind, let us create \texttt{testsig2}: 
+So basically, as suggested in the \fref{\mocsyurl}, this helper takes a "next state" function of type \texttt{a -> a}, a kernel value of type \texttt{a}, and it generates a signal of tyle \texttt{Signal a}. With this in mind, let us create \texttt{testsig2}: 
 
 > testsig2 = generate1 (+1) 0
 
@@ -61,7 +61,7 @@ Printing it would jam the terminal... we were serious when we said "infinite"! T
 < *AtomExamples.GettingStarted SY> :t testsig2
 < testsig2 :: Signal Integer
 
-\texttt{generate} was a process with no inputs. Now let us try a process that takes the two signals \texttt{testsig1} and \texttt{testsig2} and sums their synchronous events. For this we use the combinatorial process \texttt{comb}, and the SY constructor we need, with two inputs and one output is provided by \href{\mocsyurl}{\texttt{comb21}}. Again, checking the type signature confirms that this is the helper we need:
+\texttt{generate} was a process with no inputs. Now let us try a process that takes the two signals \texttt{testsig1} and \texttt{testsig2} and sums their synchronous events. For this we use the combinatorial process \texttt{comb}, and the SY constructor we need, with two inputs and one output is provided by \fref[\texttt{comb21}]{\mocsyurl}. Again, checking the type signature confirms that this is the helper we need:
 
 < *AtomExamples.GettingStarted SY> :t comb21
 < comb21 :: (a1 -> a2 -> b1) -> Signal a1 -> Signal a2 -> Signal b1
@@ -128,7 +128,7 @@ It is easy to grasp the concept of layers once you understand how \emph{higher o
 
 As a last exercise for this section we would like to extend the behavior of the system in \cref{fig:basic-composite} in order to describe whether the events are happening or not (i.e. are absent or present) and act accordingly. For this, \textsc{ForSyDe-Atom} defines the \emph{Extended Behavior (ExB) layer}. As suggested in \cref{fig:basic-3layer}, this layer extends the pool of values with symbols denoting states which would be impossible to describe using normal values, and associates some default behaviors (e.g. protocols) over these symbols.
 
-The two processes \cref{fig:basic-composite} are now defined below as \texttt{testAp1} and \texttt{testAp2}. This time, apart from the functional definition (\texttt{name = function}) we specify the type signature as well (\texttt{name :: type}), which in the most general case can be considered a specification/contract of the interfaces of the newly instantiated component. Both type signatures and function definitions expose the layered structure suggested in \cref{fig:basic-3layer}. As specific ExB type, we use \href{\exbabsurl}{\texttt{AbstExt}} and as behavior pattern constructor we choose a default behavior expressing a resolution {\href{\exburl}{\texttt{res}}}.
+The two processes \cref{fig:basic-composite} are now defined below as \texttt{testAp1} and \texttt{testAp2}. This time, apart from the functional definition (\texttt{name = function}) we specify the type signature as well (\texttt{name :: type}), which in the most general case can be considered a specification/contract of the interfaces of the newly instantiated component. Both type signatures and function definitions expose the layered structure suggested in \cref{fig:basic-3layer}. As specific ExB type, we use \fref[\texttt{AbstExt}]{\exbabsurl}\ and as behavior pattern constructor we choose a default behavior expressing a resolution {\fref[\texttt{res}]{\exburl}}.
 
 > testAp1 :: Num a
 >         => Signal (AbstExt a) -- ^ input signal of absent-extended values
@@ -141,7 +141,7 @@ The two processes \cref{fig:basic-composite} are now defined below as \texttt{te
 >         -> Signal (AbstExt a) -- ^ output signal of absent-extended values
 > testAp2 = comb21 (res21 (+))
 
-Now all we need is to create some test signals of type \texttt{Signal (AbstExt a)}. One way is to use the \href{\mocsyurl}{\texttt{signal}} utility like for \texttt{testAsig1}, but this forces to make use of \texttt{AbstExt}'s type constructors. Another way is to use the library-provided process constructor helpers, such as \href{\mocsyurl}{\texttt{filter'}}, like for \texttt{testAsig2}.
+Now all we need is to create some test signals of type \texttt{Signal (AbstExt a)}. One way is to use the \fref[\texttt{signal}]{\mocsyurl}\ utility like for \texttt{testAsig1}, but this forces to make use of \texttt{AbstExt}'s type constructors. Another way is to use the library-provided process constructor helpers, such as \fref[\texttt{filter'}]{\mocsyurl}, like for \texttt{testAsig2}.
 
 > testAsig1 = signal [Prst 1, Prst 2, Abst, Prst 4, Abst]
 > testAsig2 = filter' (/=4) testsig2
@@ -163,7 +163,7 @@ Everything seems all right. Now testing \texttt{testAp2} on \texttt{testAsig1} a
 < *AtomExamples.GettingStarted SY> takeS 10 $ testAp2 testAsig2 testAsig1
 < {1,3,*** Exception: [ExB.Absent] Illegal occurrence of an absent and present event
 
-Uh oh... Actually this \emph{is} the correct behavior of a resolution function for absent events, as defined in synchronous reactive languages such as Lustre \cite{Halbwachs91}. Let us remedy the situation, but this time using another library-provided process constructor, \href{\mocsyurl}{\texttt{when'}}. 
+Uh oh... Actually this \emph{is} the correct behavior of a resolution function for absent events, as defined in synchronous reactive languages such as Lustre \cite{Halbwachs91}. Let us remedy the situation, but this time using another library-provided process constructor, \fref[\texttt{when'}]{\mocsyurl}. 
 
 > testAsig2' = when' mask testsig2
 >   where
