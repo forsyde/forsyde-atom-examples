@@ -1,7 +1,7 @@
 \section{RC Oscillator}
 \label{sec:hybrid:rc-oscillator}
 
-In this section we model the  RC oscillator setup in \cref{fig:osc-circuit}. Despite its apparent simplicity, shows an interesting problem in CPS: how continuous systems react to discrete stimuli. This example was used in \cite{ungureanu18a}, and for a study on the theoretical implications of the chosen models, we strongly recommend reading this paper before going further. The source code for this section is found in the following module:
+In this section we model the  RC oscillator setup in \cref{fig:osc-circuit}. Despite its apparent simplicity, shows an interesting problem in CPS: how continuous systems react to discrete stimuli. This example was used in \cite{Ungureanu18a}, and for a study on the theoretical implications of the chosen models, we strongly recommend reading this paper before going further. The source code for this section is found in the following module:
 
 > module AtomExamples.Hybrid.RCOsc where
 

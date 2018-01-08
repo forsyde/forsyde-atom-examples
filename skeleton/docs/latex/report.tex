@@ -1,0 +1,42 @@
+\documentclass{article}
+\usepackage{../../../docfiles/atom-report}
+\usepackage{../../../docfiles/urls}
+\usepackage[a4paper, margin=1.5in]{geometry}
+
+\usepackage{lipsum}
+
+\title{Modeling Parallel Systems in\\\textsc{ForSyDe-Atom}\thanks{compiled with \textsc{ForSyDe-Atom} v0.2.2}}
+\author{George Ungureanu}
+\date{November 2017}
+
+\addbibresource{../../../docfiles/refs.bib}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{\RootPath/input/abstract}
+\end{abstract}
+
+\input{\RootPath/input/goals}
+
+\newpage
+\tableofcontents
+\newpage
+
+\input{\RootPath/../../../docfiles/usage}
+
+\input{\RootPath/code/Skeleton/FFT}
+
+\input{\RootPath/input/conclusion}
+
+\printbibliography
+
+\end{document}
+
+
+%%% Local Variables:
+%%% TeX-command-default: "Make"
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
