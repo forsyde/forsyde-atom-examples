@@ -1,57 +1,30 @@
-ATOM_VER := 0.2.2
-ATOM_LIB := ../.deps/forsyde-atom-v$(ATOM_VER)
-ATOM_URL := -b $(ATOM_VER) https://github.com/forsyde/forsyde-atom.git
+API_PATH 	= docs/api
+REPORT_PATH 	= docs/latex
 
-LATEX_LIB := ../.deps/forsyde-latex
-LATEX_URL := -b dev-atom https://github.com/forsyde/forsyde-latex.git
-
-API_PATH := docs/api
-REPORT_PATH := docs/latex
-
-dependencies:
-	@mkdir -p ../.deps
-	@if [ ! -d $(LATEX_LIB) ]; then \
-		git clone $(LATEX_URL) $(LATEX_LIB); \
-	fi
-	@if [ ! -d $(ATOM_LIB) ]; then \
-		git clone $(ATOM_URL) $(ATOM_LIB); \
-	fi
-	cd $(LATEX_LIB) && ./install.sh
-	@if ! haddock --version; then cabal install haddock; fi
-	@if ! hscolour --version; then cabal install hscolour; fi
-
-install: dependencies
-	cabal sandbox init
-	cabal sandbox add-source $(ATOM_LIB)
-	cabal fetch `cabal install --dependencies-only --dry-run | sed 1,2d  | grep -v '^forsyde'`
-	cabal install
+install: 
+	stack install
 
 api:
-	@cabal configure
 	@rm -rf $(API_PATH)
-	@cabal haddock --hyperlink-source | awk 'END {print $$NF}' | xargs dirname | xargs -I {} mv {} $(API_PATH)
+	@stack haddock | awk 'END {print $$NF}'
 
-report: docs/latex/report.pdf
+report: ./docs/latex/report.pdf
 
-docs: dependencies api report
+docs: api report
 	@echo
 	@echo "====================================================="
-	@echo "= API documentation generated in $(API_PATH)/index.html"
+	@echo "= Check output of 'stack haddock' for API path"
 	@echo "= Report generated in $(REPORT_PATH)/report.pdf"
 	@echo "====================================================="
 
 clean-docs:
-	$(MAKE) -C docs/latex/ superclean
-	rm -rf docs/api/*
+	$(MAKE) -C $(REPORT_PATH) superclean
 
 uninstall: clean-docs
-	cabal sandbox delete
-
-remove: uninstall
-	rm -rf $(ATOM_LIB)
-	rm -rf $(LATEX_LIB)
+	rm -rf .stack-work
 
 .PHONY: dependencies install docs api report uninstall remove
 
-/ocs/latex/report.pdf:
+
+./docs/latex/report.pdf:
 	@$(MAKE) -C $(REPORT_PATH) DEBUG="> /dev/null"

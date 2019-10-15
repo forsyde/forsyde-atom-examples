@@ -18,15 +18,13 @@ The following publications reference material from this project:
 
 This project is equipped with a `Makefile` to automate fetching the dependencies, installing the package in a sandbox, and generating the documentation locally. Here are the commands available, where marked with an `!` are the rules which perform multiple operations:
 
-    make dependencies  #  fetches and installs the dependencies for this package
 	make install       #! resolves dependencies and installs the package in a sandbox
 	make api           #  generates the Haddock HTML API documentation
 	make report        #  compiles the PDF report from the literate code
 	make docs          #! resolves dependencies and generates api and report
 	make clean-docs    #  cleans the generated documentation 
 	make uninstall     #! cleans the documentation and deletes the sandbox
-	make remove        #! uninstalls the project and deletes fetched dependencies
 
-After installing the package, to open a sandbox interpreter with the libraries loadedm you need to run the command
+After installing the package, to open a sandbox interpreter with a specific library loaded (e.g. `AtomExamples.GettingStarted`)
 
-    cabal repl
+	stack ghci src/AtomExamples/GettingStarted.hs

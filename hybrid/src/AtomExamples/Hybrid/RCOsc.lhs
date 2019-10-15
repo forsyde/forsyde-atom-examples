@@ -129,8 +129,8 @@ We encode the capcitor state (i.e. the states of $sw_1$ and $sw_2$) through the 
 >     od Charging    t0 = vcCharge (time t0)
 >     od Discharging t0 = vcDischarge (time t0)
 >     -- wrapper that embeds a SY process into a mixed DE/CT environment
->     embed p de        = let (t, _) = DE.toSY de
->                         in DE.toCT $ SY.toDE t (p t)
+>     embed p de        = let (t, _) = DE.toSY1 de
+>                         in DE.toCT1 $ SY.toDE t (p t)
 
 %$
 
@@ -202,10 +202,10 @@ As said earlier, we model the RC circuit in \cref{fig:rc-circuit} by including t
 
 > rcfilter :: CT.Signal Rational -> CT.Signal Rational
 > rcfilter s
->   = let (ts, sy) = DE.toSY $ CT.toDE s
+>   = let (ts, sy) = DE.toSY1 $ CT.toDE1 s
 >         out      = SY.state21 ns (\_->0) ts sy
 >         ns p t s = euler 0.01 s (p (time t)) t
->     in DE.toCT $ SY.toDE ts out
+>     in DE.toCT1 $ SY.toDE ts out
 
 Testing the filter against a square wave signal, we get the response plotted in \cref{fig:rcfilter-plot}. As can be clearly seen, the behavior is the right one and it reacts correctly to the inputs, taking unto account the current state of the system, i.e. its history, and it is a \emph{continuous} signal in the true sense of the word.
 
@@ -233,16 +233,16 @@ Now let us modify \texttt{osc2} from \cref{fig:osc2} to mirror the correct behav
 >         swF Charging    _  = Discharging
 >         swF Discharging _  = Charging
 >         -- transforms VDD into VI for the RC filter
->         vddSwitched        = DE.comb21 vddF swState $ CT.toDE vdd
+>         vddSwitched        = DE.comb21 vddF swState $ CT.toDE1 vdd
 >         vddF Charging    v = v
 >         vddF Discharging _ = \_->0
 >         -- state machine with ODE solver modeling an RC filter
 >         vOut        = embed (SY.state21 nsEU (\_->0)) vddSwitched
 >         nsEU p t s  = euler 0.01 s (p $ time t) t
 >         -- custom wrapper that embeds a SY tag-aware process into a DE environment
->         embed p de  = let (t, v) = DE.toSY de
+>         embed p de  = let (t, v) = DE.toSY1 de
 >                       in SY.toDE t (p t v)  
->     in DE.toCT vOut
+>     in DE.toCT1 vOut
 
 \begin{figure}[ht!]\centering
 \includegraphics[]{atom-osc4}
