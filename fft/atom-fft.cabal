@@ -1,0 +1,39 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 174944513dfe5898c2d89b54f09fe0bd815831c021c5bc30edb7d560aca3a3e8
+
+name:           atom-fft
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/ugeorge/saab-aesa>
+homepage:       https://github.com/ugeorge/thesis_phd#readme
+bug-reports:    https://github.com/ugeorge/thesis_phd/issues
+author:         George Ungureanu
+maintainer:     ugeorge@kth.se
+copyright:      2021 George Ungureanu, KTH
+license:        BSD3
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/ugeorge/thesis_phd
+
+library
+  exposed-modules:
+      FFT
+      Utils
+  other-modules:
+      Paths_atom_fft
+  hs-source-dirs:
+      src
+  build-depends:
+      QuickCheck
+    , base >=4.7 && <5
+    , forsyde-atom
+    , random
+    , test-framework
+    , test-framework-quickcheck2
+  default-language: Haskell2010
