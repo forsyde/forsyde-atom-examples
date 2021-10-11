@@ -1,4 +1,7 @@
-The CT instance of the \texttt{toy} looks exactly the same as the previous ones in \cref{sec:sy-instance,sec:de-instance}, but is created using constructors from the \href{\moccturl}{\texttt{ForSyCt.Atom.MoC.CT}} module. The following file, as you are used to by now, is re-exported by \texttt{AtomExamples.GettingStarted}.
+\subsection{CT instance}
+\label{sec:getting-started:ct-instance}
+
+The CT instance of the \texttt{toy} looks exactly the same as the previous ones in \cref{sec:getting-started:sy-instance,sec:de-instance}, but is created using constructors from the \href{\moccturl}{\texttt{ForSyCt.Atom.MoC.CT}} module. The following file, as you are used to by now, is re-exported by \texttt{AtomExamples.GettingStarted}.
 
 > module AtomExamples.GettingStarted.CT where
 

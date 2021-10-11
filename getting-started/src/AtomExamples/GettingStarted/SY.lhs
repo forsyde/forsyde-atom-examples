@@ -1,3 +1,6 @@
+\subsection{SY instance}
+\label{sec:getting-started:sy-instance}
+
 The SY instance of the \texttt{toy} system is created using process constructor helpers defined in \href{\mocsyurl}{\texttt{ForSyDe.Atom.MoC.SY}}, and is defined in the following module (re-exported by \texttt{AtomExamples.GettingStarted}).
 
 > module AtomExamples.GettingStarted.SY where
@@ -21,7 +24,7 @@ Although Haskell's type engine can infer these type signatures, for the sake of 
 >     ns   = ExB.res21 (+)
 >     od   = ExB.res11 id
 
-Let us print and plot the inputs against the outputs, using the test signals and plotting functions \texttt{latexV} and \texttt{plotV} defined in \cref{sec:test-signals}:
+Let us print and plot the inputs against the outputs, using the test signals and plotting functions \texttt{latexV} and \texttt{plotV} defined in \cref{sec:getting-started:test-signals}:
 
 < λ> isy
 < <-1,1,-1,1>
@@ -61,7 +64,7 @@ The second stage of the \texttt{toy} system in \cref{fig:subfig1} is defined as 
 >   where
 >     rSY = SY.comb21 (ExB.res21 (+))
 
-Again, let us print and plot the output signals using the test inputs and utilities defined in \cref{sec:test-signals}.
+Again, let us print and plot the output signals using the test inputs and utilities defined in \cref{sec:getting-started:test-signals}.
   
 < λ> let s2out = (stage2SY . stage1SY isy) vsy
 < λ> s2out
@@ -92,7 +95,7 @@ Finally, the last stage of the \texttt{toy} system applies a \href{\mocsyurl}{\t
 >       -> SY.Signal (AbstExt Int)            -- ^ output
 > toySY i = stage3SY . stage2SY . stage1SY i
 
-We print and plot the system response to the test signals defined in \cref{sec:test-signals}.
+We print and plot the system response to the test signals defined in \cref{sec:getting-started:test-signals}.
 
 < λ> toySY isy vsy
 < {0,⟂,0,0,2,1}

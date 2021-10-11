@@ -1,0 +1,55 @@
+name:                atom-quad
+version:             0.1.0.0
+github:              "forsyde/forsyde-atom-examples"
+license:             BSD3
+author:              "George Ungureanu"
+maintainer:          "ugeorge@kth.se"
+copyright:           "2021 George Ungureanu, KTH"
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         This source code suports the case study in Section 6.4 of my PhD thesis. 
+
+dependencies:
+- base >= 4.7 && < 5
+- forsyde-atom
+- forsyde-shallow
+- random
+- QuickCheck
+- test-framework
+- test-framework-quickcheck2
+
+library:
+  source-dirs: src
+
+# executables:
+#   fft:
+#     main:                Main.hs
+#     source-dirs:         app
+#     ghc-options:
+#     - -O2
+#     - -threaded 
+#     - -with-rtsopts=-N
+#     dependencies:
+#     - atom-adc
+
+# tests:
+#   tests-adc:
+#     main:                ADCTest.hs
+#     source-dirs:         test
+#     ghc-options:
+#     - -main-is           ADCTest
+#     - -threaded
+#     - -rtsopts
+#     - -with-rtsopts=-N
+#     dependencies:
+#     - atom-adc
+#     - QuickCheck
+#     - test-framework
+#     - test-framework-hunit
+#     - test-framework-quickcheck2

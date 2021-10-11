@@ -1,0 +1,78 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 937006463a9845709524de96d4dc42e73f0c57c4f6752572c4dbe538ab14ebfe
+
+name:           atom-adc
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/ugeorge/saab-aesa>
+homepage:       https://github.com/ugeorge/thesis_phd#readme
+bug-reports:    https://github.com/ugeorge/thesis_phd/issues
+author:         George Ungureanu
+maintainer:     ugeorge@kth.se
+copyright:      2021 George Ungureanu, KTH
+license:        BSD3
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/ugeorge/thesis_phd
+
+library
+  exposed-modules:
+      NoiseCheat
+      SAR
+      SARNoise
+      Utils
+      WeightedRandom
+  other-modules:
+      Paths_atom_adc
+  hs-source-dirs:
+      src
+  build-depends:
+      QuickCheck
+    , base >=4.7 && <5
+    , forsyde-atom
+    , random
+    , test-framework
+    , test-framework-quickcheck2
+  default-language: Haskell2010
+
+executable adc-noise
+  main-is: Main.hs
+  other-modules:
+      Paths_atom_adc
+  hs-source-dirs:
+      app
+  ghc-options: -O2 -threaded -with-rtsopts=-N
+  build-depends:
+      QuickCheck
+    , atom-adc
+    , base >=4.7 && <5
+    , forsyde-atom
+    , random
+    , test-framework
+    , test-framework-quickcheck2
+  default-language: Haskell2010
+
+test-suite tests-adc
+  type: exitcode-stdio-1.0
+  main-is: ADCTest.hs
+  other-modules:
+      Paths_atom_adc
+  hs-source-dirs:
+      test
+  ghc-options: -main-is           ADCTest -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      QuickCheck
+    , atom-adc
+    , base >=4.7 && <5
+    , forsyde-atom
+    , random
+    , test-framework
+    , test-framework-hunit
+    , test-framework-quickcheck2
+  default-language: Haskell2010

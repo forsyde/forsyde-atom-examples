@@ -1,4 +1,7 @@
-Up until now, we have made use of the \texttt{Show} instance of the \textsc{ForSyDe-Atom} data types to print out signals on the terminal screen. While this remains the main way to test if a model is working properly, there are alternative ways to plot data. This section introduces the reader to the \href{\utilploturl}{\texttt{ForSyDe.Atom.Utility.Plot}} library of utilities for visualizing signals or other data types.
+\subsection{Visualizing your data}
+\label{sec:getting-started:visu-your-data}
+
+Up until now, we have made use of the \texttt{Show} instance of the \textsc{ForSyDe-Atom} data types to print out signals on the terminal screen. While this remains the main way to test if a model is working properly, there are alternative ways to plot data. This section introduces the reader to the \fref[\texttt{ForSyDe.Atom.Utility.Plot}]{\utilploturl} library of utilities for visualizing signals or other data types.
 
 The functions presented in this section are defined in the following module, which is exported by \texttt{AtomExamples.GettingStarted}.
 
@@ -12,9 +15,9 @@ And, as mentioned, we need to import the library with plotting utilities:
 
 > import ForSyDe.Atom.Utility.Plot
 
-Upon consulting the \href{\utilploturl}{API documentation} for this module, you might notice that most utilities input a so-called \texttt{PlotData} type, which is an alias for a complex structure carrying configuration parameters, type information and data samples. Using Haskell's type classes, \textsc{ForSyDe-Atom} is able to provide few polymorphic utilities for converting most of the useful types into \texttt{PlotData}.
+Upon consulting the \fref[API documentation]{\utilploturl} for this module, you might notice that most utilities input a so-called \texttt{PlotData} type, which is an alias for a complex structure carrying configuration parameters, type information and data samples. Using Haskell's type classes, \textsc{ForSyDe-Atom} is able to provide few polymorphic utilities for converting most of the useful types into \texttt{PlotData}.
 
-For example, the \href{\utilploturl}{\texttt{prepare}} function takes a "plottable" data type (e.g. a signal of values), and a \texttt{Config} type, and returns \texttt{PlotData}. The \texttt{Config} type is merely a record of configuration parameters useful further down in the plotting pipeline. At the time of writing this report\footnote{\textsc{ForSyDe-Atom} v0.2.1}, a configuration record looked like this:
+For example, the \fref[\texttt{prepare}]{\utilploturl} function takes a "plottable" data type (e.g. a signal of values), and a \texttt{Config} type, and returns \texttt{PlotData}. The \texttt{Config} type is merely a record of configuration parameters useful further down in the plotting pipeline. At the time of writing this report\footnote{\textsc{ForSyDe-Atom} v0.2.1}, a configuration record looked like this:
 
 > config =
 >   Cfg { path    = "./fig"     -- path where the eventual data files are dumped
@@ -30,7 +33,7 @@ For example, the \href{\utilploturl}{\texttt{prepare}} function takes a "plottab
 >       , mkpdf   = True        -- if relevant, dumps a PDF file with the plot.
 >       }
 
-\href{\utilploturl}{\texttt{ForSyDe.Atom.Utility.Plot}} provides several of these pre-made configuration objects, which can be modified on-the-fly using Haskell's record syntax, as you will see further on.
+\fref[\texttt{ForSyDe.Atom.Utility.Plot}]{\utilploturl} provides several of these pre-made configuration objects, which can be modified on-the-fly using Haskell's record syntax, as you will see further on.
 
 Let us see again the signals \texttt{testsig1} and \texttt{testsig2} defined in the previous section:
 
@@ -39,7 +42,7 @@ Let us see again the signals \texttt{testsig1} and \texttt{testsig2} defined in 
 < λ> takeS 20 testsig2
 < {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19}
 
-The utility \href{\utilploturl}{\texttt{showDat}} prints out sampled data on the terminal, as pairs of X and Y coordinates:
+The utility \fref[\texttt{showDat}]{\utilploturl} prints out sampled data on the terminal, as pairs of X and Y coordinates:
 
 > show1 = showDat $ prepare config testsig1
 > show2 = let cfg = config {xmax=15, labels=["testsig1","testsig2"]}
@@ -78,7 +81,7 @@ The utility \href{\utilploturl}{\texttt{showDat}} prints out sampled data on the
 < 	13   13.0
 < 	14   14.0
 
-The function \href{\utilploturl}{\texttt{dumpDat}} dumps the data files in a path specified by the configuration object. Based on the \texttt{config} object instantiated earlier, after calling the following function you should see a new folder called \texttt{fig} in the current path, with two new \texttt{.dat} files.
+The function \fref[\texttt{dumpDat}]{\utilploturl} dumps the data files in a path specified by the configuration object. Based on the \texttt{config} object instantiated earlier, after calling the following function you should see a new folder called \texttt{fig} in the current path, with two new \texttt{.dat} files.
 
 > dump2 = let cfg = config {xmax=15, labels=["testsig1","testsig2"]}
 >         in  dumpDat $ prepareL cfg [testsig1,testsig2]
@@ -87,7 +90,7 @@ The function \href{\utilploturl}{\texttt{dumpDat}} dumps the data files in a pat
 < Dumped testsig1, testsig2 in ./fig
 < ["./fig/testsig1.dat","./fig/testsig2.dat"]
 
-The plot library also has a few functions which create and (optionally) fire \href{http://www.gnuplot.info/}{Gnuplot} scripts. In order to make use of them, you need to install the dependencies mentioned in the \href{\utilploturl}{API documentation}. For example, using the function \href{\utilploturl}{\texttt{plotGnu}} creates the following plot:
+The plot library also has a few functions which create and (optionally) fire \href{http://www.gnuplot.info/}{Gnuplot} scripts. In order to make use of them, you need to install the dependencies mentioned in the \fref{\utilploturl}. For example, using the function \fref[\texttt{plotGnu}]{\utilploturl} creates the following plot:
 
 > plot2 = let cfg = config {xmax=8, labels=["testsig1","testsig2"]}
 >         in  plotGnu $ prepareL cfg [testsig1,testsig2]
@@ -100,7 +103,7 @@ The plot library also has a few functions which create and (optionally) fire \hr
 
 Different input data creates different types of plots, as we will see in future sections.
 
-One can also generate \LaTeX\ code which is meant to be compiled with the \href{https://github.com/forsyde/forsyde-latex}{\textsc{ForSyDe-}\LaTeX} package, more specifically its signal plotting library. Check the \href{https://github.com/forsyde/forsyde-latex/blob/master/extras/refman.pdf}{user manual} for more details on how to install the dependencies and how to use the library itself. Naturally, there is a function \href{\utilploturl}{\texttt{showLatex}} which prints out the command for a signals environment defined in \href{https://github.com/forsyde/forsyde-latex}{\textsc{ForSyDe-}\LaTeX}:
+One can also generate \LaTeX\ code which is meant to be compiled with the \href{https://github.com/forsyde/forsyde-latex}{\textsc{ForSyDe-}\LaTeX} package, more specifically its signal plotting library. Check the \href{https://github.com/forsyde/forsyde-latex/blob/master/extras/refman.pdf}{user manual} for more details on how to install the dependencies and how to use the library itself. Naturally, there is a function \fref[\texttt{showLatex}]{\utilploturl} which prints out the command for a signals environment defined in \href{https://github.com/forsyde/forsyde-latex}{\textsc{ForSyDe-}\LaTeX}:
 
 > latex1 = let cfg = config {xmax=8, labels=["testsig1","testsig2"]}
 >          in  showLatex $ prepareL cfg [testsig1,testsig2]
@@ -112,7 +115,7 @@ One can also generate \LaTeX\ code which is meant to be compiled with the \href{
 <   \end{signalsSY}
 <
 
-Also, there is a command \href{\utilploturl}{\texttt{plotLatex}} for generating a standalone \LaTeX\ document and, if possible, compiling it with \texttt{pdflatex}. For example, calling the following function generates the image from \cref{fig:plot-sy}.
+Also, there is a command \fref[\texttt{plotLatex}]{\utilploturl} for generating a standalone \LaTeX\ document and, if possible, compiling it with \texttt{pdflatex}. For example, calling the following function generates the image from \cref{fig:plot-sy}.
 
 > latex2 = let cfg = config {xmax=8, labels=["testsig1","testsig2"]}
 >          in  plotLatex $ prepareL cfg [testsig1,testsig2]
