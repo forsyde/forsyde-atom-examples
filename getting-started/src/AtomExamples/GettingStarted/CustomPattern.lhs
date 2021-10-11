@@ -1,3 +1,6 @@
+\section{Making your own patterns}
+\label{sec:getting-started:making-your-own}
+
 The final section of this report introduces the reader to constructing custom patterns in \textsc{ForSyDe-Atom}. Up until now we have been using patterns which were pre-defined as compositions of atoms. Atoms are primitive, indivizible building blocks capturing the most basic semantics in each layer.
 
 > {-# LANGUAGE PostfixOperators #-}

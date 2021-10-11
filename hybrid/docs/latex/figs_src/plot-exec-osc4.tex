@@ -1,0 +1,23 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\pgfplotsset{compat=newest}
+\pgfplotsset{small,legend style={font=\tiny}}
+
+\begin{document}
+
+\begin{tikzpicture}
+  \begin{loglogaxis}[xlabel={resolution (ms)}, ylabel={seconds}, title=Execution time]
+    \addplot coordinates { (5,18.76) (10,9.48) (50,1.99) (100,1.01)};
+    \addplot coordinates { (5,10.43) (10,5.40) (50,1.71) (100,0.65)};
+    \legend{6 DE, 12 DE}
+  \end{loglogaxis}
+\end{tikzpicture}
+~
+\begin{tikzpicture}
+  \begin{loglogaxis}[xlabel={resolution (ms)}, ylabel={megabytes}, title=Memory usage]
+    \addplot coordinates { (5,17568) (10,8804) (50,1792) (100,916)};
+    \addplot coordinates { (5,9668)  (10,4863) (50,1020) (100,539)};
+    \legend{6 DE, 12 DE}
+  \end{loglogaxis}
+\end{tikzpicture}
+\end{document}

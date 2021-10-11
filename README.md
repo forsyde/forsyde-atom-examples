@@ -42,7 +42,7 @@ Some general dependencies need to be taken care of prior to fetching and compili
 
  * [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) : for fetching the repository and all special dependencies.
  * [GNU make](https://www.gnu.org/software/make/) for using the `Makefile` scripts. On Debian distribution it usually comes with `build-essential`.
- * [the Haskell platform](https://www.haskell.org/platform/) and `cabal-install` for compiling the examples and taking care of dependencies.
+ * [the tool Stack](https://docs.haskellstack.org/en/stable/README/), installed as recommended on its web page (i.e. via `wget` or `curl`). It takes care of installing the right version of the Haskell platform and setting up all the dependencies.
  * [a LaTeX compiler](https://www.tug.org/texlive/quickinstall.html) (optional) which provides the commands `pdflatex` and `biber` for compiling the PDF reports and manual from literate source code yourself.
 
 Once the main dependencies have been taken care of, each project needs to be installed individually using the `make` commands. Among other commands, the installation setup of a project is performed by executing
@@ -53,7 +53,7 @@ in the root path of the projecy. This creates a sandbox, fetches all specific de
 
 After a successful installation you can open an interpreter session with the examples loaded using the command 
 
-    cabal repl
+    stack ghci <path/to/module>
 
 ## Documentation
 

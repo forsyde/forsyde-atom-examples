@@ -1,3 +1,6 @@
+\subsection{Polymorphic instance}
+\label{sec:getting-started:poly-instance}
+
 In the previous section you've seen how to model systems in \textsc{ForSyDe-Atom} using the helper functions for instantiating process constructors in different MoCs. In this section we will be instantiating the "raw" polymorphic form of the same process constructors, not overloaded with any execution semantics. The execution semantics are deduced from the tag system of the input signals, i.e. their types. These process constructors are defined as patterns of MoC atoms in the \href{\mocurl}{\texttt{ForSdfDe.Atom.MoC}} module. The code below is exported by \texttt{AtomExamples.GettingStarted}.
 
 > module AtomExamples.GettingStarted.Polymorphic where
@@ -183,10 +186,10 @@ And that's it! Let us plot now the test signals and the responses of the system 
     \includegraphics[scale=1.2]{p-ct-latex-s3}
     \label{fig:p-ct-latex-s3}}%
 \end{tabular}
-\caption[Test input and output signals for a polymorphic process network]{Inputs and outputs for the polymorphic \texttt{toy} system in \cref{sec:poly-instance}}
+\caption[Test input and output signals for a polymorphic process network]{Inputs and outputs for the polymorphic \texttt{toy} system in \cref{sec:getting-started:poly-instance}}
 \label{fig:poly-test}
 \end{sidewaysfigure}
 
-As expected, the results in \cref{fig:poly-test} are exactly the same as the ones presented in \cref{sec:sy-instance,sec:de-instance,sec:ct-instance,sec:sdf-instance}. In conclusion we have succesfully instantiated a MoC-agnostic system, whose execution semantics are inferred according to the input data types. This is possible thanks to the notion of type classes, inferred from the host language Haskell. In this section, instead of MoC-specific helpers, we have used the "raw" process constructors as defined in the \href{\mocurl}{\texttt{ForSdfDe.Atom.MoC}} module as patterns of MoC-layer atoms.
+As expected, the results in \cref{fig:poly-test} are exactly the same as the ones presented in \cref{sec:getting-started:sy-instance,sec:de-instance,sec:ct-instance,sec:sdf-instance}. In conclusion we have succesfully instantiated a MoC-agnostic system, whose execution semantics are inferred according to the input data types. This is possible thanks to the notion of type classes, inferred from the host language Haskell. In this section, instead of MoC-specific helpers, we have used the "raw" process constructors as defined in the \href{\mocurl}{\texttt{ForSdfDe.Atom.MoC}} module as patterns of MoC-layer atoms.
 
-This example, used as a case study by \cite{ungureanu17}, has been focused on the MoC layer. A similar approach based on atom polymorphism could target other layers as well since, as you have seen, all layers are implemented as type classes. At the moment of writing this report the extended behavior layer was represented only by the \texttt{AbstExt} type, while the skeleton layer had only \texttt{Vector}. Nevertheless, future iterations of \textsc{ForSyDe-Atom} will describe more types. 
+This example, used as a case study by \cite{Ungureanu17}, has been focused on the MoC layer. A similar approach based on atom polymorphism could target other layers as well since, as you have seen, all layers are implemented as type classes. At the moment of writing this report the extended behavior layer was represented only by the \texttt{AbstExt} type, while the skeleton layer had only \texttt{Vector}. Nevertheless, future iterations of \textsc{ForSyDe-Atom} will describe more types. 

@@ -1,3 +1,6 @@
+\subsection{SDF instance}
+\label{sec:getting-started:sdf-instance}
+
 The SDF instance of the \texttt{toy} system is created using process constructor helpers defined in \href{\mocsdfurl}{\texttt{ForSdfDe.Atom.MoC.SDF}}, and can be found in the following module (re-exported by \texttt{AtomExamples.GettingStarted}).
 
 > module AtomExamples.GettingStarted.SDF where
@@ -19,7 +22,7 @@ The SDF instance of the \texttt{toy} system is created using process constructor
 >     ns [x1] [y1,y2] = [ExB.res31 (\a b c -> a + b + c) x1 y1 y2]
 >     od [x1]         = [ExB.res11 id x1]
 
-Let us print and plot the inputs against the outputs, using the test signals and plotting functions \texttt{latexV} and \texttt{plotV} defined in \cref{sec:test-signals}:
+Let us print and plot the inputs against the outputs, using the test signals and plotting functions \texttt{latexV} and \texttt{plotV} defined in \cref{sec:getting-started:test-signals}:
 
 < λ> isdf
 < <[-1],[1],[-1],[1]>
@@ -60,7 +63,7 @@ Let us print and plot the inputs against the outputs, using the test signals and
 >     rSDF = SDF.comb21 ((1,1),1,rF)
 >     rF [x1] [y1] = [ExB.res21 (+) x1 y1]
 
-Again, let us print and plot the output signals using the test inputs and utilities defined in \cref{sec:test-signals}.
+Again, let us print and plot the output signals using the test inputs and utilities defined in \cref{sec:getting-started:test-signals}.
   
 < λ> let s2out = (stage2SDF . stage1SDF isdf) vsdf
 < λ> s2out

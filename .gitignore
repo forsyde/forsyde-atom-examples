@@ -1,5 +1,8 @@
-*dist*
-*cabal*
+dist*
+cabal*
+.stack-work*
+.cabal-sandbox*
+fig
 *~
 !*.cabal
 TAGS

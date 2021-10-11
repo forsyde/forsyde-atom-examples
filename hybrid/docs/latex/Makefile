@@ -50,6 +50,7 @@ LATEXDIR	= input
 LITERATEDIR	= code
 CODEDIR		= ../../src/AtomExamples
 BIBDIR		= ../../../docfiles
+DEPDIRS=$(UTILSDIR)/forsyde-latex/src/:$(UTILSDIR)/forsyde-latex/fonts/
 
 # Tools
 LATEXMK = latexmk
@@ -63,7 +64,6 @@ A2PING = a2ping
 FIG2DEV = fig2dev
 CONVERT = awk
 BIRD2TEX = $(UTILSDIR)/bird2tex.awk
-
 
 # Figures source files
 S_PDF_FIGS	:= $(shell find $(S_FIGS_DIR) -name '*.pdf')
@@ -95,6 +95,8 @@ STYLEFILES   = $(wildcard $(STYDIR)/*.sty)
 # Rules for literate Haskell files
 CODEFILES	:= $(shell find $(CODEDIR) -name '*.lhs')
 LITERATEFILES	:= $(patsubst $(CODEDIR)/%.lhs, $(LITERATEDIR)/%.tex, $(CODEFILES))
+
+export TEXINPUTS=:$(S_FIGS_DIR)/:$(STYDIR)/:$(DEPDIRS)
 
 # Targets
 all: doc
@@ -182,7 +184,7 @@ figs/%.png: $(S_FIGS_DIR)/%.png
 figs/%.pdf: $(S_FIGS_DIR)/%.tex
 	@echo $(@F)
 	@$(MKDIR) $(@D)
-	@TEXINPUTS=:$(S_FIGS_DIR)/:$(STYDIR)/ pdflatex $(*F) $(DEBUG)
+	pdflatex $(*F) $(DEBUG)
 	@$(MV) $(@F) $@
 	@$(RM) *.log
 	@$(RM) *.aux

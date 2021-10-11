@@ -1,4 +1,7 @@
-The DE instance of the \texttt{toy} looks exactly the same as the SY instance in \cref{sec:sy-instance}, but is created using constructors from the \href{\mocdeurl}{\texttt{ForSyDe.Atom.MoC.DE}} module. This is why we will skip most of the description, and jump straight to testing it. The following file, as you are used to by now, is re-exported by \texttt{AtomExamples.GettingStarted}.
+\subsection{DE instance}
+\label{sec:getting-started:de-instance}
+
+The DE instance of the \texttt{toy} looks exactly the same as the SY instance in \cref{sec:getting-started:sy-instance}, but is created using constructors from the \href{\mocdeurl}{\texttt{ForSyDe.Atom.MoC.DE}} module. This is why we will skip most of the description, and jump straight to testing it. The following file, as you are used to by now, is re-exported by \texttt{AtomExamples.GettingStarted}.
 
 > module AtomExamples.GettingStarted.DE where
 
