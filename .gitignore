@@ -12,3 +12,5 @@ TAGS
 *.gnuplot
 *.log
 .deps
+*.yaml.lock
+/reconfig/reconfig.cabal
