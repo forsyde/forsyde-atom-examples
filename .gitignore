@@ -14,3 +14,4 @@ TAGS
 .deps
 *.yaml.lock
 /reconfig/reconfig.cabal
+/reconfig/src/.vscode/
