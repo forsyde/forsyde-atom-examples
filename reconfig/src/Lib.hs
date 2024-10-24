@@ -1,9 +1,14 @@
 module Lib
-    ( 
+    (
+      someFunc
     ) where
 
 import ForSyDe.Atom.MoC.DE as DE 
 import ForSyDe.Atom.MoC (takeS)
+
+someFunc :: IO ()
+someFunc = putStr "Hallo"
+
 -- 
 -- * Definition of signals
 --
