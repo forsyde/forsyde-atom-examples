@@ -48,7 +48,7 @@ worker = reconfig11
 --   The 'stewart' fetches the configuration from the configuration repo and loads it into the worker.
 steward :: Num a => Signal (Maybe Integer)   -- ^The initiation signal specifies the index of the function to be loaded
                  -> Signal (a -> a)      -- ^The signal receiving the functions from the configuration repository
-                 -> (Signal Integer,         -- ^The signal that specifies the index
+                 -> (Signal Integer,     -- ^The signal that specifies the index
                                          --  of the function to be loaded from the configuration repo
                     Signal (a -> a))     -- ^The signal with the functions that
                                          --  shall be loaded into the worker  

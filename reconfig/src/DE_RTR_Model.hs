@@ -1,24 +1,25 @@
 -- Based on the drawing in Google Drive:
 -- https://docs.google.com/drawings/d/16zvZg_HNuOdysuJJ78xylbqKone9SYuSopHV8vs7tik/edit
 
-module SY_RTR_Model where
+module DE_RTR_Model where
 
-import ForSyDe.Atom.MoC.SY 
+import ForSyDe.Atom.MoC.DE
 import ForSyDe.Atom.MoC (takeS)
 
+
 -- |The 'rtrSystem' models a run-time reconfigurable system, where the active function is selected via a trigger signal. The trigger signal specifies the index of the function that shall be performed.
-rtrSystem :: Num a => [a -> a]
+de_rtrSystem :: Num a => [a -> a]
                    -> Signal (Maybe Integer) -- ^The trigger signal specifies the index of the function to be activated
                    -> Signal a           -- ^The input signal
                    -> Signal a           -- ^The output signal
-rtrSystem configurations s_trigger s_in = s_out
+de_rtrSystem configurations s_trigger s_in = s_out
    where
      s_out = worker s_conf s_in
      s_initiate = handler s_trigger
      (s_fetch, s_conf) = steward s_initiate s_data
-     s_data = delay (+1) (configRepo configurations s_fetch)
--- >>>  rtrSystem [(+1), (+2), (*10)] (signal [Nothing, Just 1, Just 1, Just 2, Just 3]) (signal [1..20])
--- {2,3,5,6,50}
+     s_data = delay 1 (+1) (configRepo configurations s_fetch)
+-- >>>  takeS 10 $ de_rtrSystem [(+1), (+2), (*10), (+10)] (signal [(0,Nothing), (1,Just 1), (2,Just 1), (3,Just 2), (4,Just 2)]) (signal [(0,1),(1,2)])
+-- {2@0s,3@1s,4@2s,4@3s,20@4s,20@5s,20@6s,20@7s,20@8s,20@9s}
 
 {- |
 The 'handler' initiates the reconfigurations by telling the Steward to fetch a given
@@ -36,10 +37,11 @@ worker :: Signal (a -> a) -- ^ Signal that specifies the function to be loaded a
          -> Signal a        -- ^ Input signal
          -> Signal a        -- ^ Output signal
 worker = reconfig11
--- >>> let s1 = signal [0,1,2]
--- >>> let sf = signal [(+1),(+10),(+100)]
+-- >>> let s1 = signal [(0,0),(1,1),(2,2)]
+-- >>> let sf = signal [(0,(+1)),(1,(+10)),(2,(+50))]
 -- >>> worker sf s1
--- {1,11,102}
+-- {1@0s,11@1s,52@2s}
+
 
 -- | The 'steward' starts the reconfiguration process and “informs” the 'worker'
 --   that it is under reconfiguration and then fully configured. This could also be
@@ -51,7 +53,7 @@ steward :: Num a => Signal (Maybe Integer)   -- ^The initiation signal specifies
                                          --  of the function to be loaded from the configuration repo
                     Signal (a -> a))     -- ^The signal with the functions that
                                          --  shall be loaded into the worker  
-steward = mealy22 ns o (0, (+1))
+steward = mealy22 ns o (1, (0, (+1)))
    where -- Next state function
          ns :: (Integer, a -> a) -> Maybe Integer -> (a -> a) -> (Integer, a -> a)
          ns state Nothing    _   = state
@@ -72,7 +74,8 @@ configRepo :: [a -> b]
 configRepo configurations = comb11 (fetch configurations) where
    fetch cs index = cs !! fromIntegral index
 -- >>> configurations = [(+1), (+2), (*10)]
--- >>> reconfig11 (configRepo configurations $ signal [0..2]) (signal [1,10,100])
--- {2,12,10000}
+-- >>> reconfig11 (configRepo configurations (signal [(0,0),(1,1),(2,2)])) (signal [(0,0),(1,1),(2,2)])
+-- {1@0s,3@1s,20@2s}
+
 
 
