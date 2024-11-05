@@ -16,3 +16,4 @@ TAGS
 /reconfig/reconfig.cabal
 /reconfig/src/.vscode/
 reconfig/.vscode/tasks.json
+.vscode/tasks.json
