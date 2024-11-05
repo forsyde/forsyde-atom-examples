@@ -1,3 +1,7 @@
+{-# OPTIONS_GHC -Wno-unused-binds #-}
+{-# OPTIONS_GHC -Wno-unused-imports #-}
+{- HLINT ignore "Use camelCase" -}
+
 -- Based on the drawing in Google Drive:
 -- https://docs.google.com/drawings/d/16zvZg_HNuOdysuJJ78xylbqKone9SYuSopHV8vs7tik/edit
 
@@ -5,7 +9,6 @@ module SY_RTR_Model where
 
 import ForSyDe.Atom.MoC.SY 
 import ForSyDe.Atom.MoC (takeS)
-import ForSyDe.Atom.ExB.Absent
 
 -- |The 'rtrSystem' models a run-time reconfigurable system, where the active function is selected via a trigger signal. The trigger signal specifies the index of the function that shall be performed.
 rtrSystem :: Num a => [a -> a]

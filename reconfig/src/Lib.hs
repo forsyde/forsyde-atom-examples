@@ -1,3 +1,7 @@
+{-# OPTIONS_GHC -Wno-unused-binds #-}
+{-# OPTIONS_GHC -Wno-unused-imports #-}
+{- HLINT ignore "Use camelCase" -}
+
 module Lib
     (
       someFunc
@@ -12,82 +16,81 @@ someFunc = putStr "Hallo"
 -- 
 -- * Definition of signals
 --
-s1 :: DE.Signal Integer
-s1 = DE.signal [(0,0), (2,4)]
-s2 :: DE.Signal Integer
-s2 = DE.signal [(0,1), (5,2)]
--- >>> s1
+s_1 :: DE.Signal Integer
+s_1 = DE.signal [(0,0), (2,4)]
+s_2 :: DE.Signal Integer
+s_2 = DE.signal [(0,1), (5,2)]
+-- >>> s_1
 -- {0@0s,4@2s}
--- >>> s2
+-- >>> s_2
 -- {1@0s,2@5s}
 
 --
 -- * Definition of combinational processes
 --
-p1 :: (Num a) => DE.Signal a -> DE.Signal a
-p1 = DE.comb11 (+1)
--- >>> p1 s1
+p_1 :: (Num a) => DE.Signal a -> DE.Signal a
+p_1 = DE.comb11 (+1)
+-- >>> p_1 s_1
 -- {1@0s,5@2s}
 
-p2 :: (Num a) => DE.Signal a -> DE.Signal a -> (DE.Signal a, DE.Signal a)
-p2 = DE.comb22 f where
+p_2 :: (Num a) => DE.Signal a -> DE.Signal a -> (DE.Signal a, DE.Signal a)
+p_2 = DE.comb22 f where
   f a b = (a + b, a - b)
--- >>> p2 s1 s2
+-- >>> p_2 s_1 s_2
 -- ({1@0s,5@2s,6@5s},{-1@0s,3@2s,2@5s})
 
 x :: DE.Signal Integer
---x :: DE.SignalBase TimeStamp Integer
-x = DE.delay 1.9 1 s1
+x = DE.delay 1.9 1 s_1
 -- >>> x
 -- {1@0s,0@1.9s,4@3.9s}
 
 --
 -- * Definition of sequential processes
 --
-d1 :: TimeStamp -> Integer -> DE.Signal Integer -> DE.Signal Integer
-d1 = DE.delay
--- >>> d1 0.3 1 s1
+d_1 :: TimeStamp -> Integer -> DE.Signal Integer -> DE.Signal Integer
+d_1 = DE.delay
+-- >>> d_1 0.3 1 s_1
 -- {1@0s,0@0.3s,4@2.3s}
 
 fsm1 :: (TimeStamp, Integer) -> DE.Signal Integer -> DE.Signal Integer  
 fsm1 = DE.moore11 (+) (*2)
--- >>> takeS 5 $ fsm1 (0.5, 100) s1 
+-- >>> takeS 5 $ fsm1 (0.5, 100) s_1 
 -- {200@0s,200@0.5s,200@1s,200@1.5s,200@2s}
 
 fsm2 ::  (TimeStamp, Integer) -> DE.Signal Integer -> DE.Signal Integer
 fsm2 = DE.mealy11 (+) (*)
--- >>> takeS 5 $ fsm2 (0.5, 1000) s1
--- {0@0s,4000@2s,4000@100s,4016@102s,4016@200s}
+-- >>> takeS 5 $ fsm2 (0.5, 1000) s_1
+-- {0@0s,0@0.5s,0@1s,0@1.5s,4000@2s}
 
 --
 -- * Feedback loop
 --
 system :: DE.Signal Integer -> DE.Signal Integer
-system sin = sout where
-  state = delay 0.5 100 nextstate
-  nextstate = comb21 (+) sin state
-  sout = comb11 (*2) state
--- >>> takeS 5 $ system s1
--- {200@0s,200@0.5s,200@1s,200@1.5s,200@2s}
+system s_in = s_out where
+  s_state = delay 0.5 100 s_nextstate
+  s_nextstate = comb21 (+) s_in s_state
+  s_out = comb11 (*2) s_state
+-- >>> takeS 5 $ system s_1
+-- {200@0s,200@0.5s,200@1s,200@1.5s}
   
 --
 -- * Adaptive processes
 --
 -- Adaptive signals
-sf1 :: DE.Signal (Integer -> Integer)
-sf1 = DE.signal [(0,(+1)), (50,(+2))]
+s_f1 :: DE.Signal (Integer -> Integer)
+s_f1 = DE.signal [(0,(+1)), (50,(+2))]
 
-sf2 :: DE.Signal (Integer -> Integer -> Integer)
-sf2 = DE.signal [(0,(+)), (50,(*))]
+s_f2 :: DE.Signal (Integer -> Integer -> Integer)
+s_f2 = DE.signal [(0,(+)), (50,(*))]
 
-a1 :: DE.Signal Integer
-a1 = DE.reconfig11 sf1 s1
--- >>> a1
+a_1 :: DE.Signal Integer
+a_1 = DE.reconfig11 s_f1 s_1
+-- >>> a_1
 -- {1@0s,5@2s,6@50s}
 
-a2 :: DE.Signal Integer
-a2 = DE.reconfig21 sf2 s1 s2 
--- >>> a2 
+a_2 :: DE.Signal Integer
+a_2 = DE.reconfig21 s_f2 s_1 s_2 
+-- >>> a_2 
 -- {1@0s,5@2s,6@5s,8@50s}
 
 --

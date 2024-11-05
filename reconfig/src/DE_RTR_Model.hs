@@ -1,3 +1,7 @@
+{- HLINT ignore "Use camelCase" -}
+{-# OPTIONS_GHC -Wno-unused-binds #-}
+{-# OPTIONS_GHC -Wno-unused-imports #-}
+
 -- Based on the drawing in Google Drive:
 -- https://docs.google.com/drawings/d/16zvZg_HNuOdysuJJ78xylbqKone9SYuSopHV8vs7tik/edit
 
@@ -7,18 +11,18 @@ import ForSyDe.Atom.MoC.DE
 import ForSyDe.Atom.MoC (takeS)
 
 
--- |The 'rtrSystem' models a run-time reconfigurable system, where the active function is selected via a trigger signal. The trigger signal specifies the index of the function that shall be performed.
-de_rtrSystem :: Num a => [a -> a]
+-- |The 'deRTRSystem' models a run-time reconfigurable system, where the active function is selected via a trigger signal. The trigger signal specifies the index of the function that shall be performed.
+deRTRSystem :: Num a => [a -> a]
                    -> Signal (Maybe Integer) -- ^The trigger signal specifies the index of the function to be activated
                    -> Signal a           -- ^The input signal
                    -> Signal a           -- ^The output signal
-de_rtrSystem configurations s_trigger s_in = s_out
+deRTRSystem configurations s_trigger s_in = s_out
    where
      s_out = worker s_conf s_in
      s_initiate = handler s_trigger
      (s_fetch, s_conf) = steward s_initiate s_data
      s_data = delay 1 (+1) (configRepo configurations s_fetch)
--- >>>  takeS 10 $ de_rtrSystem [(+1), (+2), (*10), (+10)] (signal [(0,Nothing), (1,Just 1), (2,Just 1), (3,Just 2), (4,Just 2)]) (signal [(0,1),(1,2)])
+-- >>>  takeS 10 $ deRTRSystem [(+1), (+2), (*10), (+10)] (signal [(0,Nothing), (1,Just 1), (2,Just 1), (3,Just 2), (4,Just 2)]) (signal [(0,1),(1,2)])
 -- {2@0s,3@1s,4@2s,4@3s,20@4s,20@5s,20@6s,20@7s,20@8s,20@9s}
 
 {- |
