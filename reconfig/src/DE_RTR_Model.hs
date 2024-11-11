@@ -22,8 +22,8 @@ deRTRSystem configurations s_trigger s_in = s_out
      s_initiate = handler s_trigger
      (s_fetch, s_conf) = steward s_initiate s_data
      s_data = delay 1 (+1) (configRepo configurations s_fetch)
--- >>>  takeS 10 $ deRTRSystem [(+1), (+2), (*10), (+10)] (signal [(0,Nothing), (1,Just 1), (2,Just 1), (3,Just 2), (4,Just 2)]) (signal [(0,1),(1,2)])
--- {2@0s,3@1s,4@2s,4@3s,20@4s,20@5s,20@6s,20@7s,20@8s,20@9s}
+-- >>>  takeS 10 $ deRTRSystem [(+100), (+200), (+300), (+400)] (signal [(0, Just 0), (1,Just 1), (2,Just 2), (3,Just 3), (4,Just 0)]) (signal [(0,1),(1,2)])
+-- {2@0s,102@1s,202@2s,302@3s,402@4s,102@5s,102@6s,102@7s,102@8s,102@9s}
 
 {- |
 The 'handler' initiates the reconfigurations by telling the Steward to fetch a given
@@ -50,7 +50,7 @@ worker = reconfig11
 -- | The 'steward' starts the reconfiguration process and “informs” the 'worker'
 --   that it is under reconfiguration and then fully configured. This could also be
 --   achievd by mode configuration. The reconfiguration is is started based on an initiation signal.
---   The 'stewart' fetches the configuration from the configuration repo and loads it into the worker.
+--   The 'steward' fetches the configuration from the configuration repo and loads it into the worker.
 steward :: Num a => Signal (Maybe Integer)   -- ^The initiation signal specifies the index of the function to be loaded
                  -> Signal (a -> a)      -- ^The signal receiving the functions from the configuration repository
                  -> (Signal Integer,         -- ^The signal that specifies the index
