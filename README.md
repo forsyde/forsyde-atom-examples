@@ -12,3 +12,4 @@ These are the projects included in this repository:
  * [`fft`](fft): an example of a FFT system built using skeletons.
  * [`adc`](adc): a SAR-ADC used to demonstrate the usage of different layers in ForSyDe-Atom.
  * [`quad`](quad): a quad-copter flight controller.
+ * [`sdf-tutorial`](sdf): a tutorial SDF example.
