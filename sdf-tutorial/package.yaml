@@ -38,7 +38,7 @@ library:
   source-dirs: src
 
 executables:
-  sdf-tutorial-example-exe:
+  sdf-tutorial-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:

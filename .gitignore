@@ -17,3 +17,4 @@ TAGS
 /reconfig/src/.vscode/
 reconfig/.vscode/tasks.json
 .vscode/tasks.json
+/sdf-tutorial/sdf-tutorial.cabal
